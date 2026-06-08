@@ -10,6 +10,7 @@ import { createRuleFromSearch } from "@/app/actions/rules";
 import { ClassificationSelect } from "@/components/classification-select";
 import {
   classificationButtonClass,
+  classificationOptionClass,
   classificationRowClass,
   classificationSelectClass,
 } from "@/lib/classification-styles";
@@ -33,6 +34,7 @@ type TransactionsTableProps = {
   selectedYear: number;
   filter: string;
   month?: string;
+  totalCount: number;
 };
 
 function ruleNameFromPattern(pattern: string) {
@@ -48,6 +50,7 @@ export function TransactionsTable({
   selectedYear,
   filter,
   month,
+  totalCount,
 }: TransactionsTableProps) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -234,8 +237,7 @@ export function TransactionsTable({
           {hasSearch ? (
             <div className={selectedCount > 0 ? "bulk-actions-row mt-3 border-t border-white/5 pt-3" : "bulk-actions-row"}>
               <span className="bulk-actions-label">
-                Search “{search}” · {transactions.length} shown
-                {transactions.length >= 300 ? " (max loaded)" : ""}
+                Search “{search}” · {totalCount.toLocaleString()} matching
               </span>
               <div className="bulk-actions-buttons">
                 <button
@@ -296,9 +298,15 @@ export function TransactionsTable({
                     )
                   }
                 >
-                  <option value="business">Business</option>
-                  <option value="personal">Personal</option>
-                  <option value="payment">Payment</option>
+                  <option value="business" className={classificationOptionClass("business")}>
+                    Business
+                  </option>
+                  <option value="personal" className={classificationOptionClass("personal")}>
+                    Personal
+                  </option>
+                  <option value="payment" className={classificationOptionClass("payment")}>
+                    Payment
+                  </option>
                 </select>
                 <div className="flex flex-wrap gap-2">
                   <button

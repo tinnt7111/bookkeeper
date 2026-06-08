@@ -46,6 +46,10 @@ export function classificationFilterChipClass(filter: string) {
   return `chip-class-${normalizeClassification(filter)}`;
 }
 
+export function classificationOptionClass(classification: string) {
+  return `option-class-${normalizeClassification(classification)}`;
+}
+
 export function classificationButtonClass(classification: string) {
   return `btn-class-${normalizeClassification(classification)}`;
 }

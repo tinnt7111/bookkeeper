@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import { updateTransactionClassification } from "@/app/actions/transactions";
-import { classificationSelectClass } from "@/lib/classification-styles";
+import { classificationOptionClass, classificationSelectClass } from "@/lib/classification-styles";
 import {
   TRANSACTION_CLASSIFICATIONS,
   type TransactionClassification,
@@ -32,10 +32,18 @@ export function ClassificationSelect({
         });
       }}
     >
-      <option value="uncategorized">Uncategorized</option>
-      <option value="business">Business</option>
-      <option value="personal">Personal</option>
-      <option value="payment">Payment</option>
+      <option value="uncategorized" className={classificationOptionClass("uncategorized")}>
+        Uncategorized
+      </option>
+      <option value="business" className={classificationOptionClass("business")}>
+        Business
+      </option>
+      <option value="personal" className={classificationOptionClass("personal")}>
+        Personal
+      </option>
+      <option value="payment" className={classificationOptionClass("payment")}>
+        Payment
+      </option>
     </select>
   );
 }

@@ -221,6 +221,34 @@ select:focus {
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+.pagination-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--panel-border);
+  background: linear-gradient(180deg, var(--panel-from) 0%, var(--panel-to) 100%);
+}
+
+.pagination-summary {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.pagination-btn {
+  min-width: 6.5rem;
+  text-align: center;
+  text-decoration: none;
+}
+
+.pagination-btn-disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
 .filter-field {
   display: flex;
   flex-direction: column;
@@ -584,43 +612,68 @@ select:focus {
   min-width: 0;
   padding: 0.25rem 0.5rem;
   font-size: 0.8125rem;
+  font-weight: 500;
   background: var(--input-bg);
 }
 
-.select-class-business {
+select.input.select-class-business {
   border-color: var(--class-business-border);
-  color: var(--class-business-text);
+  color: var(--class-business-border);
 }
 
-.select-class-personal {
+select.input.select-class-personal {
   border-color: var(--class-personal-border);
-  color: var(--class-personal-text);
+  color: var(--class-personal-border);
 }
 
-.select-class-uncategorized {
+select.input.select-class-uncategorized {
   border-color: var(--class-uncategorized-border);
-  color: var(--class-uncategorized-text);
+  color: var(--class-uncategorized-border);
 }
 
-.select-class-payment {
+select.input.select-class-payment {
   border-color: var(--class-payment-border);
-  color: var(--class-payment-text);
+  color: var(--class-payment-border);
 }
 
-.select-class-business:focus {
+select.input.select-class-business:focus {
   border-color: var(--class-business-border);
+  color: var(--class-business-border);
 }
 
-.select-class-personal:focus {
+select.input.select-class-personal:focus {
   border-color: var(--class-personal-border);
+  color: var(--class-personal-border);
 }
 
-.select-class-payment:focus {
+select.input.select-class-payment:focus {
   border-color: var(--class-payment-border);
+  color: var(--class-payment-border);
 }
 
-.select-class-uncategorized:focus {
+select.input.select-class-uncategorized:focus {
   border-color: var(--class-uncategorized-border);
+  color: var(--class-uncategorized-border);
+}
+
+option.option-class-business {
+  color: var(--class-business-border);
+  background: var(--input-bg);
+}
+
+option.option-class-personal {
+  color: var(--class-personal-border);
+  background: var(--input-bg);
+}
+
+option.option-class-payment {
+  color: var(--class-payment-border);
+  background: var(--input-bg);
+}
+
+option.option-class-uncategorized {
+  color: var(--class-uncategorized-border);
+  background: var(--input-bg);
 }
 
 .stat-card {

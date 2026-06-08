@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { classificationFilterChipClass } from "@/lib/classification-styles";
+import { buildTransactionListHref } from "@/lib/transactions/pagination";
 import { formatMonth } from "@/lib/format";
 
 type TransactionFiltersProps = {
@@ -25,12 +26,7 @@ function buildHref({
   month?: string;
   search?: string;
 }) {
-  const params = new URLSearchParams();
-  params.set("year", String(year));
-  params.set("filter", filter);
-  if (month) params.set("month", month);
-  if (search?.trim()) params.set("q", search.trim());
-  return `/transactions?${params.toString()}`;
+  return buildTransactionListHref({ year, filter, month, search });
 }
 
 export function TransactionFilters({
