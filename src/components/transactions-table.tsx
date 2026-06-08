@@ -8,7 +8,11 @@ import {
 } from "@/app/actions/transactions";
 import { createRuleFromSearch } from "@/app/actions/rules";
 import { ClassificationSelect } from "@/components/classification-select";
-import { classificationRowClass } from "@/lib/classification-styles";
+import {
+  classificationButtonClass,
+  classificationRowClass,
+  classificationSelectClass,
+} from "@/lib/classification-styles";
 import type { AssignableClassification } from "@/lib/classifications";
 import { formatDate, formatMoney } from "@/lib/format";
 
@@ -194,7 +198,7 @@ export function TransactionsTable({
                 <button
                   type="button"
                   disabled={pending}
-                  className="btn-secondary chip-class-business"
+                  className={`btn-secondary ${classificationButtonClass("business")}`}
                   onClick={() => runBulkSelected("business")}
                 >
                   Mark business
@@ -202,7 +206,7 @@ export function TransactionsTable({
                 <button
                   type="button"
                   disabled={pending}
-                  className="btn-secondary chip-class-personal"
+                  className={`btn-secondary ${classificationButtonClass("personal")}`}
                   onClick={() => runBulkSelected("personal")}
                 >
                   Mark personal
@@ -210,7 +214,7 @@ export function TransactionsTable({
                 <button
                   type="button"
                   disabled={pending}
-                  className="btn-secondary chip-class-payment"
+                  className={`btn-secondary ${classificationButtonClass("payment")}`}
                   onClick={() => runBulkSelected("payment")}
                 >
                   Mark payment
@@ -237,7 +241,7 @@ export function TransactionsTable({
                 <button
                   type="button"
                   disabled={pending}
-                  className="btn-primary"
+                  className={`btn-secondary ${classificationButtonClass("business")}`}
                   onClick={() => runBulkFiltered("business")}
                 >
                   All → business
@@ -245,7 +249,7 @@ export function TransactionsTable({
                 <button
                   type="button"
                   disabled={pending}
-                  className="btn-primary"
+                  className={`btn-secondary ${classificationButtonClass("personal")}`}
                   onClick={() => runBulkFiltered("personal")}
                 >
                   All → personal
@@ -253,7 +257,7 @@ export function TransactionsTable({
                 <button
                   type="button"
                   disabled={pending}
-                  className="btn-primary"
+                  className={`btn-secondary ${classificationButtonClass("payment")}`}
                   onClick={() => runBulkFiltered("payment")}
                 >
                   All → payment
@@ -284,7 +288,7 @@ export function TransactionsTable({
                   placeholder="Rule name"
                 />
                 <select
-                  className="input input-inline min-w-[8rem]"
+                  className={`input input-inline select-class min-w-[8rem] ${classificationSelectClass(ruleClassification)}`}
                   value={ruleClassification}
                   onChange={(event) =>
                     setRuleClassification(

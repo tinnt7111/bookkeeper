@@ -26,8 +26,8 @@
   --class-uncategorized-border: #9aa3b2;
   --class-uncategorized-text: #d8dde4;
   --class-payment-bg: rgba(180, 130, 60, 0.18);
-  --class-payment-border: #d4a054;
-  --class-payment-text: #f0dcc0;
+  --class-payment-border: #e8bc50;
+  --class-payment-text: #f5e6c8;
   --amount-debit: #f0a8a8;
   --amount-credit: #8ee4a8;
   --stat-revenue: #7ee8a4;
@@ -266,13 +266,36 @@ select:focus {
   font-size: 0.875rem;
   color: var(--text-secondary);
   background: rgba(255, 255, 255, 0.03);
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.chip-class-all {
+  border-color: var(--input-border);
+}
+
+.chip-class-all.chip-active {
+  border-color: var(--accent);
+  background: rgba(139, 156, 184, 0.12);
+  color: var(--heading);
+}
+
+.chip-class-business {
+  border-color: color-mix(in srgb, var(--class-business-border) 50%, var(--input-border));
+  color: color-mix(in srgb, var(--class-business-text) 70%, var(--text-secondary));
 }
 
 .chip-class-business.chip-active {
   border-color: var(--class-business-border);
   background: var(--class-business-bg);
   color: var(--class-business-text);
-  box-shadow: 0 0 12px var(--class-business-glow);
+}
+
+.chip-class-personal {
+  border-color: color-mix(in srgb, var(--class-personal-border) 50%, var(--input-border));
+  color: color-mix(in srgb, var(--class-personal-text) 70%, var(--text-secondary));
 }
 
 .chip-class-personal.chip-active {
@@ -281,10 +304,20 @@ select:focus {
   color: var(--class-personal-text);
 }
 
+.chip-class-uncategorized {
+  border-color: color-mix(in srgb, var(--class-uncategorized-border) 50%, var(--input-border));
+  color: color-mix(in srgb, var(--class-uncategorized-text) 70%, var(--text-secondary));
+}
+
 .chip-class-uncategorized.chip-active {
   border-color: var(--class-uncategorized-border);
   background: var(--class-uncategorized-bg);
   color: var(--class-uncategorized-text);
+}
+
+.chip-class-payment {
+  border-color: color-mix(in srgb, var(--class-payment-border) 50%, var(--input-border));
+  color: color-mix(in srgb, var(--class-payment-text) 70%, var(--text-secondary));
 }
 
 .chip-class-payment.chip-active {
@@ -293,10 +326,39 @@ select:focus {
   color: var(--class-payment-text);
 }
 
-.chip-active {
-  border-color: var(--accent);
-  background: rgba(139, 156, 184, 0.12);
-  color: var(--heading);
+.btn-class-business {
+  border-color: var(--class-business-border);
+  color: var(--class-business-text);
+}
+
+.btn-class-business:hover {
+  border-color: var(--class-business-border);
+  background: var(--class-business-bg);
+}
+
+.btn-class-personal {
+  border-color: var(--class-personal-border);
+  color: var(--class-personal-text);
+}
+
+.btn-class-personal:hover {
+  border-color: var(--class-personal-border);
+  background: var(--class-personal-bg);
+}
+
+.btn-class-payment {
+  border-color: var(--class-payment-border);
+  color: var(--class-payment-text);
+}
+
+.btn-class-payment:hover {
+  border-color: var(--class-payment-border);
+  background: var(--class-payment-bg);
+}
+
+.btn-class-uncategorized {
+  border-color: var(--class-uncategorized-border);
+  color: var(--class-uncategorized-text);
 }
 
 .table-wrap {
@@ -522,33 +584,43 @@ select:focus {
   min-width: 0;
   padding: 0.25rem 0.5rem;
   font-size: 0.8125rem;
+  background: var(--input-bg);
 }
 
 .select-class-business {
   border-color: var(--class-business-border);
-  background: rgba(56, 142, 88, 0.2);
   color: var(--class-business-text);
-  font-weight: 500;
 }
 
 .select-class-personal {
   border-color: var(--class-personal-border);
-  background: rgba(72, 118, 190, 0.18);
   color: var(--class-personal-text);
-  font-weight: 500;
 }
 
 .select-class-uncategorized {
   border-color: var(--class-uncategorized-border);
-  background: rgba(130, 130, 145, 0.12);
   color: var(--class-uncategorized-text);
 }
 
 .select-class-payment {
   border-color: var(--class-payment-border);
-  background: rgba(180, 130, 60, 0.16);
   color: var(--class-payment-text);
-  font-weight: 500;
+}
+
+.select-class-business:focus {
+  border-color: var(--class-business-border);
+}
+
+.select-class-personal:focus {
+  border-color: var(--class-personal-border);
+}
+
+.select-class-payment:focus {
+  border-color: var(--class-payment-border);
+}
+
+.select-class-uncategorized:focus {
+  border-color: var(--class-uncategorized-border);
 }
 
 .stat-card {

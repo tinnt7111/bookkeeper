@@ -40,3 +40,12 @@ export function classificationSelectClass(classification: string) {
       return "select-class-uncategorized";
   }
 }
+
+export function classificationFilterChipClass(filter: string) {
+  if (filter === "all") return "chip-class-all";
+  return `chip-class-${normalizeClassification(filter)}`;
+}
+
+export function classificationButtonClass(classification: string) {
+  return `btn-class-${normalizeClassification(classification)}`;
+}

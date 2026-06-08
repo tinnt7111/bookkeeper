@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import { classificationFilterChipClass } from "@/lib/classification-styles";
 import { formatMonth } from "@/lib/format";
 
 type TransactionFiltersProps = {
@@ -157,7 +158,7 @@ export function TransactionFilters({
               month: selectedMonth,
               search,
             })}
-            className={`chip chip-class-${value === "all" ? "all" : value} ${
+            className={`chip ${classificationFilterChipClass(value)} ${
               filter === value ? "chip-active" : ""
             }`}
           >
