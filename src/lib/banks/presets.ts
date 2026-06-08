@@ -128,6 +128,26 @@ export const BANK_PRESETS: BankPreset[] = [
     notes:
       "Wise transaction history export: Finished on, Direction (IN/OUT), Source amount (after fees). Counterparty from Source/Target name.",
   },
+  {
+    key: "paypal-balance",
+    bankName: "PayPal",
+    statementType: "checking",
+    name: "PayPal — Balance Activity",
+    dateColumn: "Date",
+    amountColumn: "Total",
+    descriptionColumn: "Name",
+    descriptionSuffixColumns: ["Item Title"],
+    typeColumn: "Type",
+    typeAllowlist: ["General Payment", "Mobile Payment"],
+    defaultCardLabel: "paypal",
+    dateFormat: "MM/dd/yyyy",
+    signRule: "negative_debit",
+    statusColumn: "Status",
+    statusValue: "Completed",
+    skipRows: 0,
+    notes:
+      "PayPal balance export: only General Payment and Mobile Payment (skips card-funded duplicates). Name, Total, Status Completed.",
+  },
 ];
 
 export const ENABLED_BANK_NAMES = [
@@ -135,6 +155,7 @@ export const ENABLED_BANK_NAMES = [
   "Chase",
   "Bank of America",
   "Wise",
+  "PayPal",
 ] as const;
 
 export function isBankEnabled(bankName: string) {

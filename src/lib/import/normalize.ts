@@ -25,6 +25,8 @@ export interface BankProfileConfig {
   descriptionSuffixColumns?: string[] | null;
   statusColumn?: string | null;
   statusValue?: string | null;
+  /** When set with typeColumn, only rows whose type value is listed are imported. */
+  typeAllowlist?: string[] | null;
 }
 
 export interface ParsedRow {

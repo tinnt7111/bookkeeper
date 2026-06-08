@@ -25,6 +25,7 @@ const BANK_ALIASES: Record<string, string[]> = {
   "Capital One": ["capital_one", "capitalone"],
   "Bank of America": ["boa", "bof_a", "bank_of_america", "bankofamerica"],
   Wise: ["wise", "transferwise"],
+  PayPal: ["paypal"],
 };
 
 const TYPE_ALIASES: Record<StatementType, string[]> = {
@@ -55,6 +56,14 @@ function scorePreset(norm: string, preset: BankPreset): number {
     preset.key === "wise-checking" &&
     norm.includes("wise") &&
     norm.includes("transaction")
+  ) {
+    score += 12;
+  }
+
+  if (
+    preset.key === "paypal-balance" &&
+    norm.includes("paypal") &&
+    (norm.includes("balance") || norm.includes("transaction"))
   ) {
     score += 12;
   }

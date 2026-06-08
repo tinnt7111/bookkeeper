@@ -130,6 +130,17 @@ export default async function ImportPage() {
               </li>
             </ul>
           </li>
+          <li>
+            <span className="font-medium text-primary">PayPal</span>
+            <ul className="mt-1 space-y-1 pl-4">
+              <li>
+                Balance activity:{" "}
+                <code className="inline-code">
+                  Paypal_Balance_Effected_Transaction_Jan_May.CSV
+                </code>
+              </li>
+            </ul>
+          </li>
         </ul>
       </section>
     </div>

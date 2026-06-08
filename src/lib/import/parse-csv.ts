@@ -64,6 +64,14 @@ export function parseCsvText(
       }
     }
 
+    if (profile.typeAllowlist?.length && profile.typeColumn) {
+      const type = row[profile.typeColumn]?.trim() ?? "";
+      if (!profile.typeAllowlist.includes(type)) {
+        skippedCount += 1;
+        return;
+      }
+    }
+
     const dateRaw = row[profile.dateColumn]?.trim() ?? "";
     const date = parseTransactionDate(dateRaw, profile.dateFormat);
     if (!date) {

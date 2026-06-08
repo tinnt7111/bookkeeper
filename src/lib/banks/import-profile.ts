@@ -37,5 +37,6 @@ export function buildImportProfileConfig(
     descriptionSuffixColumns: preset?.descriptionSuffixColumns ?? null,
     statusColumn: preset?.statusColumn ?? null,
     statusValue: preset?.statusValue ?? null,
+    typeAllowlist: preset?.typeAllowlist ?? null,
   };
 }
