@@ -1,8 +1,8 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "@/lib/auth/auth.config";
-import { getBackdoorUsername } from "@/lib/auth/backdoor";
-import { db } from "@/lib/db";
+import { getBackdoorUsername, normalizeAuthValue } from "@/lib/auth/backdoor";
+import { ensureBackdoorUser } from "@/lib/auth/ensure-backdoor-user";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -16,19 +16,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         username: { label: "Username", type: "text" },
       },
       async authorize(credentials) {
-        const username = (credentials?.username as string | undefined)
-          ?.trim()
-          .toLowerCase();
+        const username = normalizeAuthValue(
+          credentials?.username as string | undefined
+        );
         const backdoorUsername = getBackdoorUsername();
 
         if (!username || !backdoorUsername || username !== backdoorUsername) {
           return null;
         }
 
-        const user = await db.user.findFirst({
-          where: { name: backdoorUsername },
-        });
-        if (!user) return null;
+        const user = await ensureBackdoorUser(backdoorUsername);
 
         return {
           id: user.id,

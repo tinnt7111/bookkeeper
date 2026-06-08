@@ -37,20 +37,33 @@ Sign-in uses a configured backdoor username (see `BACKDOOR_USERNAME` in `.env.ex
 
 ## Railway deploy
 
-Set these environment variables on the web service:
+### 1. Mount a volume (persistent SQLite)
 
-| Variable | Example | Notes |
-|---|---|---|
-| `AUTH_SECRET` | `openssl rand -base64 32` | **Required** — missing this causes the Auth.js configuration error |
-| `AUTH_URL` | `https://your-app.up.railway.app` | Your public Railway URL |
-| `BACKDOOR_USERNAME` | *(your secret username)* | Only this username can sign in without a password |
-| `DATABASE_URL` | `file:/data/dev.db` | Use with a mounted volume at `/data` |
+1. Open your **bookkeeper** project in [Railway](https://railway.app)
+2. Click your **web service** (the Next.js app)
+3. Go to **Settings** → scroll to **Volumes**
+4. Click **Add Volume**
+5. Set **Mount path** to: `/data`
+6. Save — Railway redeploys automatically
 
-Release / start command should run migrations and seed on first deploy:
+Your `DATABASE_URL=file:/data/dev.db` writes the database onto that volume so it survives redeploys.
 
-```bash
-npx prisma migrate deploy && npm run db:seed
-```
+### 2. Environment variables
+
+Set these on the web service (**Variables** tab). Enter values **without** surrounding quotes:
+
+| Variable | Value |
+|---|---|
+| `AUTH_SECRET` | your generated secret |
+| `AUTH_URL` | `https://bookkeeper-production-bc33.up.railway.app` |
+| `BACKDOOR_USERNAME` | `ron` |
+| `DATABASE_URL` | `file:/data/dev.db` |
+
+### 3. Deploy
+
+Push latest code. On start the app creates `/data`, runs migrations, then starts Next.js.
+
+First login with your backdoor username auto-creates the user and bank profiles — no manual seed required.
 
 ## Useful commands
 
