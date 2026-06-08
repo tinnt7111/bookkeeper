@@ -1,14 +1,29 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { AuthError } from "next-auth";
 import { signIn } from "@/lib/auth/auth";
-import { DEFAULT_USERNAME } from "@/lib/auth/default-user";
 
 async function usernameLogin(formData: FormData) {
   "use server";
   const username = formData.get("username") as string;
-  await signIn("username-login", { username, redirectTo: "/" });
+
+  try {
+    await signIn("username-login", { username, redirectTo: "/" });
+  } catch (error) {
+    if (error instanceof AuthError && error.type === "CredentialsSignin") {
+      redirect("/login?error=1");
+    }
+    throw error;
+  }
 }
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const { error } = await searchParams;
+
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4">
       <div className="panel p-6">
@@ -26,18 +41,17 @@ export default function LoginPage() {
               id="username"
               name="username"
               type="text"
-              autoComplete="username"
+              autoComplete="off"
               className="input"
-              defaultValue={DEFAULT_USERNAME}
               required
             />
           </div>
+          {error ? (
+            <p className="message-error text-sm">Sign in failed. Check your username.</p>
+          ) : null}
           <button type="submit" className="btn-primary w-full">
             Sign in
           </button>
-          <p className="text-xs text-muted">
-            No password required. Enter your username to continue.
-          </p>
         </form>
 
         <p className="mt-6 text-center text-sm text-secondary">

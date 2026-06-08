@@ -1,10 +1,9 @@
+import "dotenv/config";
 import { createPrismaClient } from "../src/lib/db";
 import { ensureBankProfilesForUser } from "../src/lib/banks/ensure-profiles";
+import { getBackdoorUserEmail } from "../src/lib/auth/backdoor";
 
 const db = createPrismaClient();
-
-export const DEFAULT_USERNAME = "ron";
-const DEFAULT_USER_EMAIL = `${DEFAULT_USERNAME}@local.dev`;
 
 async function wipeDatabase() {
   await db.transaction.deleteMany();
@@ -21,12 +20,15 @@ async function wipeDatabase() {
 }
 
 async function main() {
+  const backdoorUsername =
+    process.env.BACKDOOR_USERNAME?.trim().toLowerCase() || "ron";
+
   await wipeDatabase();
 
   const user = await db.user.create({
     data: {
-      email: DEFAULT_USER_EMAIL,
-      name: DEFAULT_USERNAME,
+      email: getBackdoorUserEmail(backdoorUsername),
+      name: backdoorUsername,
       emailVerified: new Date(),
     },
   });
@@ -34,7 +36,7 @@ async function main() {
   await ensureBankProfilesForUser(user.id);
 
   console.log("Database cleaned and seeded.");
-  console.log(`Login username: ${DEFAULT_USERNAME}`);
+  console.log("Backdoor user ready.");
 }
 
 main()

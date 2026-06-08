@@ -13,13 +13,7 @@ npm run dev
 
 Open [http://localhost:3000/login](http://localhost:3000/login).
 
-### Login
-
-| Username | Notes |
-|---|---|
-| `ron` | Default user — no password, just enter the username |
-
-Local and production use the same username sign-in (no password).
+Sign-in uses a configured backdoor username (see `BACKDOOR_USERNAME` in `.env.example`). No password or email verification.
 
 ## Mock data
 
@@ -39,7 +33,24 @@ Local and production use the same username sign-in (no password).
 - Next.js (App Router)
 - SQLite locally (swap to PostgreSQL for production)
 - Prisma
-- Auth.js username login (no password; default user `ron`)
+- Auth.js backdoor username login (no password)
+
+## Railway deploy
+
+Set these environment variables on the web service:
+
+| Variable | Example | Notes |
+|---|---|---|
+| `AUTH_SECRET` | `openssl rand -base64 32` | **Required** — missing this causes the Auth.js configuration error |
+| `AUTH_URL` | `https://your-app.up.railway.app` | Your public Railway URL |
+| `BACKDOOR_USERNAME` | *(your secret username)* | Only this username can sign in without a password |
+| `DATABASE_URL` | `file:/data/dev.db` | Use with a mounted volume at `/data` |
+
+Release / start command should run migrations and seed on first deploy:
+
+```bash
+npx prisma migrate deploy && npm run db:seed
+```
 
 ## Useful commands
 

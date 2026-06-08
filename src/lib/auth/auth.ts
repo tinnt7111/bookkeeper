@@ -1,10 +1,13 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "@/lib/auth/auth.config";
+import { getBackdoorUsername } from "@/lib/auth/backdoor";
 import { db } from "@/lib/db";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
+  secret: process.env.AUTH_SECRET,
+  trustHost: true,
   providers: [
     Credentials({
       id: "username-login",
@@ -16,19 +19,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const username = (credentials?.username as string | undefined)
           ?.trim()
           .toLowerCase();
-        if (!username) return null;
+        const backdoorUsername = getBackdoorUsername();
+
+        if (!username || !backdoorUsername || username !== backdoorUsername) {
+          return null;
+        }
 
         const user = await db.user.findFirst({
-          where: {
-            OR: [{ name: username }, { email: `${username}@local.dev` }],
-          },
+          where: { name: backdoorUsername },
         });
         if (!user) return null;
 
         return {
           id: user.id,
           email: user.email,
-          name: user.name ?? username,
+          name: user.name ?? backdoorUsername,
         };
       },
     }),
