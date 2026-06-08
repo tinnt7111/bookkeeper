@@ -479,6 +479,7 @@ export type BankAccountCreateOrConnectWithoutUserInput = {
 
 export type BankAccountCreateManyUserInputEnvelope = {
   data: Prisma.BankAccountCreateManyUserInput | Prisma.BankAccountCreateManyUserInput[]
+  skipDuplicates?: boolean
 }
 
 export type BankAccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -1452,6 +1453,7 @@ export type BankAccountCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * The data used to create many BankAccounts.
    */
   data: Prisma.BankAccountCreateManyInput | Prisma.BankAccountCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1470,6 +1472,7 @@ export type BankAccountCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * The data used to create many BankAccounts.
    */
   data: Prisma.BankAccountCreateManyInput | Prisma.BankAccountCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

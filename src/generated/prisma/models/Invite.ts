@@ -428,6 +428,7 @@ export type InviteCreateOrConnectWithoutCreatedByInput = {
 
 export type InviteCreateManyCreatedByInputEnvelope = {
   data: Prisma.InviteCreateManyCreatedByInput | Prisma.InviteCreateManyCreatedByInput[]
+  skipDuplicates?: boolean
 }
 
 export type InviteUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -1229,6 +1230,7 @@ export type InviteCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * The data used to create many Invites.
    */
   data: Prisma.InviteCreateManyInput | Prisma.InviteCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1247,6 +1249,7 @@ export type InviteCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensio
    * The data used to create many Invites.
    */
   data: Prisma.InviteCreateManyInput | Prisma.InviteCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

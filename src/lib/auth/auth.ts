@@ -1,8 +1,9 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "@/lib/auth/auth.config";
-import { getBackdoorUsername, normalizeAuthValue } from "@/lib/auth/backdoor";
-import { ensureBackdoorUser } from "@/lib/auth/ensure-backdoor-user";
+import { getBackdoorUserEmail, getBackdoorUsername, normalizeAuthValue } from "@/lib/auth/backdoor";
+import { ensureBankProfilesForUser } from "@/lib/banks/ensure-profiles";
+import { db } from "@/lib/db";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -25,7 +26,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
 
-        const user = await ensureBackdoorUser(backdoorUsername);
+        const user = await db.user.findFirst({
+          where: {
+            OR: [
+              { name: backdoorUsername },
+              { email: getBackdoorUserEmail(backdoorUsername) },
+            ],
+          },
+        });
+
+        if (!user) {
+          return null;
+        }
+
+        await ensureBankProfilesForUser(user.id);
 
         return {
           id: user.id,

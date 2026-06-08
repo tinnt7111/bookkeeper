@@ -20,6 +20,11 @@ async function wipeDatabase() {
 }
 
 async function main() {
+  if (process.env.NODE_ENV === "production" || process.env.RAILWAY_ENVIRONMENT) {
+    console.error("db:seed wipes all data. Do not run it in production.");
+    process.exit(1);
+  }
+
   const backdoorUsername =
     process.env.BACKDOOR_USERNAME?.trim().toLowerCase() || "ron";
 

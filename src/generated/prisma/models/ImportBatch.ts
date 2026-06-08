@@ -668,6 +668,7 @@ export type ImportBatchCreateOrConnectWithoutUserInput = {
 
 export type ImportBatchCreateManyUserInputEnvelope = {
   data: Prisma.ImportBatchCreateManyUserInput | Prisma.ImportBatchCreateManyUserInput[]
+  skipDuplicates?: boolean
 }
 
 export type ImportBatchUpsertWithWhereUniqueWithoutUserInput = {
@@ -735,6 +736,7 @@ export type ImportBatchCreateOrConnectWithoutBankAccountInput = {
 
 export type ImportBatchCreateManyBankAccountInputEnvelope = {
   data: Prisma.ImportBatchCreateManyBankAccountInput | Prisma.ImportBatchCreateManyBankAccountInput[]
+  skipDuplicates?: boolean
 }
 
 export type ImportBatchUpsertWithWhereUniqueWithoutBankAccountInput = {
@@ -786,6 +788,7 @@ export type ImportBatchCreateOrConnectWithoutBankProfileInput = {
 
 export type ImportBatchCreateManyBankProfileInputEnvelope = {
   data: Prisma.ImportBatchCreateManyBankProfileInput | Prisma.ImportBatchCreateManyBankProfileInput[]
+  skipDuplicates?: boolean
 }
 
 export type ImportBatchUpsertWithWhereUniqueWithoutBankProfileInput = {
@@ -1825,6 +1828,7 @@ export type ImportBatchCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * The data used to create many ImportBatches.
    */
   data: Prisma.ImportBatchCreateManyInput | Prisma.ImportBatchCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1843,6 +1847,7 @@ export type ImportBatchCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * The data used to create many ImportBatches.
    */
   data: Prisma.ImportBatchCreateManyInput | Prisma.ImportBatchCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

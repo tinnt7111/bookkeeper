@@ -47,7 +47,9 @@ export default async function LoginPage({
             />
           </div>
           {error ? (
-            <p className="message-error text-sm">Sign in failed. Check your username.</p>
+            <p className="message-error text-sm">
+              Sign in failed. Check your username, or wait for the app to finish starting.
+            </p>
           ) : null}
           <button type="submit" className="btn-primary w-full">
             Sign in

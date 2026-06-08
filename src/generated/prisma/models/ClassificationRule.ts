@@ -588,6 +588,7 @@ export type ClassificationRuleCreateOrConnectWithoutUserInput = {
 
 export type ClassificationRuleCreateManyUserInputEnvelope = {
   data: Prisma.ClassificationRuleCreateManyUserInput | Prisma.ClassificationRuleCreateManyUserInput[]
+  skipDuplicates?: boolean
 }
 
 export type ClassificationRuleUpsertWithWhereUniqueWithoutUserInput = {
@@ -653,6 +654,7 @@ export type ClassificationRuleCreateOrConnectWithoutCategoryInput = {
 
 export type ClassificationRuleCreateManyCategoryInputEnvelope = {
   data: Prisma.ClassificationRuleCreateManyCategoryInput | Prisma.ClassificationRuleCreateManyCategoryInput[]
+  skipDuplicates?: boolean
 }
 
 export type ClassificationRuleUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -1527,6 +1529,7 @@ export type ClassificationRuleCreateManyArgs<ExtArgs extends runtime.Types.Exten
    * The data used to create many ClassificationRules.
    */
   data: Prisma.ClassificationRuleCreateManyInput | Prisma.ClassificationRuleCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1545,6 +1548,7 @@ export type ClassificationRuleCreateManyAndReturnArgs<ExtArgs extends runtime.Ty
    * The data used to create many ClassificationRules.
    */
   data: Prisma.ClassificationRuleCreateManyInput | Prisma.ClassificationRuleCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

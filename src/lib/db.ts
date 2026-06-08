@@ -1,30 +1,12 @@
 import path from "node:path";
 import { createHash } from "node:crypto";
-import { mkdirSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { PrismaClient } from "@/generated/prisma/client";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
-
-function resolveDatabaseFilePath() {
-  const url = process.env.DATABASE_URL ?? "file:./dev.db";
-  if (!url.startsWith("file:")) {
-    return url;
-  }
-
-  const filePath = url.replace(/^file:/, "");
-  return path.isAbsolute(filePath)
-    ? filePath
-    : path.join(process.cwd(), filePath);
-}
+import { PrismaPg } from "@prisma/adapter-pg";
+import pg from "pg";
 
 function getDatabaseUrl() {
-  const url = process.env.DATABASE_URL ?? "file:./dev.db";
-  if (!url.startsWith("file:")) {
-    return url;
-  }
-
-  const absolutePath = resolveDatabaseFilePath();
-  mkdirSync(path.dirname(absolutePath), { recursive: true });
-  return `file:${absolutePath}`;
+  return process.env.DATABASE_URL ?? "postgresql://bookkeeper:bookkeeper@localhost:5432/bookkeeper";
 }
 
 function getSchemaFingerprint() {
@@ -38,9 +20,8 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 function createPrismaClient() {
-  const adapter = new PrismaBetterSqlite3({
-    url: getDatabaseUrl(),
-  });
+  const pool = new pg.Pool({ connectionString: getDatabaseUrl() });
+  const adapter = new PrismaPg(pool);
 
   return new PrismaClient({
     adapter,
@@ -66,3 +47,14 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 export { createPrismaClient };
+
+export function isProductionDeploy() {
+  return (
+    process.env.NODE_ENV === "production" ||
+    Boolean(process.env.RAILWAY_ENVIRONMENT)
+  );
+}
+
+export function isPostgresDatabaseUrl(url = process.env.DATABASE_URL ?? "") {
+  return url.startsWith("postgres://") || url.startsWith("postgresql://");
+}
