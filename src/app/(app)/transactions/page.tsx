@@ -75,6 +75,14 @@ export default async function TransactionsPage({
     orderBy: { date: "desc" },
     skip: (page - 1) * TRANSACTIONS_PAGE_SIZE,
     take: TRANSACTIONS_PAGE_SIZE,
+    include: {
+      bankAccount: { select: { name: true } },
+      importBatch: {
+        select: {
+          bankProfile: { select: { name: true } },
+        },
+      },
+    },
   });
 
   const showCardColumn = transactions.some((txn) => txn.cardLabel);
@@ -121,6 +129,8 @@ export default async function TransactionsPage({
           direction: txn.direction,
           classification: txn.classification,
           cardLabel: txn.cardLabel,
+          bankProfileName:
+            txn.importBatch?.bankProfile.name ?? txn.bankAccount.name,
         }))}
         showCardColumn={showCardColumn}
         search={search}

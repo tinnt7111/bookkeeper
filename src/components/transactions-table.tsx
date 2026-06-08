@@ -25,6 +25,7 @@ export type TransactionRow = {
   direction: string;
   classification: string;
   cardLabel: string | null;
+  bankProfileName: string;
 };
 
 type TransactionsTableProps = {
@@ -345,6 +346,7 @@ export function TransactionsTable({
             <thead>
               <tr>
                 <th className="col-date">Date</th>
+                <th className="col-source">Source</th>
                 <th className="col-description">Description</th>
                 {showCardColumn ? <th className="col-card">Card</th> : null}
                 <th className="col-amount">Amount</th>
@@ -356,7 +358,7 @@ export function TransactionsTable({
               {transactions.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={showCardColumn ? 6 : 5}
+                    colSpan={showCardColumn ? 7 : 6}
                     className="empty-cell text-muted"
                   >
                     No transactions found.
@@ -384,6 +386,12 @@ export function TransactionsTable({
                     >
                       <td className="whitespace-nowrap text-secondary">
                         {formatDate(txn.date)}
+                      </td>
+                      <td
+                        className="col-source text-muted"
+                        title={txn.bankProfileName}
+                      >
+                        {txn.bankProfileName}
                       </td>
                       <td className="col-description">{txn.description}</td>
                       {showCardColumn ? (

@@ -460,6 +460,15 @@ select:focus {
   width: 7rem;
 }
 
+.txn-table .col-source {
+  width: 9.5rem;
+  max-width: 9.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.75rem;
+}
+
 .txn-table .col-amount {
   width: 7rem;
   text-align: right;
