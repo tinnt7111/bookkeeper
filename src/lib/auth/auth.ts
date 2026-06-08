@@ -3,29 +3,32 @@ import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "@/lib/auth/auth.config";
 import { db } from "@/lib/db";
 
-const isDev = process.env.NODE_ENV === "development";
-
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
     Credentials({
-      id: "dev-login",
-      name: "Dev Login",
+      id: "username-login",
+      name: "Username",
       credentials: {
-        email: { label: "Email", type: "email" },
+        username: { label: "Username", type: "text" },
       },
       async authorize(credentials) {
-        if (!isDev) return null;
-        const email = credentials?.email as string | undefined;
-        if (!email) return null;
+        const username = (credentials?.username as string | undefined)
+          ?.trim()
+          .toLowerCase();
+        if (!username) return null;
 
-        const user = await db.user.findUnique({ where: { email } });
+        const user = await db.user.findFirst({
+          where: {
+            OR: [{ name: username }, { email: `${username}@local.dev` }],
+          },
+        });
         if (!user) return null;
 
         return {
           id: user.id,
           email: user.email,
-          name: user.name,
+          name: user.name ?? username,
         };
       },
     }),

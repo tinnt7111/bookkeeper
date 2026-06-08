@@ -13,14 +13,13 @@ npm run dev
 
 Open [http://localhost:3000/login](http://localhost:3000/login).
 
-### Demo logins (after seed)
+### Login
 
-| Email | Notes |
+| Username | Notes |
 |---|---|
-| `demo@local.dev` | Primary demo user with Jan–Mar 2026 mock transactions |
-| `family@local.dev` | Second user with separate isolated data |
+| `ron` | Default user — no password, just enter the username |
 
-Local dev uses instant login (no email required). Production will use invite-only magic links.
+Local and production use the same username sign-in (no password).
 
 ## Mock data
 
@@ -40,7 +39,7 @@ Local dev uses instant login (no email required). Production will use invite-onl
 - Next.js (App Router)
 - SQLite locally (swap to PostgreSQL for production)
 - Prisma
-- Auth.js (dev credentials login locally; magic link + invite-only in production)
+- Auth.js username login (no password; default user `ron`)
 
 ## Useful commands
 

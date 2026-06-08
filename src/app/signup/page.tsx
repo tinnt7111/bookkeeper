@@ -34,8 +34,8 @@ export default async function SignupPage({
             <p>Valid invite found.</p>
             <p>
               In production, you would enter your email here and receive a magic
-              link. For local development, ask the inviter to share a seeded
-              account or use Settings → invite links after logging in as demo.
+              link. For local development, log in as an existing user from Settings
+              after signing in.
             </p>
             {invite.email ? (
               <p>
