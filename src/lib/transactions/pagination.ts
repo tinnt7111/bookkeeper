@@ -5,6 +5,7 @@ export type TransactionListParams = {
   filter: string;
   month?: string;
   search?: string;
+  source?: string;
   page?: number;
 };
 
@@ -20,6 +21,7 @@ export function buildTransactionListHref(params: TransactionListParams) {
   urlParams.set("filter", params.filter);
   if (params.month) urlParams.set("month", params.month);
   if (params.search?.trim()) urlParams.set("q", params.search.trim());
+  if (params.source?.trim()) urlParams.set("source", params.source.trim());
   if (params.page && params.page > 1) {
     urlParams.set("page", String(params.page));
   }

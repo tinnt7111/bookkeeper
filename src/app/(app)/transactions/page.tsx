@@ -25,6 +25,7 @@ export default async function TransactionsPage({
     year?: string;
     q?: string;
     page?: string;
+    source?: string;
   }>;
 }) {
   const user = await requireUser();
@@ -34,8 +35,10 @@ export default async function TransactionsPage({
     year: yearParam,
     q,
     page: pageParam,
+    source: sourceParam,
   } = await searchParams;
   const search = q?.trim() ?? "";
+  const source = sourceParam?.trim() ?? "";
   const requestedPage = parsePageParam(pageParam);
 
   const { where, year } = buildTransactionWhere(user.id, {
@@ -43,13 +46,19 @@ export default async function TransactionsPage({
     month,
     filter,
     q: search,
+    source,
   });
   const selectedYear = month ? Number(month.split("-")[0]) : year;
 
-  const [totalCount, years, months] = await Promise.all([
+  const [totalCount, years, months, sources] = await Promise.all([
     db.transaction.count({ where }),
     getTransactionYears(user.id),
     getTransactionMonthsForYear(user.id, selectedYear),
+    db.bankProfile.findMany({
+      where: { userId: user.id },
+      orderBy: { name: "asc" },
+      select: { id: true, name: true },
+    }),
   ]);
 
   const { page, totalPages, from, to } = getTransactionPageBounds(
@@ -65,6 +74,7 @@ export default async function TransactionsPage({
         filter,
         month,
         search,
+        source,
         page,
       })
     );
@@ -92,7 +102,12 @@ export default async function TransactionsPage({
     filter,
     month,
     search,
+    source: source || undefined,
   };
+
+  const selectedSourceName = source
+    ? sources.find((profile) => profile.id === source)?.name
+    : undefined;
 
   return (
     <div className="page-stack">
@@ -107,6 +122,7 @@ export default async function TransactionsPage({
                 ? ` · ${from} of ${totalCount.toLocaleString()}`
                 : ` · ${from.toLocaleString()}–${to.toLocaleString()} of ${totalCount.toLocaleString()}`}
             {search ? ` · matching “${search}”` : ""}
+            {selectedSourceName ? ` · ${selectedSourceName}` : ""}
           </p>
         </div>
       </div>
@@ -115,7 +131,9 @@ export default async function TransactionsPage({
         selectedYear={selectedYear}
         years={years}
         months={months}
+        sources={sources}
         selectedMonth={month}
+        selectedSource={source || undefined}
         filter={filter}
         search={search}
       />
@@ -137,6 +155,7 @@ export default async function TransactionsPage({
         selectedYear={selectedYear}
         filter={filter}
         month={month}
+        source={source || undefined}
         totalCount={totalCount}
       />
 

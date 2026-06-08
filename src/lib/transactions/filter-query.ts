@@ -1,3 +1,5 @@
+import { accountIdFromProfileId } from "@/lib/banks/presets";
+import type { Prisma } from "@/generated/prisma/client";
 import {
   getCurrentYear,
   monthBounds,
@@ -10,6 +12,7 @@ export type TransactionFilterParams = {
   month?: string;
   filter?: string;
   q?: string;
+  source?: string;
 };
 
 export function buildTransactionWhere(
@@ -22,29 +25,43 @@ export function buildTransactionWhere(
   );
   const filter = params.filter ?? "all";
   const search = params.q?.trim() ?? "";
+  const source = params.source?.trim() ?? "";
 
-  const where: {
-    userId: string;
-    classification?: string;
-    description?: { contains: string };
-    date?: { gte: Date; lte: Date };
-  } = { userId };
+  const conditions: Prisma.TransactionWhereInput[] = [{ userId }];
 
   if (filter !== "all") {
-    where.classification = filter;
+    conditions.push({ classification: filter });
   }
 
   if (search) {
-    where.description = { contains: search };
+    conditions.push({ description: { contains: search } });
   }
 
   if (params.month) {
     const { from, to } = monthBounds(params.month);
-    where.date = { gte: from, lte: to };
+    conditions.push({ date: { gte: from, lte: to } });
   } else {
     const { from, to } = yearBounds(year);
-    where.date = { gte: from, lte: to };
+    conditions.push({ date: { gte: from, lte: to } });
   }
 
-  return { where, year, filter, search };
+  if (source) {
+    conditions.push({
+      OR: [
+        { importBatch: { bankProfileId: source } },
+        {
+          importBatchId: null,
+          bankAccountId: accountIdFromProfileId(source),
+        },
+      ],
+    });
+  }
+
+  return {
+    where: { AND: conditions },
+    year,
+    filter,
+    search,
+    source,
+  };
 }

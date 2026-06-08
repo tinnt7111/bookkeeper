@@ -6,11 +6,18 @@ import { classificationFilterChipClass } from "@/lib/classification-styles";
 import { buildTransactionListHref } from "@/lib/transactions/pagination";
 import { formatMonth } from "@/lib/format";
 
+export type SourceOption = {
+  id: string;
+  name: string;
+};
+
 type TransactionFiltersProps = {
   selectedYear: number;
   years: number[];
   months: string[];
+  sources: SourceOption[];
   selectedMonth?: string;
+  selectedSource?: string;
   filter: string;
   search: string;
 };
@@ -19,21 +26,25 @@ function buildHref({
   year,
   filter,
   month,
+  source,
   search,
 }: {
   year: number;
   filter: string;
   month?: string;
+  source?: string;
   search?: string;
 }) {
-  return buildTransactionListHref({ year, filter, month, search });
+  return buildTransactionListHref({ year, filter, month, source, search });
 }
 
 export function TransactionFilters({
   selectedYear,
   years,
   months,
+  sources,
   selectedMonth,
+  selectedSource,
   filter,
   search,
 }: TransactionFiltersProps) {
@@ -47,6 +58,7 @@ export function TransactionFilters({
         year: selectedYear,
         filter,
         month: selectedMonth,
+        source: selectedSource,
         search: query,
       })
     );
@@ -65,6 +77,7 @@ export function TransactionFilters({
                 buildHref({
                   year: Number(event.target.value),
                   filter,
+                  source: selectedSource,
                   search: query,
                 })
               );
@@ -89,6 +102,7 @@ export function TransactionFilters({
                   year: selectedYear,
                   filter,
                   month: event.target.value || undefined,
+                  source: selectedSource,
                   search: query,
                 })
               );
@@ -98,6 +112,32 @@ export function TransactionFilters({
             {months.map((month) => (
               <option key={month} value={month}>
                 {formatMonth(month)}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="filter-field">
+          <span className="filter-label">Source</span>
+          <select
+            className="input input-inline min-w-[10rem]"
+            value={selectedSource ?? ""}
+            onChange={(event) => {
+              router.push(
+                buildHref({
+                  year: selectedYear,
+                  filter,
+                  month: selectedMonth,
+                  source: event.target.value || undefined,
+                  search: query,
+                })
+              );
+            }}
+          >
+            <option value="">All sources</option>
+            {sources.map((source) => (
+              <option key={source.id} value={source.id}>
+                {source.name}
               </option>
             ))}
           </select>
@@ -127,6 +167,7 @@ export function TransactionFilters({
                       year: selectedYear,
                       filter,
                       month: selectedMonth,
+                      source: selectedSource,
                     })
                   );
                 }}
@@ -152,6 +193,7 @@ export function TransactionFilters({
               year: selectedYear,
               filter: value,
               month: selectedMonth,
+              source: selectedSource,
               search,
             })}
             className={`chip ${classificationFilterChipClass(value)} ${

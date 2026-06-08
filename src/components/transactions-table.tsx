@@ -35,6 +35,7 @@ type TransactionsTableProps = {
   selectedYear: number;
   filter: string;
   month?: string;
+  source?: string;
   totalCount: number;
 };
 
@@ -51,6 +52,7 @@ export function TransactionsTable({
   selectedYear,
   filter,
   month,
+  source,
   totalCount,
 }: TransactionsTableProps) {
   const router = useRouter();
@@ -73,6 +75,7 @@ export function TransactionsTable({
     year: String(selectedYear),
     month,
     filter,
+    source,
     q: search || undefined,
   };
 

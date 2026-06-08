@@ -17,6 +17,7 @@ export function TransactionPagination({
   filter,
   month,
   search,
+  source,
   page,
   totalPages,
   from,
@@ -27,7 +28,7 @@ export function TransactionPagination({
     return null;
   }
 
-  const base = { year, filter, month, search };
+  const base = { year, filter, month, search, source };
   const prevPage = page > 1 ? page - 1 : null;
   const nextPage = page < totalPages ? page + 1 : null;
 
