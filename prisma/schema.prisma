@@ -1,0 +1,182 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id             String               @id @default(cuid())
+  name           String?
+  email          String               @unique
+  emailVerified  DateTime?
+  image          String?
+  createdAt      DateTime             @default(now())
+  accounts       Account[]
+  sessions       Session[]
+  bankAccounts   BankAccount[]
+  transactions   Transaction[]
+  importBatches  ImportBatch[]
+  bankProfiles   BankProfile[]
+  rules          ClassificationRule[]
+  categories     Category[]
+  invitesCreated Invite[]             @relation("InviteCreator")
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+model Invite {
+  id              String    @id @default(cuid())
+  token           String    @unique
+  email           String?
+  createdByUserId String
+  expiresAt       DateTime
+  usedAt          DateTime?
+  createdAt       DateTime  @default(now())
+  createdBy       User      @relation("InviteCreator", fields: [createdByUserId], references: [id], onDelete: Cascade)
+}
+
+model BankAccount {
+  id            String        @id @default(cuid())
+  userId        String
+  name          String
+  bankName      String?
+  statementType String        @default("checking")
+  currency      String        @default("USD")
+  createdAt     DateTime      @default(now())
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions  Transaction[]
+  importBatches ImportBatch[]
+
+  @@index([userId])
+}
+
+model BankProfile {
+  id                String        @id @default(cuid())
+  userId            String
+  name              String
+  bankName          String        @default("Unknown")
+  statementType     String        @default("checking")
+  dateColumn        String
+  amountColumn      String
+  debitColumn       String?
+  creditColumn      String?
+  typeColumn        String?
+  cardColumn        String?
+  defaultCardLabel  String?
+  descriptionColumn String
+  dateFormat        String        @default("MM/dd/yyyy")
+  signRule          String        @default("negative_debit")
+  skipRows          Int           @default(0)
+  createdAt         DateTime      @default(now())
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  importBatches     ImportBatch[]
+
+  @@index([userId])
+}
+
+model ImportBatch {
+  id            String        @id @default(cuid())
+  userId        String
+  bankAccountId String
+  bankProfileId String
+  filename      String
+  rowCount      Int
+  skippedCount  Int           @default(0)
+  dateFrom      DateTime?
+  dateTo        DateTime?
+  importedAt    DateTime      @default(now())
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bankAccount   BankAccount   @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
+  bankProfile   BankProfile   @relation(fields: [bankProfileId], references: [id], onDelete: Cascade)
+  transactions  Transaction[]
+
+  @@index([userId])
+}
+
+model Transaction {
+  id             String       @id @default(cuid())
+  userId         String
+  bankAccountId  String
+  importBatchId  String?
+  date           DateTime
+  amount         String
+  direction      String
+  description    String
+  rawDescription String
+  cardLabel      String?
+  classification String       @default("uncategorized")
+  categoryId     String?
+  dedupeHash     String
+  createdAt      DateTime     @default(now())
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bankAccount    BankAccount  @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
+  importBatch    ImportBatch? @relation(fields: [importBatchId], references: [id], onDelete: SetNull)
+  category       Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@index([userId, dedupeHash])
+  @@index([userId, date])
+  @@index([userId, classification])
+}
+
+model ClassificationRule {
+  id             String    @id @default(cuid())
+  userId         String
+  name           String
+  pattern        String
+  field          String    @default("description")
+  matchType      String    @default("contains")
+  classification String
+  categoryId     String?
+  priority       Int       @default(0)
+  createdAt      DateTime  @default(now())
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category       Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+}
+
+model Category {
+  id           String               @id @default(cuid())
+  userId       String
+  name         String
+  type         String
+  createdAt    DateTime             @default(now())
+  user         User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+  rules        ClassificationRule[]
+
+  @@index([userId])
+}
