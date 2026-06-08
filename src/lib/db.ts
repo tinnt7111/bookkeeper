@@ -1,18 +1,30 @@
 import path from "node:path";
 import { createHash } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { mkdirSync, readFileSync } from "node:fs";
 import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 
+function resolveDatabaseFilePath() {
+  const url = process.env.DATABASE_URL ?? "file:./dev.db";
+  if (!url.startsWith("file:")) {
+    return url;
+  }
+
+  const filePath = url.replace(/^file:/, "");
+  return path.isAbsolute(filePath)
+    ? filePath
+    : path.join(process.cwd(), filePath);
+}
+
 function getDatabaseUrl() {
   const url = process.env.DATABASE_URL ?? "file:./dev.db";
-  if (url.startsWith("file:")) {
-    const filePath = url.replace("file:", "");
-    if (!path.isAbsolute(filePath)) {
-      return `file:${path.join(process.cwd(), filePath)}`;
-    }
+  if (!url.startsWith("file:")) {
+    return url;
   }
-  return url;
+
+  const absolutePath = resolveDatabaseFilePath();
+  mkdirSync(path.dirname(absolutePath), { recursive: true });
+  return `file:${absolutePath}`;
 }
 
 function getSchemaFingerprint() {
