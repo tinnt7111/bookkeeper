@@ -11,6 +11,7 @@ import {
   presetForProfileId,
 } from "@/lib/banks/presets";
 import { buildImportProfileConfig } from "@/lib/banks/import-profile";
+import { applyManagedCardToRows } from "@/lib/import/apply-card";
 import {
   classifyRowsAgainstDatabase,
   getExistingDedupeHashCounts,
@@ -21,14 +22,27 @@ export async function previewImport(formData: FormData) {
   const user = await requireUser();
   const file = formData.get("file") as File | null;
   const bankProfileId = formData.get("bankProfileId") as string;
+  const cardId = String(formData.get("cardId") ?? "").trim();
 
   if (!file || !bankProfileId) {
     return { error: "Missing file or bank profile." };
   }
 
-  const resolved = await resolveAccountForProfile(user.id, bankProfileId);
+  if (!cardId) {
+    return { error: "Select a card before importing." };
+  }
+
+  const [resolved, card] = await Promise.all([
+    resolveAccountForProfile(user.id, bankProfileId),
+    db.card.findFirst({ where: { id: cardId, userId: user.id } }),
+  ]);
+
   if (!resolved) {
     return { error: "Invalid bank profile." };
+  }
+
+  if (!card) {
+    return { error: "Invalid card." };
   }
 
   const { bankAccount, bankProfile } = resolved;
@@ -51,21 +65,25 @@ export async function previewImport(formData: FormData) {
     bankAccount.id
   );
 
-  const rowsWithClassification = parsed.rows.map((row) => {
-    const ruleResult = applyRules(
-      {
-        description: row.description,
-        amount: row.amount,
-        direction: row.direction,
-      },
-      rules
-    );
+  const rowsWithClassification = applyManagedCardToRows(
+    parsed.rows.map((row) => {
+      const ruleResult = applyRules(
+        {
+          description: row.description,
+          amount: row.amount,
+          direction: row.direction,
+        },
+        rules
+      );
 
-    return {
-      ...row,
-      classification: ruleResult.classification,
-    };
-  });
+      return {
+        ...row,
+        classification: ruleResult.classification,
+      };
+    }),
+    bankAccount.id,
+    card
+  );
 
   const existingCounts = await getExistingDedupeHashCounts(
     user.id,
@@ -80,13 +98,15 @@ export async function previewImport(formData: FormData) {
   return {
     filename: file.name,
     bankProfileId,
+    cardId: card.id,
+    cardName: card.name,
     previewRows,
     skippedCount: parsed.skippedCount,
     dateFrom: parsed.dateFrom?.toISOString() ?? null,
     dateTo: parsed.dateTo?.toISOString() ?? null,
     errors: parsed.errors,
     duplicateCount,
-    hasCardColumn: parsed.hasCardColumn,
+    hasCardColumn: true,
   };
 }
 
@@ -101,6 +121,7 @@ export async function confirmImport(formData: FormData) {
   const data = JSON.parse(payload) as {
     filename: string;
     bankProfileId: string;
+    cardId: string;
     rows: Array<{
       date: string;
       amount: string;
@@ -117,9 +138,21 @@ export async function confirmImport(formData: FormData) {
     dateTo: string | null;
   };
 
-  const resolved = await resolveAccountForProfile(user.id, data.bankProfileId);
+  if (!data.cardId) {
+    return { error: "Select a card before importing." };
+  }
+
+  const [resolved, card] = await Promise.all([
+    resolveAccountForProfile(user.id, data.bankProfileId),
+    db.card.findFirst({ where: { id: data.cardId, userId: user.id } }),
+  ]);
+
   if (!resolved) {
     return { error: "Invalid bank profile." };
+  }
+
+  if (!card) {
+    return { error: "Invalid card." };
   }
 
   const { bankAccount, bankProfile } = resolved;
@@ -130,13 +163,19 @@ export async function confirmImport(formData: FormData) {
     };
   }
 
+  const rowsWithCard = applyManagedCardToRows(
+    data.rows,
+    bankAccount.id,
+    card
+  );
+
   const existingCounts = await getExistingDedupeHashCounts(
     user.id,
-    data.rows.map((row) => row.dedupeHash)
+    rowsWithCard.map((row) => row.dedupeHash)
   );
 
   const { toInsert, duplicateCount } = classifyRowsAgainstDatabase(
-    data.rows,
+    rowsWithCard,
     existingCounts
   );
 
@@ -153,6 +192,7 @@ export async function confirmImport(formData: FormData) {
       userId: user.id,
       bankAccountId: bankAccount.id,
       bankProfileId: bankProfile.id,
+      cardId: card.id,
       filename: data.filename,
       rowCount: toInsert.length,
       skippedCount: data.skippedCount,
@@ -166,12 +206,13 @@ export async function confirmImport(formData: FormData) {
       userId: user.id,
       bankAccountId: bankAccount.id,
       importBatchId: importBatch.id,
+      cardId: card.id,
       date: new Date(row.date),
       amount: row.amount,
       direction: row.direction,
       description: row.description,
       rawDescription: row.rawDescription,
-      cardLabel: row.cardLabel ?? null,
+      cardLabel: card.name,
       classification: row.classification,
       dedupeHash: row.dedupeHash,
     })),
@@ -180,6 +221,7 @@ export async function confirmImport(formData: FormData) {
   revalidatePath("/");
   revalidatePath("/transactions");
   revalidatePath("/import");
+  revalidatePath("/reports");
 
   return {
     importedCount: toInsert.length,

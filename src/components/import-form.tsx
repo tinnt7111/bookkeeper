@@ -23,6 +23,8 @@ type PreviewResult = {
   error?: string;
   filename?: string;
   bankProfileId?: string;
+  cardId?: string;
+  cardName?: string;
   previewRows?: PreviewRow[];
   skippedCount?: number;
   dateFrom?: string | null;
@@ -45,6 +47,11 @@ type BankProfileOption = {
   descriptionColumn: string;
 };
 
+type CardOption = {
+  id: string;
+  name: string;
+};
+
 type ProfileSuggestion = {
   profileId: string;
   name: string;
@@ -57,13 +64,16 @@ function firstEnabledProfile(profiles: BankProfileOption[]) {
 
 export function ImportForm({
   bankProfiles,
+  cards,
   defaultProfileId,
 }: {
   bankProfiles: BankProfileOption[];
+  cards: CardOption[];
   defaultProfileId: string;
 }) {
   const mounted = useMounted();
   const [selectedProfileId, setSelectedProfileId] = useState(defaultProfileId);
+  const [selectedCardId, setSelectedCardId] = useState(cards[0]?.id ?? "");
   const [preview, setPreview] = useState<PreviewResult | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [profileSuggestion, setProfileSuggestion] =
@@ -76,11 +86,23 @@ export function ImportForm({
     [bankProfiles, selectedProfileId]
   );
 
+  const selectedCard = useMemo(
+    () => cards.find((card) => card.id === selectedCardId),
+    [cards, selectedCardId]
+  );
+
   const selectedProfileEnabled = selectedProfile?.enabled ?? false;
+  const canImport = selectedProfileEnabled && Boolean(selectedCardId);
 
   useEffect(() => {
     setSelectedProfileId(defaultProfileId);
   }, [defaultProfileId]);
+
+  useEffect(() => {
+    if (!cards.some((card) => card.id === selectedCardId)) {
+      setSelectedCardId(cards[0]?.id ?? "");
+    }
+  }, [cards, selectedCardId]);
 
   useEffect(() => {
     if (selectedProfile && !selectedProfile.enabled) {
@@ -93,6 +115,12 @@ export function ImportForm({
     const profile = bankProfiles.find((item) => item.id === profileId);
     if (!profile?.enabled) return;
     setSelectedProfileId(profileId);
+    setPreview(null);
+    setMessage(null);
+  }
+
+  function handleCardChange(cardId: string) {
+    setSelectedCardId(cardId);
     setPreview(null);
     setMessage(null);
   }
@@ -150,10 +178,11 @@ export function ImportForm({
         className="panel panel-padded space-y-4"
         onSubmit={(event) => {
           event.preventDefault();
-          if (!selectedProfileEnabled) return;
+          if (!canImport) return;
 
           const formData = new FormData(event.currentTarget);
           formData.set("bankProfileId", selectedProfileId);
+          formData.set("cardId", selectedCardId);
           startTransition(async () => {
             setMessage(null);
             const result = await previewImport(formData);
@@ -169,7 +198,7 @@ export function ImportForm({
               name="file"
               accept=".csv,text/csv"
               required
-              disabled={!selectedProfileEnabled}
+              disabled={!canImport}
               onChange={handleFileChange}
               className="block w-full text-sm text-secondary file:mr-3 file:rounded file:border file:border-[var(--input-border)] file:bg-[var(--input-bg)] file:px-3 file:py-1.5 file:text-accent disabled:opacity-50"
             />
@@ -198,47 +227,76 @@ export function ImportForm({
           </div>
         ) : null}
 
-        <div>
-          <label className="mb-1 block text-sm text-secondary">
-            Bank profile
-          </label>
-          <select
-            name="bankProfileId"
-            required
-            value={selectedProfileId}
-            onChange={(event) => handleProfileChange(event.target.value)}
-            className="input"
-          >
-            {bankProfiles.map((profile) => (
-              <option
-                key={profile.id}
-                value={profile.id}
-                disabled={!profile.enabled}
-                className={profile.enabled ? "" : "option-disabled"}
-              >
-                {profile.name}
-                {!profile.enabled ? " (coming soon)" : ""}
-              </option>
-            ))}
-          </select>
-          {selectedProfile ? (
-            <p className="mt-2 text-xs text-muted">
-              {statementTypeLabel(selectedProfile.statementType)} ·{" "}
-              {selectedProfile.notes ?? (
-                <>
-                  {selectedProfile.dateColumn}, {selectedProfile.descriptionColumn}
-                  {selectedProfile.amountColumn
-                    ? `, ${selectedProfile.amountColumn}`
-                    : ""}
-                </>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label className="mb-1 block text-sm text-secondary">
+              Bank profile
+            </label>
+            <select
+              name="bankProfileId"
+              required
+              value={selectedProfileId}
+              onChange={(event) => handleProfileChange(event.target.value)}
+              className="input"
+            >
+              {bankProfiles.map((profile) => (
+                <option
+                  key={profile.id}
+                  value={profile.id}
+                  disabled={!profile.enabled}
+                  className={profile.enabled ? "" : "option-disabled"}
+                >
+                  {profile.name}
+                  {!profile.enabled ? " (coming soon)" : ""}
+                </option>
+              ))}
+            </select>
+            {selectedProfile ? (
+              <p className="mt-2 text-xs text-muted">
+                {statementTypeLabel(selectedProfile.statementType)} ·{" "}
+                {selectedProfile.notes ?? (
+                  <>
+                    {selectedProfile.dateColumn},{" "}
+                    {selectedProfile.descriptionColumn}
+                    {selectedProfile.amountColumn
+                      ? `, ${selectedProfile.amountColumn}`
+                      : ""}
+                  </>
+                )}
+              </p>
+            ) : null}
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm text-secondary">Card</label>
+            <select
+              name="cardId"
+              required
+              value={selectedCardId}
+              onChange={(event) => handleCardChange(event.target.value)}
+              className="input"
+              disabled={cards.length === 0}
+            >
+              {cards.length === 0 ? (
+                <option value="">Add a card first</option>
+              ) : (
+                cards.map((card) => (
+                  <option key={card.id} value={card.id}>
+                    {card.name}
+                  </option>
+                ))
               )}
+            </select>
+            <p className="mt-2 text-xs text-muted">
+              Used for duplicate detection. Same CSV re-imported on this card
+              skips already stored rows.
             </p>
-          ) : null}
+          </div>
         </div>
 
         <button
           type="submit"
-          disabled={pending || !selectedProfileEnabled}
+          disabled={pending || !canImport}
           className="btn-primary"
         >
           {pending ? "Parsing..." : "Preview import"}
@@ -253,6 +311,7 @@ export function ImportForm({
             <p>
               <strong className="text-accent">{preview.previewRows.length}</strong>{" "}
               rows parsed
+              {preview.cardName ? ` · card ${preview.cardName}` : ""}
               {preview.dateFrom && preview.dateTo
                 ? ` · ${formatDate(preview.dateFrom)} – ${formatDate(preview.dateTo)}`
                 : ""}
@@ -269,7 +328,7 @@ export function ImportForm({
                 <tr>
                   <th>Date</th>
                   <th>Description</th>
-                  {preview.hasCardColumn ? <th>Card</th> : null}
+                  <th>Card</th>
                   <th>Amount</th>
                   <th>Class</th>
                   <th>Status</th>
@@ -282,10 +341,16 @@ export function ImportForm({
                       {formatDate(row.date)}
                     </td>
                     <td>{row.description}</td>
-                    {preview.hasCardColumn ? (
-                      <td className="text-secondary">{row.cardLabel ?? "—"}</td>
-                    ) : null}
-                    <td className={`whitespace-nowrap ${row.direction === "debit" ? "amount-debit" : "amount-credit"}`}>
+                    <td className="text-secondary">
+                      {row.cardLabel ?? selectedCard?.name ?? "—"}
+                    </td>
+                    <td
+                      className={`whitespace-nowrap ${
+                        row.direction === "debit"
+                          ? "amount-debit"
+                          : "amount-credit"
+                      }`}
+                    >
                       {row.direction === "debit" ? "-" : "+"}
                       {formatMoney(row.amount)}
                     </td>
@@ -311,6 +376,7 @@ export function ImportForm({
                   JSON.stringify({
                     filename: preview.filename,
                     bankProfileId: preview.bankProfileId,
+                    cardId: preview.cardId ?? selectedCardId,
                     rows: preview.previewRows,
                     skippedCount: preview.skippedCount,
                     dateFrom: preview.dateFrom,
@@ -321,7 +387,9 @@ export function ImportForm({
                 if ("error" in result && result.error) {
                   setMessage(result.error);
                 } else if (result.importedCount === 0) {
-                  setMessage("No new rows imported — all were already in the database.");
+                  setMessage(
+                    "No new rows imported — all were already in the database."
+                  );
                 } else {
                   setMessage(
                     `Imported ${result.importedCount} rows (${result.duplicateCount} already imported, skipped).`

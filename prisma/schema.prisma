@@ -20,6 +20,7 @@ model User {
   transactions   Transaction[]
   importBatches  ImportBatch[]
   bankProfiles   BankProfile[]
+  cards          Card[]
   rules          ClassificationRule[]
   categories     Category[]
   invitesCreated Invite[]             @relation("InviteCreator")
@@ -107,11 +108,25 @@ model BankProfile {
   @@index([userId])
 }
 
+model Card {
+  id            String        @id @default(cuid())
+  userId        String
+  name          String
+  createdAt     DateTime      @default(now())
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  importBatches ImportBatch[]
+  transactions  Transaction[]
+
+  @@unique([userId, name])
+  @@index([userId])
+}
+
 model ImportBatch {
   id            String        @id @default(cuid())
   userId        String
   bankAccountId String
   bankProfileId String
+  cardId        String?
   filename      String
   rowCount      Int
   skippedCount  Int           @default(0)
@@ -121,9 +136,11 @@ model ImportBatch {
   user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   bankAccount   BankAccount   @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
   bankProfile   BankProfile   @relation(fields: [bankProfileId], references: [id], onDelete: Cascade)
+  card          Card?         @relation(fields: [cardId], references: [id], onDelete: SetNull)
   transactions  Transaction[]
 
   @@index([userId])
+  @@index([cardId])
 }
 
 model Transaction {
@@ -131,6 +148,7 @@ model Transaction {
   userId         String
   bankAccountId  String
   importBatchId  String?
+  cardId         String?
   date           DateTime
   amount         String
   direction      String
@@ -144,11 +162,13 @@ model Transaction {
   user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   bankAccount    BankAccount  @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
   importBatch    ImportBatch? @relation(fields: [importBatchId], references: [id], onDelete: SetNull)
+  card           Card?        @relation(fields: [cardId], references: [id], onDelete: SetNull)
   category       Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
   @@index([userId, dedupeHash])
   @@index([userId, date])
   @@index([userId, classification])
+  @@index([cardId])
 }
 
 model ClassificationRule {

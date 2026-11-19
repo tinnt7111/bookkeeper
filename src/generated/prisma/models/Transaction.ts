@@ -29,6 +29,7 @@ export type TransactionMinAggregateOutputType = {
   userId: string | null
   bankAccountId: string | null
   importBatchId: string | null
+  cardId: string | null
   date: Date | null
   amount: string | null
   direction: string | null
@@ -46,6 +47,7 @@ export type TransactionMaxAggregateOutputType = {
   userId: string | null
   bankAccountId: string | null
   importBatchId: string | null
+  cardId: string | null
   date: Date | null
   amount: string | null
   direction: string | null
@@ -63,6 +65,7 @@ export type TransactionCountAggregateOutputType = {
   userId: number
   bankAccountId: number
   importBatchId: number
+  cardId: number
   date: number
   amount: number
   direction: number
@@ -82,6 +85,7 @@ export type TransactionMinAggregateInputType = {
   userId?: true
   bankAccountId?: true
   importBatchId?: true
+  cardId?: true
   date?: true
   amount?: true
   direction?: true
@@ -99,6 +103,7 @@ export type TransactionMaxAggregateInputType = {
   userId?: true
   bankAccountId?: true
   importBatchId?: true
+  cardId?: true
   date?: true
   amount?: true
   direction?: true
@@ -116,6 +121,7 @@ export type TransactionCountAggregateInputType = {
   userId?: true
   bankAccountId?: true
   importBatchId?: true
+  cardId?: true
   date?: true
   amount?: true
   direction?: true
@@ -206,6 +212,7 @@ export type TransactionGroupByOutputType = {
   userId: string
   bankAccountId: string
   importBatchId: string | null
+  cardId: string | null
   date: Date
   amount: string
   direction: string
@@ -244,6 +251,7 @@ export type TransactionWhereInput = {
   userId?: Prisma.StringFilter<"Transaction"> | string
   bankAccountId?: Prisma.StringFilter<"Transaction"> | string
   importBatchId?: Prisma.StringNullableFilter<"Transaction"> | string | null
+  cardId?: Prisma.StringNullableFilter<"Transaction"> | string | null
   date?: Prisma.DateTimeFilter<"Transaction"> | Date | string
   amount?: Prisma.StringFilter<"Transaction"> | string
   direction?: Prisma.StringFilter<"Transaction"> | string
@@ -257,6 +265,7 @@ export type TransactionWhereInput = {
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   bankAccount?: Prisma.XOR<Prisma.BankAccountScalarRelationFilter, Prisma.BankAccountWhereInput>
   importBatch?: Prisma.XOR<Prisma.ImportBatchNullableScalarRelationFilter, Prisma.ImportBatchWhereInput> | null
+  card?: Prisma.XOR<Prisma.CardNullableScalarRelationFilter, Prisma.CardWhereInput> | null
   category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
 }
 
@@ -265,6 +274,7 @@ export type TransactionOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   bankAccountId?: Prisma.SortOrder
   importBatchId?: Prisma.SortOrderInput | Prisma.SortOrder
+  cardId?: Prisma.SortOrderInput | Prisma.SortOrder
   date?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   direction?: Prisma.SortOrder
@@ -278,6 +288,7 @@ export type TransactionOrderByWithRelationInput = {
   user?: Prisma.UserOrderByWithRelationInput
   bankAccount?: Prisma.BankAccountOrderByWithRelationInput
   importBatch?: Prisma.ImportBatchOrderByWithRelationInput
+  card?: Prisma.CardOrderByWithRelationInput
   category?: Prisma.CategoryOrderByWithRelationInput
 }
 
@@ -289,6 +300,7 @@ export type TransactionWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"Transaction"> | string
   bankAccountId?: Prisma.StringFilter<"Transaction"> | string
   importBatchId?: Prisma.StringNullableFilter<"Transaction"> | string | null
+  cardId?: Prisma.StringNullableFilter<"Transaction"> | string | null
   date?: Prisma.DateTimeFilter<"Transaction"> | Date | string
   amount?: Prisma.StringFilter<"Transaction"> | string
   direction?: Prisma.StringFilter<"Transaction"> | string
@@ -302,6 +314,7 @@ export type TransactionWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   bankAccount?: Prisma.XOR<Prisma.BankAccountScalarRelationFilter, Prisma.BankAccountWhereInput>
   importBatch?: Prisma.XOR<Prisma.ImportBatchNullableScalarRelationFilter, Prisma.ImportBatchWhereInput> | null
+  card?: Prisma.XOR<Prisma.CardNullableScalarRelationFilter, Prisma.CardWhereInput> | null
   category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
 }, "id">
 
@@ -310,6 +323,7 @@ export type TransactionOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   bankAccountId?: Prisma.SortOrder
   importBatchId?: Prisma.SortOrderInput | Prisma.SortOrder
+  cardId?: Prisma.SortOrderInput | Prisma.SortOrder
   date?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   direction?: Prisma.SortOrder
@@ -333,6 +347,7 @@ export type TransactionScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"Transaction"> | string
   bankAccountId?: Prisma.StringWithAggregatesFilter<"Transaction"> | string
   importBatchId?: Prisma.StringNullableWithAggregatesFilter<"Transaction"> | string | null
+  cardId?: Prisma.StringNullableWithAggregatesFilter<"Transaction"> | string | null
   date?: Prisma.DateTimeWithAggregatesFilter<"Transaction"> | Date | string
   amount?: Prisma.StringWithAggregatesFilter<"Transaction"> | string
   direction?: Prisma.StringWithAggregatesFilter<"Transaction"> | string
@@ -359,6 +374,7 @@ export type TransactionCreateInput = {
   user: Prisma.UserCreateNestedOneWithoutTransactionsInput
   bankAccount: Prisma.BankAccountCreateNestedOneWithoutTransactionsInput
   importBatch?: Prisma.ImportBatchCreateNestedOneWithoutTransactionsInput
+  card?: Prisma.CardCreateNestedOneWithoutTransactionsInput
   category?: Prisma.CategoryCreateNestedOneWithoutTransactionsInput
 }
 
@@ -367,6 +383,7 @@ export type TransactionUncheckedCreateInput = {
   userId: string
   bankAccountId: string
   importBatchId?: string | null
+  cardId?: string | null
   date: Date | string
   amount: string
   direction: string
@@ -393,6 +410,7 @@ export type TransactionUpdateInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutTransactionsNestedInput
   bankAccount?: Prisma.BankAccountUpdateOneRequiredWithoutTransactionsNestedInput
   importBatch?: Prisma.ImportBatchUpdateOneWithoutTransactionsNestedInput
+  card?: Prisma.CardUpdateOneWithoutTransactionsNestedInput
   category?: Prisma.CategoryUpdateOneWithoutTransactionsNestedInput
 }
 
@@ -401,6 +419,7 @@ export type TransactionUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   importBatchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.StringFieldUpdateOperationsInput | string
   direction?: Prisma.StringFieldUpdateOperationsInput | string
@@ -418,6 +437,7 @@ export type TransactionCreateManyInput = {
   userId: string
   bankAccountId: string
   importBatchId?: string | null
+  cardId?: string | null
   date: Date | string
   amount: string
   direction: string
@@ -448,6 +468,7 @@ export type TransactionUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   importBatchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.StringFieldUpdateOperationsInput | string
   direction?: Prisma.StringFieldUpdateOperationsInput | string
@@ -475,6 +496,7 @@ export type TransactionCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   bankAccountId?: Prisma.SortOrder
   importBatchId?: Prisma.SortOrder
+  cardId?: Prisma.SortOrder
   date?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   direction?: Prisma.SortOrder
@@ -492,6 +514,7 @@ export type TransactionMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   bankAccountId?: Prisma.SortOrder
   importBatchId?: Prisma.SortOrder
+  cardId?: Prisma.SortOrder
   date?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   direction?: Prisma.SortOrder
@@ -509,6 +532,7 @@ export type TransactionMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   bankAccountId?: Prisma.SortOrder
   importBatchId?: Prisma.SortOrder
+  cardId?: Prisma.SortOrder
   date?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   direction?: Prisma.SortOrder
@@ -602,6 +626,48 @@ export type TransactionUncheckedUpdateManyWithoutBankAccountNestedInput = {
   connect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
   update?: Prisma.TransactionUpdateWithWhereUniqueWithoutBankAccountInput | Prisma.TransactionUpdateWithWhereUniqueWithoutBankAccountInput[]
   updateMany?: Prisma.TransactionUpdateManyWithWhereWithoutBankAccountInput | Prisma.TransactionUpdateManyWithWhereWithoutBankAccountInput[]
+  deleteMany?: Prisma.TransactionScalarWhereInput | Prisma.TransactionScalarWhereInput[]
+}
+
+export type TransactionCreateNestedManyWithoutCardInput = {
+  create?: Prisma.XOR<Prisma.TransactionCreateWithoutCardInput, Prisma.TransactionUncheckedCreateWithoutCardInput> | Prisma.TransactionCreateWithoutCardInput[] | Prisma.TransactionUncheckedCreateWithoutCardInput[]
+  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutCardInput | Prisma.TransactionCreateOrConnectWithoutCardInput[]
+  createMany?: Prisma.TransactionCreateManyCardInputEnvelope
+  connect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+}
+
+export type TransactionUncheckedCreateNestedManyWithoutCardInput = {
+  create?: Prisma.XOR<Prisma.TransactionCreateWithoutCardInput, Prisma.TransactionUncheckedCreateWithoutCardInput> | Prisma.TransactionCreateWithoutCardInput[] | Prisma.TransactionUncheckedCreateWithoutCardInput[]
+  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutCardInput | Prisma.TransactionCreateOrConnectWithoutCardInput[]
+  createMany?: Prisma.TransactionCreateManyCardInputEnvelope
+  connect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+}
+
+export type TransactionUpdateManyWithoutCardNestedInput = {
+  create?: Prisma.XOR<Prisma.TransactionCreateWithoutCardInput, Prisma.TransactionUncheckedCreateWithoutCardInput> | Prisma.TransactionCreateWithoutCardInput[] | Prisma.TransactionUncheckedCreateWithoutCardInput[]
+  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutCardInput | Prisma.TransactionCreateOrConnectWithoutCardInput[]
+  upsert?: Prisma.TransactionUpsertWithWhereUniqueWithoutCardInput | Prisma.TransactionUpsertWithWhereUniqueWithoutCardInput[]
+  createMany?: Prisma.TransactionCreateManyCardInputEnvelope
+  set?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  disconnect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  delete?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  connect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  update?: Prisma.TransactionUpdateWithWhereUniqueWithoutCardInput | Prisma.TransactionUpdateWithWhereUniqueWithoutCardInput[]
+  updateMany?: Prisma.TransactionUpdateManyWithWhereWithoutCardInput | Prisma.TransactionUpdateManyWithWhereWithoutCardInput[]
+  deleteMany?: Prisma.TransactionScalarWhereInput | Prisma.TransactionScalarWhereInput[]
+}
+
+export type TransactionUncheckedUpdateManyWithoutCardNestedInput = {
+  create?: Prisma.XOR<Prisma.TransactionCreateWithoutCardInput, Prisma.TransactionUncheckedCreateWithoutCardInput> | Prisma.TransactionCreateWithoutCardInput[] | Prisma.TransactionUncheckedCreateWithoutCardInput[]
+  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutCardInput | Prisma.TransactionCreateOrConnectWithoutCardInput[]
+  upsert?: Prisma.TransactionUpsertWithWhereUniqueWithoutCardInput | Prisma.TransactionUpsertWithWhereUniqueWithoutCardInput[]
+  createMany?: Prisma.TransactionCreateManyCardInputEnvelope
+  set?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  disconnect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  delete?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  connect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  update?: Prisma.TransactionUpdateWithWhereUniqueWithoutCardInput | Prisma.TransactionUpdateWithWhereUniqueWithoutCardInput[]
+  updateMany?: Prisma.TransactionUpdateManyWithWhereWithoutCardInput | Prisma.TransactionUpdateManyWithWhereWithoutCardInput[]
   deleteMany?: Prisma.TransactionScalarWhereInput | Prisma.TransactionScalarWhereInput[]
 }
 
@@ -702,6 +768,7 @@ export type TransactionCreateWithoutUserInput = {
   createdAt?: Date | string
   bankAccount: Prisma.BankAccountCreateNestedOneWithoutTransactionsInput
   importBatch?: Prisma.ImportBatchCreateNestedOneWithoutTransactionsInput
+  card?: Prisma.CardCreateNestedOneWithoutTransactionsInput
   category?: Prisma.CategoryCreateNestedOneWithoutTransactionsInput
 }
 
@@ -709,6 +776,7 @@ export type TransactionUncheckedCreateWithoutUserInput = {
   id?: string
   bankAccountId: string
   importBatchId?: string | null
+  cardId?: string | null
   date: Date | string
   amount: string
   direction: string
@@ -755,6 +823,7 @@ export type TransactionScalarWhereInput = {
   userId?: Prisma.StringFilter<"Transaction"> | string
   bankAccountId?: Prisma.StringFilter<"Transaction"> | string
   importBatchId?: Prisma.StringNullableFilter<"Transaction"> | string | null
+  cardId?: Prisma.StringNullableFilter<"Transaction"> | string | null
   date?: Prisma.DateTimeFilter<"Transaction"> | Date | string
   amount?: Prisma.StringFilter<"Transaction"> | string
   direction?: Prisma.StringFilter<"Transaction"> | string
@@ -780,6 +849,7 @@ export type TransactionCreateWithoutBankAccountInput = {
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTransactionsInput
   importBatch?: Prisma.ImportBatchCreateNestedOneWithoutTransactionsInput
+  card?: Prisma.CardCreateNestedOneWithoutTransactionsInput
   category?: Prisma.CategoryCreateNestedOneWithoutTransactionsInput
 }
 
@@ -787,6 +857,7 @@ export type TransactionUncheckedCreateWithoutBankAccountInput = {
   id?: string
   userId: string
   importBatchId?: string | null
+  cardId?: string | null
   date: Date | string
   amount: string
   direction: string
@@ -825,6 +896,66 @@ export type TransactionUpdateManyWithWhereWithoutBankAccountInput = {
   data: Prisma.XOR<Prisma.TransactionUpdateManyMutationInput, Prisma.TransactionUncheckedUpdateManyWithoutBankAccountInput>
 }
 
+export type TransactionCreateWithoutCardInput = {
+  id?: string
+  date: Date | string
+  amount: string
+  direction: string
+  description: string
+  rawDescription: string
+  cardLabel?: string | null
+  classification?: string
+  dedupeHash: string
+  createdAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTransactionsInput
+  bankAccount: Prisma.BankAccountCreateNestedOneWithoutTransactionsInput
+  importBatch?: Prisma.ImportBatchCreateNestedOneWithoutTransactionsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutTransactionsInput
+}
+
+export type TransactionUncheckedCreateWithoutCardInput = {
+  id?: string
+  userId: string
+  bankAccountId: string
+  importBatchId?: string | null
+  date: Date | string
+  amount: string
+  direction: string
+  description: string
+  rawDescription: string
+  cardLabel?: string | null
+  classification?: string
+  categoryId?: string | null
+  dedupeHash: string
+  createdAt?: Date | string
+}
+
+export type TransactionCreateOrConnectWithoutCardInput = {
+  where: Prisma.TransactionWhereUniqueInput
+  create: Prisma.XOR<Prisma.TransactionCreateWithoutCardInput, Prisma.TransactionUncheckedCreateWithoutCardInput>
+}
+
+export type TransactionCreateManyCardInputEnvelope = {
+  data: Prisma.TransactionCreateManyCardInput | Prisma.TransactionCreateManyCardInput[]
+  skipDuplicates?: boolean
+}
+
+export type TransactionUpsertWithWhereUniqueWithoutCardInput = {
+  where: Prisma.TransactionWhereUniqueInput
+  update: Prisma.XOR<Prisma.TransactionUpdateWithoutCardInput, Prisma.TransactionUncheckedUpdateWithoutCardInput>
+  create: Prisma.XOR<Prisma.TransactionCreateWithoutCardInput, Prisma.TransactionUncheckedCreateWithoutCardInput>
+}
+
+export type TransactionUpdateWithWhereUniqueWithoutCardInput = {
+  where: Prisma.TransactionWhereUniqueInput
+  data: Prisma.XOR<Prisma.TransactionUpdateWithoutCardInput, Prisma.TransactionUncheckedUpdateWithoutCardInput>
+}
+
+export type TransactionUpdateManyWithWhereWithoutCardInput = {
+  where: Prisma.TransactionScalarWhereInput
+  data: Prisma.XOR<Prisma.TransactionUpdateManyMutationInput, Prisma.TransactionUncheckedUpdateManyWithoutCardInput>
+}
+
 export type TransactionCreateWithoutImportBatchInput = {
   id?: string
   date: Date | string
@@ -838,6 +969,7 @@ export type TransactionCreateWithoutImportBatchInput = {
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTransactionsInput
   bankAccount: Prisma.BankAccountCreateNestedOneWithoutTransactionsInput
+  card?: Prisma.CardCreateNestedOneWithoutTransactionsInput
   category?: Prisma.CategoryCreateNestedOneWithoutTransactionsInput
 }
 
@@ -845,6 +977,7 @@ export type TransactionUncheckedCreateWithoutImportBatchInput = {
   id?: string
   userId: string
   bankAccountId: string
+  cardId?: string | null
   date: Date | string
   amount: string
   direction: string
@@ -897,6 +1030,7 @@ export type TransactionCreateWithoutCategoryInput = {
   user: Prisma.UserCreateNestedOneWithoutTransactionsInput
   bankAccount: Prisma.BankAccountCreateNestedOneWithoutTransactionsInput
   importBatch?: Prisma.ImportBatchCreateNestedOneWithoutTransactionsInput
+  card?: Prisma.CardCreateNestedOneWithoutTransactionsInput
 }
 
 export type TransactionUncheckedCreateWithoutCategoryInput = {
@@ -904,6 +1038,7 @@ export type TransactionUncheckedCreateWithoutCategoryInput = {
   userId: string
   bankAccountId: string
   importBatchId?: string | null
+  cardId?: string | null
   date: Date | string
   amount: string
   direction: string
@@ -945,6 +1080,7 @@ export type TransactionCreateManyUserInput = {
   id?: string
   bankAccountId: string
   importBatchId?: string | null
+  cardId?: string | null
   date: Date | string
   amount: string
   direction: string
@@ -970,6 +1106,7 @@ export type TransactionUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bankAccount?: Prisma.BankAccountUpdateOneRequiredWithoutTransactionsNestedInput
   importBatch?: Prisma.ImportBatchUpdateOneWithoutTransactionsNestedInput
+  card?: Prisma.CardUpdateOneWithoutTransactionsNestedInput
   category?: Prisma.CategoryUpdateOneWithoutTransactionsNestedInput
 }
 
@@ -977,6 +1114,7 @@ export type TransactionUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   importBatchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.StringFieldUpdateOperationsInput | string
   direction?: Prisma.StringFieldUpdateOperationsInput | string
@@ -993,6 +1131,7 @@ export type TransactionUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   importBatchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.StringFieldUpdateOperationsInput | string
   direction?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1009,6 +1148,7 @@ export type TransactionCreateManyBankAccountInput = {
   id?: string
   userId: string
   importBatchId?: string | null
+  cardId?: string | null
   date: Date | string
   amount: string
   direction: string
@@ -1034,6 +1174,7 @@ export type TransactionUpdateWithoutBankAccountInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTransactionsNestedInput
   importBatch?: Prisma.ImportBatchUpdateOneWithoutTransactionsNestedInput
+  card?: Prisma.CardUpdateOneWithoutTransactionsNestedInput
   category?: Prisma.CategoryUpdateOneWithoutTransactionsNestedInput
 }
 
@@ -1041,6 +1182,7 @@ export type TransactionUncheckedUpdateWithoutBankAccountInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   importBatchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.StringFieldUpdateOperationsInput | string
   direction?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1056,6 +1198,75 @@ export type TransactionUncheckedUpdateWithoutBankAccountInput = {
 export type TransactionUncheckedUpdateManyWithoutBankAccountInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  importBatchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  amount?: Prisma.StringFieldUpdateOperationsInput | string
+  direction?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  rawDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  cardLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  classification?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dedupeHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TransactionCreateManyCardInput = {
+  id?: string
+  userId: string
+  bankAccountId: string
+  importBatchId?: string | null
+  date: Date | string
+  amount: string
+  direction: string
+  description: string
+  rawDescription: string
+  cardLabel?: string | null
+  classification?: string
+  categoryId?: string | null
+  dedupeHash: string
+  createdAt?: Date | string
+}
+
+export type TransactionUpdateWithoutCardInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  amount?: Prisma.StringFieldUpdateOperationsInput | string
+  direction?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  rawDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  cardLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  classification?: Prisma.StringFieldUpdateOperationsInput | string
+  dedupeHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTransactionsNestedInput
+  bankAccount?: Prisma.BankAccountUpdateOneRequiredWithoutTransactionsNestedInput
+  importBatch?: Prisma.ImportBatchUpdateOneWithoutTransactionsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutTransactionsNestedInput
+}
+
+export type TransactionUncheckedUpdateWithoutCardInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
+  importBatchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  amount?: Prisma.StringFieldUpdateOperationsInput | string
+  direction?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  rawDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  cardLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  classification?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dedupeHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TransactionUncheckedUpdateManyWithoutCardInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   importBatchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1073,6 +1284,7 @@ export type TransactionCreateManyImportBatchInput = {
   id?: string
   userId: string
   bankAccountId: string
+  cardId?: string | null
   date: Date | string
   amount: string
   direction: string
@@ -1098,6 +1310,7 @@ export type TransactionUpdateWithoutImportBatchInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTransactionsNestedInput
   bankAccount?: Prisma.BankAccountUpdateOneRequiredWithoutTransactionsNestedInput
+  card?: Prisma.CardUpdateOneWithoutTransactionsNestedInput
   category?: Prisma.CategoryUpdateOneWithoutTransactionsNestedInput
 }
 
@@ -1105,6 +1318,7 @@ export type TransactionUncheckedUpdateWithoutImportBatchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.StringFieldUpdateOperationsInput | string
   direction?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1121,6 +1335,7 @@ export type TransactionUncheckedUpdateManyWithoutImportBatchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.StringFieldUpdateOperationsInput | string
   direction?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1138,6 +1353,7 @@ export type TransactionCreateManyCategoryInput = {
   userId: string
   bankAccountId: string
   importBatchId?: string | null
+  cardId?: string | null
   date: Date | string
   amount: string
   direction: string
@@ -1163,6 +1379,7 @@ export type TransactionUpdateWithoutCategoryInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutTransactionsNestedInput
   bankAccount?: Prisma.BankAccountUpdateOneRequiredWithoutTransactionsNestedInput
   importBatch?: Prisma.ImportBatchUpdateOneWithoutTransactionsNestedInput
+  card?: Prisma.CardUpdateOneWithoutTransactionsNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutCategoryInput = {
@@ -1170,6 +1387,7 @@ export type TransactionUncheckedUpdateWithoutCategoryInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   importBatchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.StringFieldUpdateOperationsInput | string
   direction?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1186,6 +1404,7 @@ export type TransactionUncheckedUpdateManyWithoutCategoryInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   importBatchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.StringFieldUpdateOperationsInput | string
   direction?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1204,6 +1423,7 @@ export type TransactionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   userId?: boolean
   bankAccountId?: boolean
   importBatchId?: boolean
+  cardId?: boolean
   date?: boolean
   amount?: boolean
   direction?: boolean
@@ -1217,6 +1437,7 @@ export type TransactionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   bankAccount?: boolean | Prisma.BankAccountDefaultArgs<ExtArgs>
   importBatch?: boolean | Prisma.Transaction$importBatchArgs<ExtArgs>
+  card?: boolean | Prisma.Transaction$cardArgs<ExtArgs>
   category?: boolean | Prisma.Transaction$categoryArgs<ExtArgs>
 }, ExtArgs["result"]["transaction"]>
 
@@ -1225,6 +1446,7 @@ export type TransactionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   userId?: boolean
   bankAccountId?: boolean
   importBatchId?: boolean
+  cardId?: boolean
   date?: boolean
   amount?: boolean
   direction?: boolean
@@ -1238,6 +1460,7 @@ export type TransactionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   bankAccount?: boolean | Prisma.BankAccountDefaultArgs<ExtArgs>
   importBatch?: boolean | Prisma.Transaction$importBatchArgs<ExtArgs>
+  card?: boolean | Prisma.Transaction$cardArgs<ExtArgs>
   category?: boolean | Prisma.Transaction$categoryArgs<ExtArgs>
 }, ExtArgs["result"]["transaction"]>
 
@@ -1246,6 +1469,7 @@ export type TransactionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   userId?: boolean
   bankAccountId?: boolean
   importBatchId?: boolean
+  cardId?: boolean
   date?: boolean
   amount?: boolean
   direction?: boolean
@@ -1259,6 +1483,7 @@ export type TransactionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   bankAccount?: boolean | Prisma.BankAccountDefaultArgs<ExtArgs>
   importBatch?: boolean | Prisma.Transaction$importBatchArgs<ExtArgs>
+  card?: boolean | Prisma.Transaction$cardArgs<ExtArgs>
   category?: boolean | Prisma.Transaction$categoryArgs<ExtArgs>
 }, ExtArgs["result"]["transaction"]>
 
@@ -1267,6 +1492,7 @@ export type TransactionSelectScalar = {
   userId?: boolean
   bankAccountId?: boolean
   importBatchId?: boolean
+  cardId?: boolean
   date?: boolean
   amount?: boolean
   direction?: boolean
@@ -1279,23 +1505,26 @@ export type TransactionSelectScalar = {
   createdAt?: boolean
 }
 
-export type TransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "bankAccountId" | "importBatchId" | "date" | "amount" | "direction" | "description" | "rawDescription" | "cardLabel" | "classification" | "categoryId" | "dedupeHash" | "createdAt", ExtArgs["result"]["transaction"]>
+export type TransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "bankAccountId" | "importBatchId" | "cardId" | "date" | "amount" | "direction" | "description" | "rawDescription" | "cardLabel" | "classification" | "categoryId" | "dedupeHash" | "createdAt", ExtArgs["result"]["transaction"]>
 export type TransactionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   bankAccount?: boolean | Prisma.BankAccountDefaultArgs<ExtArgs>
   importBatch?: boolean | Prisma.Transaction$importBatchArgs<ExtArgs>
+  card?: boolean | Prisma.Transaction$cardArgs<ExtArgs>
   category?: boolean | Prisma.Transaction$categoryArgs<ExtArgs>
 }
 export type TransactionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   bankAccount?: boolean | Prisma.BankAccountDefaultArgs<ExtArgs>
   importBatch?: boolean | Prisma.Transaction$importBatchArgs<ExtArgs>
+  card?: boolean | Prisma.Transaction$cardArgs<ExtArgs>
   category?: boolean | Prisma.Transaction$categoryArgs<ExtArgs>
 }
 export type TransactionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   bankAccount?: boolean | Prisma.BankAccountDefaultArgs<ExtArgs>
   importBatch?: boolean | Prisma.Transaction$importBatchArgs<ExtArgs>
+  card?: boolean | Prisma.Transaction$cardArgs<ExtArgs>
   category?: boolean | Prisma.Transaction$categoryArgs<ExtArgs>
 }
 
@@ -1305,6 +1534,7 @@ export type $TransactionPayload<ExtArgs extends runtime.Types.Extensions.Interna
     user: Prisma.$UserPayload<ExtArgs>
     bankAccount: Prisma.$BankAccountPayload<ExtArgs>
     importBatch: Prisma.$ImportBatchPayload<ExtArgs> | null
+    card: Prisma.$CardPayload<ExtArgs> | null
     category: Prisma.$CategoryPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1312,6 +1542,7 @@ export type $TransactionPayload<ExtArgs extends runtime.Types.Extensions.Interna
     userId: string
     bankAccountId: string
     importBatchId: string | null
+    cardId: string | null
     date: Date
     amount: string
     direction: string
@@ -1719,6 +1950,7 @@ export interface Prisma__TransactionClient<T, Null = never, ExtArgs extends runt
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   bankAccount<T extends Prisma.BankAccountDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BankAccountDefaultArgs<ExtArgs>>): Prisma.Prisma__BankAccountClient<runtime.Types.Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   importBatch<T extends Prisma.Transaction$importBatchArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transaction$importBatchArgs<ExtArgs>>): Prisma.Prisma__ImportBatchClient<runtime.Types.Result.GetResult<Prisma.$ImportBatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  card<T extends Prisma.Transaction$cardArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transaction$cardArgs<ExtArgs>>): Prisma.Prisma__CardClient<runtime.Types.Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   category<T extends Prisma.Transaction$categoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transaction$categoryArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1753,6 +1985,7 @@ export interface TransactionFieldRefs {
   readonly userId: Prisma.FieldRef<"Transaction", 'String'>
   readonly bankAccountId: Prisma.FieldRef<"Transaction", 'String'>
   readonly importBatchId: Prisma.FieldRef<"Transaction", 'String'>
+  readonly cardId: Prisma.FieldRef<"Transaction", 'String'>
   readonly date: Prisma.FieldRef<"Transaction", 'DateTime'>
   readonly amount: Prisma.FieldRef<"Transaction", 'String'>
   readonly direction: Prisma.FieldRef<"Transaction", 'String'>
@@ -2180,6 +2413,25 @@ export type Transaction$importBatchArgs<ExtArgs extends runtime.Types.Extensions
    */
   include?: Prisma.ImportBatchInclude<ExtArgs> | null
   where?: Prisma.ImportBatchWhereInput
+}
+
+/**
+ * Transaction.card
+ */
+export type Transaction$cardArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Card
+   */
+  select?: Prisma.CardSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Card
+   */
+  omit?: Prisma.CardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CardInclude<ExtArgs> | null
+  where?: Prisma.CardWhereInput
 }
 
 /**

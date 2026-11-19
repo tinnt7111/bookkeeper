@@ -178,6 +178,7 @@ export function buildDedupeHash(input: {
   direction: Direction;
   description: string;
   bankAccountId: string;
+  cardId?: string | null;
   cardLabel?: string | null;
 }): string {
   const payload = [
@@ -186,6 +187,7 @@ export function buildDedupeHash(input: {
     input.direction,
     input.description.toLowerCase(),
     input.bankAccountId,
+    input.cardId ?? "",
     input.cardLabel ?? "",
   ].join("|");
 

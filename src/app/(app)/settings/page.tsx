@@ -5,30 +5,40 @@ import { formatDate } from "@/lib/format";
 import { ensureBankProfilesForUser } from "@/lib/banks/ensure-profiles";
 import { BANK_PRESETS, isBankEnabled, statementTypeLabel } from "@/lib/banks/presets";
 import { ClassificationRulesForm } from "@/components/classification-rules-form";
+import { DataMaintenance } from "@/components/data-maintenance";
 
 export default async function SettingsPage() {
   const user = await requireUser();
   await ensureBankProfilesForUser(user.id);
 
-  const [rules, profiles, accounts, invites] = await Promise.all([
-    db.classificationRule.findMany({
-      where: { userId: user.id },
-      orderBy: { priority: "desc" },
-    }),
-    db.bankProfile.findMany({
-      where: { userId: user.id },
-      orderBy: [{ bankName: "asc" }, { statementType: "asc" }],
-    }),
-    db.bankAccount.findMany({
-      where: { userId: user.id },
-      orderBy: [{ bankName: "asc" }, { statementType: "asc" }],
-    }),
-    db.invite.findMany({
-      where: { createdByUserId: user.id },
-      orderBy: { createdAt: "desc" },
-      take: 5,
-    }),
-  ]);
+  const [rules, profiles, accounts, invites, cards, totalTransactions] =
+    await Promise.all([
+      db.classificationRule.findMany({
+        where: { userId: user.id },
+        orderBy: { priority: "desc" },
+      }),
+      db.bankProfile.findMany({
+        where: { userId: user.id },
+        orderBy: [{ bankName: "asc" }, { statementType: "asc" }],
+      }),
+      db.bankAccount.findMany({
+        where: { userId: user.id },
+        orderBy: [{ bankName: "asc" }, { statementType: "asc" }],
+      }),
+      db.invite.findMany({
+        where: { createdByUserId: user.id },
+        orderBy: { createdAt: "desc" },
+        take: 5,
+      }),
+      db.card.findMany({
+        where: { userId: user.id },
+        orderBy: { name: "asc" },
+        include: {
+          _count: { select: { transactions: true } },
+        },
+      }),
+      db.transaction.count({ where: { userId: user.id } }),
+    ]);
 
   const presetNotes = Object.fromEntries(
     BANK_PRESETS.map((preset) => [preset.key, preset.notes])
@@ -40,10 +50,19 @@ export default async function SettingsPage() {
         <div>
           <h1 className="page-title">Settings</h1>
           <p className="page-subtitle">
-            Bank profiles, classification rules, and invite links.
+            Bank profiles, classification rules, invite links, and data cleanup.
           </p>
         </div>
       </div>
+
+      <DataMaintenance
+        totalTransactions={totalTransactions}
+        cards={cards.map((card) => ({
+          id: card.id,
+          name: card.name,
+          transactionCount: card._count.transactions,
+        }))}
+      />
 
       <section className="panel panel-padded">
         <div className="mb-4 flex items-center justify-between gap-4">

@@ -1,8 +1,11 @@
 import { db } from "@/lib/db";
 import { requireUser } from "@/lib/auth/require-user";
+import { CardManager } from "@/components/card-manager";
 import { ImportForm } from "@/components/import-form";
+import { ImportHistory } from "@/components/import-history";
 import { ensureBankProfilesForUser } from "@/lib/banks/ensure-profiles";
 import { BANK_PRESETS, isBankEnabled } from "@/lib/banks/presets";
+import { getCurrentYear } from "@/lib/year-filter";
 
 function defaultProfileId(
   profiles: Array<{ id: string; bankName: string }>
@@ -18,14 +21,70 @@ export default async function ImportPage() {
   const user = await requireUser();
   await ensureBankProfilesForUser(user.id);
 
-  const bankProfiles = await db.bankProfile.findMany({
-    where: { userId: user.id },
-    orderBy: [{ bankName: "asc" }, { statementType: "asc" }],
-  });
+  const [bankProfiles, importBatches, cards] = await Promise.all([
+    db.bankProfile.findMany({
+      where: { userId: user.id },
+      orderBy: [{ bankName: "asc" }, { statementType: "asc" }],
+    }),
+    db.importBatch.findMany({
+      where: { userId: user.id },
+      orderBy: { importedAt: "desc" },
+      include: {
+        bankProfile: { select: { name: true } },
+        card: { select: { name: true } },
+      },
+    }),
+    db.card.findMany({
+      where: { userId: user.id },
+      orderBy: { name: "asc" },
+      include: {
+        _count: { select: { transactions: true } },
+      },
+    }),
+  ]);
+
+  const cardRanges = await Promise.all(
+    cards.map(async (card) => {
+      const [minDate, maxDate] = await Promise.all([
+        db.transaction.findFirst({
+          where: { userId: user.id, cardId: card.id },
+          orderBy: { date: "asc" },
+          select: { date: true },
+        }),
+        db.transaction.findFirst({
+          where: { userId: user.id, cardId: card.id },
+          orderBy: { date: "desc" },
+          select: { date: true },
+        }),
+      ]);
+
+      return {
+        id: card.id,
+        dateFrom: minDate?.date.toISOString() ?? null,
+        dateTo: maxDate?.date.toISOString() ?? null,
+      };
+    })
+  );
+
+  const rangeByCardId = new Map(
+    cardRanges.map((range) => [range.id, range] as const)
+  );
 
   const presetNotes = Object.fromEntries(
     BANK_PRESETS.map((preset) => [preset.key, preset.notes])
   );
+
+  const managedCards = cards.map((card) => {
+    const range = rangeByCardId.get(card.id);
+
+    return {
+      id: card.id,
+      name: card.name,
+      transactionCount: card._count.transactions,
+      dateFrom: range?.dateFrom ?? null,
+      dateTo: range?.dateTo ?? null,
+    };
+  });
 
   return (
     <div className="page-stack">
@@ -33,19 +92,26 @@ export default async function ImportPage() {
         <div>
           <h1 className="page-title">Import</h1>
           <p className="page-subtitle">
-            Pick a bank profile and upload your CSV. Re-importing the same file
-            skips duplicates automatically.
+            Manage cards, pick a bank profile, then upload your CSV. Re-importing
+            the same card+file skips duplicates automatically.
           </p>
         </div>
       </div>
 
+      <CardManager cards={managedCards} />
+
       {bankProfiles.length === 0 ? (
         <p className="text-sm text-secondary">
-          No bank profiles found. Run <code className="inline-code">npm run db:seed</code>.
+          No bank profiles found. Run{" "}
+          <code className="inline-code">npm run db:seed</code>.
         </p>
       ) : (
         <ImportForm
           defaultProfileId={defaultProfileId(bankProfiles)}
+          cards={managedCards.map((card) => ({
+            id: card.id,
+            name: card.name,
+          }))}
           bankProfiles={bankProfiles.map((profile) => ({
             id: profile.id,
             presetKey: profile.id.replace(`${user.id}-`, ""),
@@ -143,6 +209,21 @@ export default async function ImportPage() {
           </li>
         </ul>
       </section>
+
+      <ImportHistory
+        coverageYear={getCurrentYear()}
+        imports={importBatches.map((batch) => ({
+          id: batch.id,
+          filename: batch.filename,
+          bankProfileName: batch.bankProfile.name,
+          cardName: batch.card?.name ?? null,
+          rowCount: batch.rowCount,
+          skippedCount: batch.skippedCount,
+          dateFrom: batch.dateFrom?.toISOString() ?? null,
+          dateTo: batch.dateTo?.toISOString() ?? null,
+          importedAt: batch.importedAt.toISOString(),
+        }))}
+      />
     </div>
   );
 }

@@ -10,6 +10,7 @@ async function wipeDatabase() {
   await db.importBatch.deleteMany();
   await db.classificationRule.deleteMany();
   await db.category.deleteMany();
+  await db.card.deleteMany();
   await db.bankAccount.deleteMany();
   await db.bankProfile.deleteMany();
   await db.invite.deleteMany();

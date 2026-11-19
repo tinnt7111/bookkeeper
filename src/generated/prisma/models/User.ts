@@ -196,6 +196,7 @@ export type UserWhereInput = {
   transactions?: Prisma.TransactionListRelationFilter
   importBatches?: Prisma.ImportBatchListRelationFilter
   bankProfiles?: Prisma.BankProfileListRelationFilter
+  cards?: Prisma.CardListRelationFilter
   rules?: Prisma.ClassificationRuleListRelationFilter
   categories?: Prisma.CategoryListRelationFilter
   invitesCreated?: Prisma.InviteListRelationFilter
@@ -214,6 +215,7 @@ export type UserOrderByWithRelationInput = {
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
   importBatches?: Prisma.ImportBatchOrderByRelationAggregateInput
   bankProfiles?: Prisma.BankProfileOrderByRelationAggregateInput
+  cards?: Prisma.CardOrderByRelationAggregateInput
   rules?: Prisma.ClassificationRuleOrderByRelationAggregateInput
   categories?: Prisma.CategoryOrderByRelationAggregateInput
   invitesCreated?: Prisma.InviteOrderByRelationAggregateInput
@@ -235,6 +237,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   transactions?: Prisma.TransactionListRelationFilter
   importBatches?: Prisma.ImportBatchListRelationFilter
   bankProfiles?: Prisma.BankProfileListRelationFilter
+  cards?: Prisma.CardListRelationFilter
   rules?: Prisma.ClassificationRuleListRelationFilter
   categories?: Prisma.CategoryListRelationFilter
   invitesCreated?: Prisma.InviteListRelationFilter
@@ -277,6 +280,7 @@ export type UserCreateInput = {
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   importBatches?: Prisma.ImportBatchCreateNestedManyWithoutUserInput
   bankProfiles?: Prisma.BankProfileCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardCreateNestedManyWithoutUserInput
   rules?: Prisma.ClassificationRuleCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   invitesCreated?: Prisma.InviteCreateNestedManyWithoutCreatedByInput
@@ -295,6 +299,7 @@ export type UserUncheckedCreateInput = {
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   importBatches?: Prisma.ImportBatchUncheckedCreateNestedManyWithoutUserInput
   bankProfiles?: Prisma.BankProfileUncheckedCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
   rules?: Prisma.ClassificationRuleUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   invitesCreated?: Prisma.InviteUncheckedCreateNestedManyWithoutCreatedByInput
@@ -313,6 +318,7 @@ export type UserUpdateInput = {
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   importBatches?: Prisma.ImportBatchUpdateManyWithoutUserNestedInput
   bankProfiles?: Prisma.BankProfileUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUpdateManyWithoutUserNestedInput
   rules?: Prisma.ClassificationRuleUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   invitesCreated?: Prisma.InviteUpdateManyWithoutCreatedByNestedInput
@@ -331,6 +337,7 @@ export type UserUncheckedUpdateInput = {
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   importBatches?: Prisma.ImportBatchUncheckedUpdateManyWithoutUserNestedInput
   bankProfiles?: Prisma.BankProfileUncheckedUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
   rules?: Prisma.ClassificationRuleUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   invitesCreated?: Prisma.InviteUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -481,6 +488,20 @@ export type UserUpdateOneRequiredWithoutBankProfilesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBankProfilesInput, Prisma.UserUpdateWithoutBankProfilesInput>, Prisma.UserUncheckedUpdateWithoutBankProfilesInput>
 }
 
+export type UserCreateNestedOneWithoutCardsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCardsInput, Prisma.UserUncheckedCreateWithoutCardsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCardsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCardsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCardsInput, Prisma.UserUncheckedCreateWithoutCardsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCardsInput
+  upsert?: Prisma.UserUpsertWithoutCardsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCardsInput, Prisma.UserUpdateWithoutCardsInput>, Prisma.UserUncheckedUpdateWithoutCardsInput>
+}
+
 export type UserCreateNestedOneWithoutImportBatchesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutImportBatchesInput, Prisma.UserUncheckedCreateWithoutImportBatchesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutImportBatchesInput
@@ -549,6 +570,7 @@ export type UserCreateWithoutAccountsInput = {
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   importBatches?: Prisma.ImportBatchCreateNestedManyWithoutUserInput
   bankProfiles?: Prisma.BankProfileCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardCreateNestedManyWithoutUserInput
   rules?: Prisma.ClassificationRuleCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   invitesCreated?: Prisma.InviteCreateNestedManyWithoutCreatedByInput
@@ -566,6 +588,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   importBatches?: Prisma.ImportBatchUncheckedCreateNestedManyWithoutUserInput
   bankProfiles?: Prisma.BankProfileUncheckedCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
   rules?: Prisma.ClassificationRuleUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   invitesCreated?: Prisma.InviteUncheckedCreateNestedManyWithoutCreatedByInput
@@ -599,6 +622,7 @@ export type UserUpdateWithoutAccountsInput = {
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   importBatches?: Prisma.ImportBatchUpdateManyWithoutUserNestedInput
   bankProfiles?: Prisma.BankProfileUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUpdateManyWithoutUserNestedInput
   rules?: Prisma.ClassificationRuleUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   invitesCreated?: Prisma.InviteUpdateManyWithoutCreatedByNestedInput
@@ -616,6 +640,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   importBatches?: Prisma.ImportBatchUncheckedUpdateManyWithoutUserNestedInput
   bankProfiles?: Prisma.BankProfileUncheckedUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
   rules?: Prisma.ClassificationRuleUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   invitesCreated?: Prisma.InviteUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -633,6 +658,7 @@ export type UserCreateWithoutSessionsInput = {
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   importBatches?: Prisma.ImportBatchCreateNestedManyWithoutUserInput
   bankProfiles?: Prisma.BankProfileCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardCreateNestedManyWithoutUserInput
   rules?: Prisma.ClassificationRuleCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   invitesCreated?: Prisma.InviteCreateNestedManyWithoutCreatedByInput
@@ -650,6 +676,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   importBatches?: Prisma.ImportBatchUncheckedCreateNestedManyWithoutUserInput
   bankProfiles?: Prisma.BankProfileUncheckedCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
   rules?: Prisma.ClassificationRuleUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   invitesCreated?: Prisma.InviteUncheckedCreateNestedManyWithoutCreatedByInput
@@ -683,6 +710,7 @@ export type UserUpdateWithoutSessionsInput = {
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   importBatches?: Prisma.ImportBatchUpdateManyWithoutUserNestedInput
   bankProfiles?: Prisma.BankProfileUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUpdateManyWithoutUserNestedInput
   rules?: Prisma.ClassificationRuleUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   invitesCreated?: Prisma.InviteUpdateManyWithoutCreatedByNestedInput
@@ -700,6 +728,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   importBatches?: Prisma.ImportBatchUncheckedUpdateManyWithoutUserNestedInput
   bankProfiles?: Prisma.BankProfileUncheckedUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
   rules?: Prisma.ClassificationRuleUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   invitesCreated?: Prisma.InviteUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -718,6 +747,7 @@ export type UserCreateWithoutInvitesCreatedInput = {
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   importBatches?: Prisma.ImportBatchCreateNestedManyWithoutUserInput
   bankProfiles?: Prisma.BankProfileCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardCreateNestedManyWithoutUserInput
   rules?: Prisma.ClassificationRuleCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
 }
@@ -735,6 +765,7 @@ export type UserUncheckedCreateWithoutInvitesCreatedInput = {
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   importBatches?: Prisma.ImportBatchUncheckedCreateNestedManyWithoutUserInput
   bankProfiles?: Prisma.BankProfileUncheckedCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
   rules?: Prisma.ClassificationRuleUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
 }
@@ -768,6 +799,7 @@ export type UserUpdateWithoutInvitesCreatedInput = {
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   importBatches?: Prisma.ImportBatchUpdateManyWithoutUserNestedInput
   bankProfiles?: Prisma.BankProfileUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUpdateManyWithoutUserNestedInput
   rules?: Prisma.ClassificationRuleUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
 }
@@ -785,6 +817,7 @@ export type UserUncheckedUpdateWithoutInvitesCreatedInput = {
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   importBatches?: Prisma.ImportBatchUncheckedUpdateManyWithoutUserNestedInput
   bankProfiles?: Prisma.BankProfileUncheckedUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
   rules?: Prisma.ClassificationRuleUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -801,6 +834,7 @@ export type UserCreateWithoutBankAccountsInput = {
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   importBatches?: Prisma.ImportBatchCreateNestedManyWithoutUserInput
   bankProfiles?: Prisma.BankProfileCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardCreateNestedManyWithoutUserInput
   rules?: Prisma.ClassificationRuleCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   invitesCreated?: Prisma.InviteCreateNestedManyWithoutCreatedByInput
@@ -818,6 +852,7 @@ export type UserUncheckedCreateWithoutBankAccountsInput = {
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   importBatches?: Prisma.ImportBatchUncheckedCreateNestedManyWithoutUserInput
   bankProfiles?: Prisma.BankProfileUncheckedCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
   rules?: Prisma.ClassificationRuleUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   invitesCreated?: Prisma.InviteUncheckedCreateNestedManyWithoutCreatedByInput
@@ -851,6 +886,7 @@ export type UserUpdateWithoutBankAccountsInput = {
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   importBatches?: Prisma.ImportBatchUpdateManyWithoutUserNestedInput
   bankProfiles?: Prisma.BankProfileUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUpdateManyWithoutUserNestedInput
   rules?: Prisma.ClassificationRuleUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   invitesCreated?: Prisma.InviteUpdateManyWithoutCreatedByNestedInput
@@ -868,6 +904,7 @@ export type UserUncheckedUpdateWithoutBankAccountsInput = {
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   importBatches?: Prisma.ImportBatchUncheckedUpdateManyWithoutUserNestedInput
   bankProfiles?: Prisma.BankProfileUncheckedUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
   rules?: Prisma.ClassificationRuleUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   invitesCreated?: Prisma.InviteUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -885,6 +922,7 @@ export type UserCreateWithoutBankProfilesInput = {
   bankAccounts?: Prisma.BankAccountCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   importBatches?: Prisma.ImportBatchCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardCreateNestedManyWithoutUserInput
   rules?: Prisma.ClassificationRuleCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   invitesCreated?: Prisma.InviteCreateNestedManyWithoutCreatedByInput
@@ -902,6 +940,7 @@ export type UserUncheckedCreateWithoutBankProfilesInput = {
   bankAccounts?: Prisma.BankAccountUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   importBatches?: Prisma.ImportBatchUncheckedCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
   rules?: Prisma.ClassificationRuleUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   invitesCreated?: Prisma.InviteUncheckedCreateNestedManyWithoutCreatedByInput
@@ -935,6 +974,7 @@ export type UserUpdateWithoutBankProfilesInput = {
   bankAccounts?: Prisma.BankAccountUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   importBatches?: Prisma.ImportBatchUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUpdateManyWithoutUserNestedInput
   rules?: Prisma.ClassificationRuleUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   invitesCreated?: Prisma.InviteUpdateManyWithoutCreatedByNestedInput
@@ -952,6 +992,95 @@ export type UserUncheckedUpdateWithoutBankProfilesInput = {
   bankAccounts?: Prisma.BankAccountUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   importBatches?: Prisma.ImportBatchUncheckedUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
+  rules?: Prisma.ClassificationRuleUncheckedUpdateManyWithoutUserNestedInput
+  categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
+  invitesCreated?: Prisma.InviteUncheckedUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserCreateWithoutCardsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  bankAccounts?: Prisma.BankAccountCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  importBatches?: Prisma.ImportBatchCreateNestedManyWithoutUserInput
+  bankProfiles?: Prisma.BankProfileCreateNestedManyWithoutUserInput
+  rules?: Prisma.ClassificationRuleCreateNestedManyWithoutUserInput
+  categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
+  invitesCreated?: Prisma.InviteCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserUncheckedCreateWithoutCardsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  bankAccounts?: Prisma.BankAccountUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  importBatches?: Prisma.ImportBatchUncheckedCreateNestedManyWithoutUserInput
+  bankProfiles?: Prisma.BankProfileUncheckedCreateNestedManyWithoutUserInput
+  rules?: Prisma.ClassificationRuleUncheckedCreateNestedManyWithoutUserInput
+  categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
+  invitesCreated?: Prisma.InviteUncheckedCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserCreateOrConnectWithoutCardsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCardsInput, Prisma.UserUncheckedCreateWithoutCardsInput>
+}
+
+export type UserUpsertWithoutCardsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCardsInput, Prisma.UserUncheckedUpdateWithoutCardsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCardsInput, Prisma.UserUncheckedCreateWithoutCardsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCardsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCardsInput, Prisma.UserUncheckedUpdateWithoutCardsInput>
+}
+
+export type UserUpdateWithoutCardsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  bankAccounts?: Prisma.BankAccountUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  importBatches?: Prisma.ImportBatchUpdateManyWithoutUserNestedInput
+  bankProfiles?: Prisma.BankProfileUpdateManyWithoutUserNestedInput
+  rules?: Prisma.ClassificationRuleUpdateManyWithoutUserNestedInput
+  categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
+  invitesCreated?: Prisma.InviteUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCardsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  bankAccounts?: Prisma.BankAccountUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  importBatches?: Prisma.ImportBatchUncheckedUpdateManyWithoutUserNestedInput
+  bankProfiles?: Prisma.BankProfileUncheckedUpdateManyWithoutUserNestedInput
   rules?: Prisma.ClassificationRuleUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   invitesCreated?: Prisma.InviteUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -969,6 +1098,7 @@ export type UserCreateWithoutImportBatchesInput = {
   bankAccounts?: Prisma.BankAccountCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   bankProfiles?: Prisma.BankProfileCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardCreateNestedManyWithoutUserInput
   rules?: Prisma.ClassificationRuleCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   invitesCreated?: Prisma.InviteCreateNestedManyWithoutCreatedByInput
@@ -986,6 +1116,7 @@ export type UserUncheckedCreateWithoutImportBatchesInput = {
   bankAccounts?: Prisma.BankAccountUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   bankProfiles?: Prisma.BankProfileUncheckedCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
   rules?: Prisma.ClassificationRuleUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   invitesCreated?: Prisma.InviteUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1019,6 +1150,7 @@ export type UserUpdateWithoutImportBatchesInput = {
   bankAccounts?: Prisma.BankAccountUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   bankProfiles?: Prisma.BankProfileUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUpdateManyWithoutUserNestedInput
   rules?: Prisma.ClassificationRuleUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   invitesCreated?: Prisma.InviteUpdateManyWithoutCreatedByNestedInput
@@ -1036,6 +1168,7 @@ export type UserUncheckedUpdateWithoutImportBatchesInput = {
   bankAccounts?: Prisma.BankAccountUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   bankProfiles?: Prisma.BankProfileUncheckedUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
   rules?: Prisma.ClassificationRuleUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   invitesCreated?: Prisma.InviteUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1053,6 +1186,7 @@ export type UserCreateWithoutTransactionsInput = {
   bankAccounts?: Prisma.BankAccountCreateNestedManyWithoutUserInput
   importBatches?: Prisma.ImportBatchCreateNestedManyWithoutUserInput
   bankProfiles?: Prisma.BankProfileCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardCreateNestedManyWithoutUserInput
   rules?: Prisma.ClassificationRuleCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   invitesCreated?: Prisma.InviteCreateNestedManyWithoutCreatedByInput
@@ -1070,6 +1204,7 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   bankAccounts?: Prisma.BankAccountUncheckedCreateNestedManyWithoutUserInput
   importBatches?: Prisma.ImportBatchUncheckedCreateNestedManyWithoutUserInput
   bankProfiles?: Prisma.BankProfileUncheckedCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
   rules?: Prisma.ClassificationRuleUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   invitesCreated?: Prisma.InviteUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1103,6 +1238,7 @@ export type UserUpdateWithoutTransactionsInput = {
   bankAccounts?: Prisma.BankAccountUpdateManyWithoutUserNestedInput
   importBatches?: Prisma.ImportBatchUpdateManyWithoutUserNestedInput
   bankProfiles?: Prisma.BankProfileUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUpdateManyWithoutUserNestedInput
   rules?: Prisma.ClassificationRuleUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   invitesCreated?: Prisma.InviteUpdateManyWithoutCreatedByNestedInput
@@ -1120,6 +1256,7 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
   bankAccounts?: Prisma.BankAccountUncheckedUpdateManyWithoutUserNestedInput
   importBatches?: Prisma.ImportBatchUncheckedUpdateManyWithoutUserNestedInput
   bankProfiles?: Prisma.BankProfileUncheckedUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
   rules?: Prisma.ClassificationRuleUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   invitesCreated?: Prisma.InviteUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1138,6 +1275,7 @@ export type UserCreateWithoutRulesInput = {
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   importBatches?: Prisma.ImportBatchCreateNestedManyWithoutUserInput
   bankProfiles?: Prisma.BankProfileCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   invitesCreated?: Prisma.InviteCreateNestedManyWithoutCreatedByInput
 }
@@ -1155,6 +1293,7 @@ export type UserUncheckedCreateWithoutRulesInput = {
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   importBatches?: Prisma.ImportBatchUncheckedCreateNestedManyWithoutUserInput
   bankProfiles?: Prisma.BankProfileUncheckedCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   invitesCreated?: Prisma.InviteUncheckedCreateNestedManyWithoutCreatedByInput
 }
@@ -1188,6 +1327,7 @@ export type UserUpdateWithoutRulesInput = {
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   importBatches?: Prisma.ImportBatchUpdateManyWithoutUserNestedInput
   bankProfiles?: Prisma.BankProfileUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   invitesCreated?: Prisma.InviteUpdateManyWithoutCreatedByNestedInput
 }
@@ -1205,6 +1345,7 @@ export type UserUncheckedUpdateWithoutRulesInput = {
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   importBatches?: Prisma.ImportBatchUncheckedUpdateManyWithoutUserNestedInput
   bankProfiles?: Prisma.BankProfileUncheckedUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   invitesCreated?: Prisma.InviteUncheckedUpdateManyWithoutCreatedByNestedInput
 }
@@ -1222,6 +1363,7 @@ export type UserCreateWithoutCategoriesInput = {
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   importBatches?: Prisma.ImportBatchCreateNestedManyWithoutUserInput
   bankProfiles?: Prisma.BankProfileCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardCreateNestedManyWithoutUserInput
   rules?: Prisma.ClassificationRuleCreateNestedManyWithoutUserInput
   invitesCreated?: Prisma.InviteCreateNestedManyWithoutCreatedByInput
 }
@@ -1239,6 +1381,7 @@ export type UserUncheckedCreateWithoutCategoriesInput = {
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   importBatches?: Prisma.ImportBatchUncheckedCreateNestedManyWithoutUserInput
   bankProfiles?: Prisma.BankProfileUncheckedCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
   rules?: Prisma.ClassificationRuleUncheckedCreateNestedManyWithoutUserInput
   invitesCreated?: Prisma.InviteUncheckedCreateNestedManyWithoutCreatedByInput
 }
@@ -1272,6 +1415,7 @@ export type UserUpdateWithoutCategoriesInput = {
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   importBatches?: Prisma.ImportBatchUpdateManyWithoutUserNestedInput
   bankProfiles?: Prisma.BankProfileUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUpdateManyWithoutUserNestedInput
   rules?: Prisma.ClassificationRuleUpdateManyWithoutUserNestedInput
   invitesCreated?: Prisma.InviteUpdateManyWithoutCreatedByNestedInput
 }
@@ -1289,6 +1433,7 @@ export type UserUncheckedUpdateWithoutCategoriesInput = {
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   importBatches?: Prisma.ImportBatchUncheckedUpdateManyWithoutUserNestedInput
   bankProfiles?: Prisma.BankProfileUncheckedUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
   rules?: Prisma.ClassificationRuleUncheckedUpdateManyWithoutUserNestedInput
   invitesCreated?: Prisma.InviteUncheckedUpdateManyWithoutCreatedByNestedInput
 }
@@ -1305,6 +1450,7 @@ export type UserCountOutputType = {
   transactions: number
   importBatches: number
   bankProfiles: number
+  cards: number
   rules: number
   categories: number
   invitesCreated: number
@@ -1317,6 +1463,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   transactions?: boolean | UserCountOutputTypeCountTransactionsArgs
   importBatches?: boolean | UserCountOutputTypeCountImportBatchesArgs
   bankProfiles?: boolean | UserCountOutputTypeCountBankProfilesArgs
+  cards?: boolean | UserCountOutputTypeCountCardsArgs
   rules?: boolean | UserCountOutputTypeCountRulesArgs
   categories?: boolean | UserCountOutputTypeCountCategoriesArgs
   invitesCreated?: boolean | UserCountOutputTypeCountInvitesCreatedArgs
@@ -1377,6 +1524,13 @@ export type UserCountOutputTypeCountBankProfilesArgs<ExtArgs extends runtime.Typ
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountCardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CardWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountRulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ClassificationRuleWhereInput
 }
@@ -1409,6 +1563,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
   importBatches?: boolean | Prisma.User$importBatchesArgs<ExtArgs>
   bankProfiles?: boolean | Prisma.User$bankProfilesArgs<ExtArgs>
+  cards?: boolean | Prisma.User$cardsArgs<ExtArgs>
   rules?: boolean | Prisma.User$rulesArgs<ExtArgs>
   categories?: boolean | Prisma.User$categoriesArgs<ExtArgs>
   invitesCreated?: boolean | Prisma.User$invitesCreatedArgs<ExtArgs>
@@ -1450,6 +1605,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
   importBatches?: boolean | Prisma.User$importBatchesArgs<ExtArgs>
   bankProfiles?: boolean | Prisma.User$bankProfilesArgs<ExtArgs>
+  cards?: boolean | Prisma.User$cardsArgs<ExtArgs>
   rules?: boolean | Prisma.User$rulesArgs<ExtArgs>
   categories?: boolean | Prisma.User$categoriesArgs<ExtArgs>
   invitesCreated?: boolean | Prisma.User$invitesCreatedArgs<ExtArgs>
@@ -1467,6 +1623,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     transactions: Prisma.$TransactionPayload<ExtArgs>[]
     importBatches: Prisma.$ImportBatchPayload<ExtArgs>[]
     bankProfiles: Prisma.$BankProfilePayload<ExtArgs>[]
+    cards: Prisma.$CardPayload<ExtArgs>[]
     rules: Prisma.$ClassificationRulePayload<ExtArgs>[]
     categories: Prisma.$CategoryPayload<ExtArgs>[]
     invitesCreated: Prisma.$InvitePayload<ExtArgs>[]
@@ -1878,6 +2035,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   transactions<T extends Prisma.User$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   importBatches<T extends Prisma.User$importBatchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$importBatchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ImportBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   bankProfiles<T extends Prisma.User$bankProfilesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bankProfilesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BankProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  cards<T extends Prisma.User$cardsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cardsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   rules<T extends Prisma.User$rulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$rulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassificationRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   categories<T extends Prisma.User$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   invitesCreated<T extends Prisma.User$invitesCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$invitesCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvitePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2450,6 +2608,30 @@ export type User$bankProfilesArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.BankProfileScalarFieldEnum | Prisma.BankProfileScalarFieldEnum[]
+}
+
+/**
+ * User.cards
+ */
+export type User$cardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Card
+   */
+  select?: Prisma.CardSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Card
+   */
+  omit?: Prisma.CardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CardInclude<ExtArgs> | null
+  where?: Prisma.CardWhereInput
+  orderBy?: Prisma.CardOrderByWithRelationInput | Prisma.CardOrderByWithRelationInput[]
+  cursor?: Prisma.CardWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CardScalarFieldEnum | Prisma.CardScalarFieldEnum[]
 }
 
 /**

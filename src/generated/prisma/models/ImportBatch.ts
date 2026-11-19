@@ -41,6 +41,7 @@ export type ImportBatchMinAggregateOutputType = {
   userId: string | null
   bankAccountId: string | null
   bankProfileId: string | null
+  cardId: string | null
   filename: string | null
   rowCount: number | null
   skippedCount: number | null
@@ -54,6 +55,7 @@ export type ImportBatchMaxAggregateOutputType = {
   userId: string | null
   bankAccountId: string | null
   bankProfileId: string | null
+  cardId: string | null
   filename: string | null
   rowCount: number | null
   skippedCount: number | null
@@ -67,6 +69,7 @@ export type ImportBatchCountAggregateOutputType = {
   userId: number
   bankAccountId: number
   bankProfileId: number
+  cardId: number
   filename: number
   rowCount: number
   skippedCount: number
@@ -92,6 +95,7 @@ export type ImportBatchMinAggregateInputType = {
   userId?: true
   bankAccountId?: true
   bankProfileId?: true
+  cardId?: true
   filename?: true
   rowCount?: true
   skippedCount?: true
@@ -105,6 +109,7 @@ export type ImportBatchMaxAggregateInputType = {
   userId?: true
   bankAccountId?: true
   bankProfileId?: true
+  cardId?: true
   filename?: true
   rowCount?: true
   skippedCount?: true
@@ -118,6 +123,7 @@ export type ImportBatchCountAggregateInputType = {
   userId?: true
   bankAccountId?: true
   bankProfileId?: true
+  cardId?: true
   filename?: true
   rowCount?: true
   skippedCount?: true
@@ -218,6 +224,7 @@ export type ImportBatchGroupByOutputType = {
   userId: string
   bankAccountId: string
   bankProfileId: string
+  cardId: string | null
   filename: string
   rowCount: number
   skippedCount: number
@@ -254,6 +261,7 @@ export type ImportBatchWhereInput = {
   userId?: Prisma.StringFilter<"ImportBatch"> | string
   bankAccountId?: Prisma.StringFilter<"ImportBatch"> | string
   bankProfileId?: Prisma.StringFilter<"ImportBatch"> | string
+  cardId?: Prisma.StringNullableFilter<"ImportBatch"> | string | null
   filename?: Prisma.StringFilter<"ImportBatch"> | string
   rowCount?: Prisma.IntFilter<"ImportBatch"> | number
   skippedCount?: Prisma.IntFilter<"ImportBatch"> | number
@@ -263,6 +271,7 @@ export type ImportBatchWhereInput = {
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   bankAccount?: Prisma.XOR<Prisma.BankAccountScalarRelationFilter, Prisma.BankAccountWhereInput>
   bankProfile?: Prisma.XOR<Prisma.BankProfileScalarRelationFilter, Prisma.BankProfileWhereInput>
+  card?: Prisma.XOR<Prisma.CardNullableScalarRelationFilter, Prisma.CardWhereInput> | null
   transactions?: Prisma.TransactionListRelationFilter
 }
 
@@ -271,6 +280,7 @@ export type ImportBatchOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   bankAccountId?: Prisma.SortOrder
   bankProfileId?: Prisma.SortOrder
+  cardId?: Prisma.SortOrderInput | Prisma.SortOrder
   filename?: Prisma.SortOrder
   rowCount?: Prisma.SortOrder
   skippedCount?: Prisma.SortOrder
@@ -280,6 +290,7 @@ export type ImportBatchOrderByWithRelationInput = {
   user?: Prisma.UserOrderByWithRelationInput
   bankAccount?: Prisma.BankAccountOrderByWithRelationInput
   bankProfile?: Prisma.BankProfileOrderByWithRelationInput
+  card?: Prisma.CardOrderByWithRelationInput
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
 }
 
@@ -291,6 +302,7 @@ export type ImportBatchWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"ImportBatch"> | string
   bankAccountId?: Prisma.StringFilter<"ImportBatch"> | string
   bankProfileId?: Prisma.StringFilter<"ImportBatch"> | string
+  cardId?: Prisma.StringNullableFilter<"ImportBatch"> | string | null
   filename?: Prisma.StringFilter<"ImportBatch"> | string
   rowCount?: Prisma.IntFilter<"ImportBatch"> | number
   skippedCount?: Prisma.IntFilter<"ImportBatch"> | number
@@ -300,6 +312,7 @@ export type ImportBatchWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   bankAccount?: Prisma.XOR<Prisma.BankAccountScalarRelationFilter, Prisma.BankAccountWhereInput>
   bankProfile?: Prisma.XOR<Prisma.BankProfileScalarRelationFilter, Prisma.BankProfileWhereInput>
+  card?: Prisma.XOR<Prisma.CardNullableScalarRelationFilter, Prisma.CardWhereInput> | null
   transactions?: Prisma.TransactionListRelationFilter
 }, "id">
 
@@ -308,6 +321,7 @@ export type ImportBatchOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   bankAccountId?: Prisma.SortOrder
   bankProfileId?: Prisma.SortOrder
+  cardId?: Prisma.SortOrderInput | Prisma.SortOrder
   filename?: Prisma.SortOrder
   rowCount?: Prisma.SortOrder
   skippedCount?: Prisma.SortOrder
@@ -329,6 +343,7 @@ export type ImportBatchScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"ImportBatch"> | string
   bankAccountId?: Prisma.StringWithAggregatesFilter<"ImportBatch"> | string
   bankProfileId?: Prisma.StringWithAggregatesFilter<"ImportBatch"> | string
+  cardId?: Prisma.StringNullableWithAggregatesFilter<"ImportBatch"> | string | null
   filename?: Prisma.StringWithAggregatesFilter<"ImportBatch"> | string
   rowCount?: Prisma.IntWithAggregatesFilter<"ImportBatch"> | number
   skippedCount?: Prisma.IntWithAggregatesFilter<"ImportBatch"> | number
@@ -348,6 +363,7 @@ export type ImportBatchCreateInput = {
   user: Prisma.UserCreateNestedOneWithoutImportBatchesInput
   bankAccount: Prisma.BankAccountCreateNestedOneWithoutImportBatchesInput
   bankProfile: Prisma.BankProfileCreateNestedOneWithoutImportBatchesInput
+  card?: Prisma.CardCreateNestedOneWithoutImportBatchesInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutImportBatchInput
 }
 
@@ -356,6 +372,7 @@ export type ImportBatchUncheckedCreateInput = {
   userId: string
   bankAccountId: string
   bankProfileId: string
+  cardId?: string | null
   filename: string
   rowCount: number
   skippedCount?: number
@@ -376,6 +393,7 @@ export type ImportBatchUpdateInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutImportBatchesNestedInput
   bankAccount?: Prisma.BankAccountUpdateOneRequiredWithoutImportBatchesNestedInput
   bankProfile?: Prisma.BankProfileUpdateOneRequiredWithoutImportBatchesNestedInput
+  card?: Prisma.CardUpdateOneWithoutImportBatchesNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutImportBatchNestedInput
 }
 
@@ -384,6 +402,7 @@ export type ImportBatchUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   bankProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   filename?: Prisma.StringFieldUpdateOperationsInput | string
   rowCount?: Prisma.IntFieldUpdateOperationsInput | number
   skippedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -398,6 +417,7 @@ export type ImportBatchCreateManyInput = {
   userId: string
   bankAccountId: string
   bankProfileId: string
+  cardId?: string | null
   filename: string
   rowCount: number
   skippedCount?: number
@@ -421,6 +441,7 @@ export type ImportBatchUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   bankProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   filename?: Prisma.StringFieldUpdateOperationsInput | string
   rowCount?: Prisma.IntFieldUpdateOperationsInput | number
   skippedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -444,6 +465,7 @@ export type ImportBatchCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   bankAccountId?: Prisma.SortOrder
   bankProfileId?: Prisma.SortOrder
+  cardId?: Prisma.SortOrder
   filename?: Prisma.SortOrder
   rowCount?: Prisma.SortOrder
   skippedCount?: Prisma.SortOrder
@@ -462,6 +484,7 @@ export type ImportBatchMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   bankAccountId?: Prisma.SortOrder
   bankProfileId?: Prisma.SortOrder
+  cardId?: Prisma.SortOrder
   filename?: Prisma.SortOrder
   rowCount?: Prisma.SortOrder
   skippedCount?: Prisma.SortOrder
@@ -475,6 +498,7 @@ export type ImportBatchMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   bankAccountId?: Prisma.SortOrder
   bankProfileId?: Prisma.SortOrder
+  cardId?: Prisma.SortOrder
   filename?: Prisma.SortOrder
   rowCount?: Prisma.SortOrder
   skippedCount?: Prisma.SortOrder
@@ -619,6 +643,48 @@ export type ImportBatchUncheckedUpdateManyWithoutBankProfileNestedInput = {
   deleteMany?: Prisma.ImportBatchScalarWhereInput | Prisma.ImportBatchScalarWhereInput[]
 }
 
+export type ImportBatchCreateNestedManyWithoutCardInput = {
+  create?: Prisma.XOR<Prisma.ImportBatchCreateWithoutCardInput, Prisma.ImportBatchUncheckedCreateWithoutCardInput> | Prisma.ImportBatchCreateWithoutCardInput[] | Prisma.ImportBatchUncheckedCreateWithoutCardInput[]
+  connectOrCreate?: Prisma.ImportBatchCreateOrConnectWithoutCardInput | Prisma.ImportBatchCreateOrConnectWithoutCardInput[]
+  createMany?: Prisma.ImportBatchCreateManyCardInputEnvelope
+  connect?: Prisma.ImportBatchWhereUniqueInput | Prisma.ImportBatchWhereUniqueInput[]
+}
+
+export type ImportBatchUncheckedCreateNestedManyWithoutCardInput = {
+  create?: Prisma.XOR<Prisma.ImportBatchCreateWithoutCardInput, Prisma.ImportBatchUncheckedCreateWithoutCardInput> | Prisma.ImportBatchCreateWithoutCardInput[] | Prisma.ImportBatchUncheckedCreateWithoutCardInput[]
+  connectOrCreate?: Prisma.ImportBatchCreateOrConnectWithoutCardInput | Prisma.ImportBatchCreateOrConnectWithoutCardInput[]
+  createMany?: Prisma.ImportBatchCreateManyCardInputEnvelope
+  connect?: Prisma.ImportBatchWhereUniqueInput | Prisma.ImportBatchWhereUniqueInput[]
+}
+
+export type ImportBatchUpdateManyWithoutCardNestedInput = {
+  create?: Prisma.XOR<Prisma.ImportBatchCreateWithoutCardInput, Prisma.ImportBatchUncheckedCreateWithoutCardInput> | Prisma.ImportBatchCreateWithoutCardInput[] | Prisma.ImportBatchUncheckedCreateWithoutCardInput[]
+  connectOrCreate?: Prisma.ImportBatchCreateOrConnectWithoutCardInput | Prisma.ImportBatchCreateOrConnectWithoutCardInput[]
+  upsert?: Prisma.ImportBatchUpsertWithWhereUniqueWithoutCardInput | Prisma.ImportBatchUpsertWithWhereUniqueWithoutCardInput[]
+  createMany?: Prisma.ImportBatchCreateManyCardInputEnvelope
+  set?: Prisma.ImportBatchWhereUniqueInput | Prisma.ImportBatchWhereUniqueInput[]
+  disconnect?: Prisma.ImportBatchWhereUniqueInput | Prisma.ImportBatchWhereUniqueInput[]
+  delete?: Prisma.ImportBatchWhereUniqueInput | Prisma.ImportBatchWhereUniqueInput[]
+  connect?: Prisma.ImportBatchWhereUniqueInput | Prisma.ImportBatchWhereUniqueInput[]
+  update?: Prisma.ImportBatchUpdateWithWhereUniqueWithoutCardInput | Prisma.ImportBatchUpdateWithWhereUniqueWithoutCardInput[]
+  updateMany?: Prisma.ImportBatchUpdateManyWithWhereWithoutCardInput | Prisma.ImportBatchUpdateManyWithWhereWithoutCardInput[]
+  deleteMany?: Prisma.ImportBatchScalarWhereInput | Prisma.ImportBatchScalarWhereInput[]
+}
+
+export type ImportBatchUncheckedUpdateManyWithoutCardNestedInput = {
+  create?: Prisma.XOR<Prisma.ImportBatchCreateWithoutCardInput, Prisma.ImportBatchUncheckedCreateWithoutCardInput> | Prisma.ImportBatchCreateWithoutCardInput[] | Prisma.ImportBatchUncheckedCreateWithoutCardInput[]
+  connectOrCreate?: Prisma.ImportBatchCreateOrConnectWithoutCardInput | Prisma.ImportBatchCreateOrConnectWithoutCardInput[]
+  upsert?: Prisma.ImportBatchUpsertWithWhereUniqueWithoutCardInput | Prisma.ImportBatchUpsertWithWhereUniqueWithoutCardInput[]
+  createMany?: Prisma.ImportBatchCreateManyCardInputEnvelope
+  set?: Prisma.ImportBatchWhereUniqueInput | Prisma.ImportBatchWhereUniqueInput[]
+  disconnect?: Prisma.ImportBatchWhereUniqueInput | Prisma.ImportBatchWhereUniqueInput[]
+  delete?: Prisma.ImportBatchWhereUniqueInput | Prisma.ImportBatchWhereUniqueInput[]
+  connect?: Prisma.ImportBatchWhereUniqueInput | Prisma.ImportBatchWhereUniqueInput[]
+  update?: Prisma.ImportBatchUpdateWithWhereUniqueWithoutCardInput | Prisma.ImportBatchUpdateWithWhereUniqueWithoutCardInput[]
+  updateMany?: Prisma.ImportBatchUpdateManyWithWhereWithoutCardInput | Prisma.ImportBatchUpdateManyWithWhereWithoutCardInput[]
+  deleteMany?: Prisma.ImportBatchScalarWhereInput | Prisma.ImportBatchScalarWhereInput[]
+}
+
 export type ImportBatchCreateNestedOneWithoutTransactionsInput = {
   create?: Prisma.XOR<Prisma.ImportBatchCreateWithoutTransactionsInput, Prisma.ImportBatchUncheckedCreateWithoutTransactionsInput>
   connectOrCreate?: Prisma.ImportBatchCreateOrConnectWithoutTransactionsInput
@@ -645,6 +711,7 @@ export type ImportBatchCreateWithoutUserInput = {
   importedAt?: Date | string
   bankAccount: Prisma.BankAccountCreateNestedOneWithoutImportBatchesInput
   bankProfile: Prisma.BankProfileCreateNestedOneWithoutImportBatchesInput
+  card?: Prisma.CardCreateNestedOneWithoutImportBatchesInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutImportBatchInput
 }
 
@@ -652,6 +719,7 @@ export type ImportBatchUncheckedCreateWithoutUserInput = {
   id?: string
   bankAccountId: string
   bankProfileId: string
+  cardId?: string | null
   filename: string
   rowCount: number
   skippedCount?: number
@@ -695,6 +763,7 @@ export type ImportBatchScalarWhereInput = {
   userId?: Prisma.StringFilter<"ImportBatch"> | string
   bankAccountId?: Prisma.StringFilter<"ImportBatch"> | string
   bankProfileId?: Prisma.StringFilter<"ImportBatch"> | string
+  cardId?: Prisma.StringNullableFilter<"ImportBatch"> | string | null
   filename?: Prisma.StringFilter<"ImportBatch"> | string
   rowCount?: Prisma.IntFilter<"ImportBatch"> | number
   skippedCount?: Prisma.IntFilter<"ImportBatch"> | number
@@ -713,6 +782,7 @@ export type ImportBatchCreateWithoutBankAccountInput = {
   importedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutImportBatchesInput
   bankProfile: Prisma.BankProfileCreateNestedOneWithoutImportBatchesInput
+  card?: Prisma.CardCreateNestedOneWithoutImportBatchesInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutImportBatchInput
 }
 
@@ -720,6 +790,7 @@ export type ImportBatchUncheckedCreateWithoutBankAccountInput = {
   id?: string
   userId: string
   bankProfileId: string
+  cardId?: string | null
   filename: string
   rowCount: number
   skippedCount?: number
@@ -765,6 +836,7 @@ export type ImportBatchCreateWithoutBankProfileInput = {
   importedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutImportBatchesInput
   bankAccount: Prisma.BankAccountCreateNestedOneWithoutImportBatchesInput
+  card?: Prisma.CardCreateNestedOneWithoutImportBatchesInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutImportBatchInput
 }
 
@@ -772,6 +844,7 @@ export type ImportBatchUncheckedCreateWithoutBankProfileInput = {
   id?: string
   userId: string
   bankAccountId: string
+  cardId?: string | null
   filename: string
   rowCount: number
   skippedCount?: number
@@ -807,6 +880,60 @@ export type ImportBatchUpdateManyWithWhereWithoutBankProfileInput = {
   data: Prisma.XOR<Prisma.ImportBatchUpdateManyMutationInput, Prisma.ImportBatchUncheckedUpdateManyWithoutBankProfileInput>
 }
 
+export type ImportBatchCreateWithoutCardInput = {
+  id?: string
+  filename: string
+  rowCount: number
+  skippedCount?: number
+  dateFrom?: Date | string | null
+  dateTo?: Date | string | null
+  importedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutImportBatchesInput
+  bankAccount: Prisma.BankAccountCreateNestedOneWithoutImportBatchesInput
+  bankProfile: Prisma.BankProfileCreateNestedOneWithoutImportBatchesInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutImportBatchInput
+}
+
+export type ImportBatchUncheckedCreateWithoutCardInput = {
+  id?: string
+  userId: string
+  bankAccountId: string
+  bankProfileId: string
+  filename: string
+  rowCount: number
+  skippedCount?: number
+  dateFrom?: Date | string | null
+  dateTo?: Date | string | null
+  importedAt?: Date | string
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutImportBatchInput
+}
+
+export type ImportBatchCreateOrConnectWithoutCardInput = {
+  where: Prisma.ImportBatchWhereUniqueInput
+  create: Prisma.XOR<Prisma.ImportBatchCreateWithoutCardInput, Prisma.ImportBatchUncheckedCreateWithoutCardInput>
+}
+
+export type ImportBatchCreateManyCardInputEnvelope = {
+  data: Prisma.ImportBatchCreateManyCardInput | Prisma.ImportBatchCreateManyCardInput[]
+  skipDuplicates?: boolean
+}
+
+export type ImportBatchUpsertWithWhereUniqueWithoutCardInput = {
+  where: Prisma.ImportBatchWhereUniqueInput
+  update: Prisma.XOR<Prisma.ImportBatchUpdateWithoutCardInput, Prisma.ImportBatchUncheckedUpdateWithoutCardInput>
+  create: Prisma.XOR<Prisma.ImportBatchCreateWithoutCardInput, Prisma.ImportBatchUncheckedCreateWithoutCardInput>
+}
+
+export type ImportBatchUpdateWithWhereUniqueWithoutCardInput = {
+  where: Prisma.ImportBatchWhereUniqueInput
+  data: Prisma.XOR<Prisma.ImportBatchUpdateWithoutCardInput, Prisma.ImportBatchUncheckedUpdateWithoutCardInput>
+}
+
+export type ImportBatchUpdateManyWithWhereWithoutCardInput = {
+  where: Prisma.ImportBatchScalarWhereInput
+  data: Prisma.XOR<Prisma.ImportBatchUpdateManyMutationInput, Prisma.ImportBatchUncheckedUpdateManyWithoutCardInput>
+}
+
 export type ImportBatchCreateWithoutTransactionsInput = {
   id?: string
   filename: string
@@ -818,6 +945,7 @@ export type ImportBatchCreateWithoutTransactionsInput = {
   user: Prisma.UserCreateNestedOneWithoutImportBatchesInput
   bankAccount: Prisma.BankAccountCreateNestedOneWithoutImportBatchesInput
   bankProfile: Prisma.BankProfileCreateNestedOneWithoutImportBatchesInput
+  card?: Prisma.CardCreateNestedOneWithoutImportBatchesInput
 }
 
 export type ImportBatchUncheckedCreateWithoutTransactionsInput = {
@@ -825,6 +953,7 @@ export type ImportBatchUncheckedCreateWithoutTransactionsInput = {
   userId: string
   bankAccountId: string
   bankProfileId: string
+  cardId?: string | null
   filename: string
   rowCount: number
   skippedCount?: number
@@ -860,6 +989,7 @@ export type ImportBatchUpdateWithoutTransactionsInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutImportBatchesNestedInput
   bankAccount?: Prisma.BankAccountUpdateOneRequiredWithoutImportBatchesNestedInput
   bankProfile?: Prisma.BankProfileUpdateOneRequiredWithoutImportBatchesNestedInput
+  card?: Prisma.CardUpdateOneWithoutImportBatchesNestedInput
 }
 
 export type ImportBatchUncheckedUpdateWithoutTransactionsInput = {
@@ -867,6 +997,7 @@ export type ImportBatchUncheckedUpdateWithoutTransactionsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   bankProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   filename?: Prisma.StringFieldUpdateOperationsInput | string
   rowCount?: Prisma.IntFieldUpdateOperationsInput | number
   skippedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -879,6 +1010,7 @@ export type ImportBatchCreateManyUserInput = {
   id?: string
   bankAccountId: string
   bankProfileId: string
+  cardId?: string | null
   filename: string
   rowCount: number
   skippedCount?: number
@@ -897,6 +1029,7 @@ export type ImportBatchUpdateWithoutUserInput = {
   importedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bankAccount?: Prisma.BankAccountUpdateOneRequiredWithoutImportBatchesNestedInput
   bankProfile?: Prisma.BankProfileUpdateOneRequiredWithoutImportBatchesNestedInput
+  card?: Prisma.CardUpdateOneWithoutImportBatchesNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutImportBatchNestedInput
 }
 
@@ -904,6 +1037,7 @@ export type ImportBatchUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   bankProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   filename?: Prisma.StringFieldUpdateOperationsInput | string
   rowCount?: Prisma.IntFieldUpdateOperationsInput | number
   skippedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -917,6 +1051,7 @@ export type ImportBatchUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   bankProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   filename?: Prisma.StringFieldUpdateOperationsInput | string
   rowCount?: Prisma.IntFieldUpdateOperationsInput | number
   skippedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -929,6 +1064,7 @@ export type ImportBatchCreateManyBankAccountInput = {
   id?: string
   userId: string
   bankProfileId: string
+  cardId?: string | null
   filename: string
   rowCount: number
   skippedCount?: number
@@ -947,6 +1083,7 @@ export type ImportBatchUpdateWithoutBankAccountInput = {
   importedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutImportBatchesNestedInput
   bankProfile?: Prisma.BankProfileUpdateOneRequiredWithoutImportBatchesNestedInput
+  card?: Prisma.CardUpdateOneWithoutImportBatchesNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutImportBatchNestedInput
 }
 
@@ -954,6 +1091,7 @@ export type ImportBatchUncheckedUpdateWithoutBankAccountInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bankProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   filename?: Prisma.StringFieldUpdateOperationsInput | string
   rowCount?: Prisma.IntFieldUpdateOperationsInput | number
   skippedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -967,6 +1105,7 @@ export type ImportBatchUncheckedUpdateManyWithoutBankAccountInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bankProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   filename?: Prisma.StringFieldUpdateOperationsInput | string
   rowCount?: Prisma.IntFieldUpdateOperationsInput | number
   skippedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -979,6 +1118,7 @@ export type ImportBatchCreateManyBankProfileInput = {
   id?: string
   userId: string
   bankAccountId: string
+  cardId?: string | null
   filename: string
   rowCount: number
   skippedCount?: number
@@ -997,6 +1137,7 @@ export type ImportBatchUpdateWithoutBankProfileInput = {
   importedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutImportBatchesNestedInput
   bankAccount?: Prisma.BankAccountUpdateOneRequiredWithoutImportBatchesNestedInput
+  card?: Prisma.CardUpdateOneWithoutImportBatchesNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutImportBatchNestedInput
 }
 
@@ -1004,6 +1145,7 @@ export type ImportBatchUncheckedUpdateWithoutBankProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   filename?: Prisma.StringFieldUpdateOperationsInput | string
   rowCount?: Prisma.IntFieldUpdateOperationsInput | number
   skippedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1017,6 +1159,61 @@ export type ImportBatchUncheckedUpdateManyWithoutBankProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
+  cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  rowCount?: Prisma.IntFieldUpdateOperationsInput | number
+  skippedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dateFrom?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateTo?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  importedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ImportBatchCreateManyCardInput = {
+  id?: string
+  userId: string
+  bankAccountId: string
+  bankProfileId: string
+  filename: string
+  rowCount: number
+  skippedCount?: number
+  dateFrom?: Date | string | null
+  dateTo?: Date | string | null
+  importedAt?: Date | string
+}
+
+export type ImportBatchUpdateWithoutCardInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  rowCount?: Prisma.IntFieldUpdateOperationsInput | number
+  skippedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dateFrom?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateTo?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  importedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutImportBatchesNestedInput
+  bankAccount?: Prisma.BankAccountUpdateOneRequiredWithoutImportBatchesNestedInput
+  bankProfile?: Prisma.BankProfileUpdateOneRequiredWithoutImportBatchesNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutImportBatchNestedInput
+}
+
+export type ImportBatchUncheckedUpdateWithoutCardInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
+  bankProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  rowCount?: Prisma.IntFieldUpdateOperationsInput | number
+  skippedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  dateFrom?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dateTo?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  importedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutImportBatchNestedInput
+}
+
+export type ImportBatchUncheckedUpdateManyWithoutCardInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  bankAccountId?: Prisma.StringFieldUpdateOperationsInput | string
+  bankProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
   rowCount?: Prisma.IntFieldUpdateOperationsInput | number
   skippedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1061,6 +1258,7 @@ export type ImportBatchSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   userId?: boolean
   bankAccountId?: boolean
   bankProfileId?: boolean
+  cardId?: boolean
   filename?: boolean
   rowCount?: boolean
   skippedCount?: boolean
@@ -1070,6 +1268,7 @@ export type ImportBatchSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   bankAccount?: boolean | Prisma.BankAccountDefaultArgs<ExtArgs>
   bankProfile?: boolean | Prisma.BankProfileDefaultArgs<ExtArgs>
+  card?: boolean | Prisma.ImportBatch$cardArgs<ExtArgs>
   transactions?: boolean | Prisma.ImportBatch$transactionsArgs<ExtArgs>
   _count?: boolean | Prisma.ImportBatchCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["importBatch"]>
@@ -1079,6 +1278,7 @@ export type ImportBatchSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   userId?: boolean
   bankAccountId?: boolean
   bankProfileId?: boolean
+  cardId?: boolean
   filename?: boolean
   rowCount?: boolean
   skippedCount?: boolean
@@ -1088,6 +1288,7 @@ export type ImportBatchSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   bankAccount?: boolean | Prisma.BankAccountDefaultArgs<ExtArgs>
   bankProfile?: boolean | Prisma.BankProfileDefaultArgs<ExtArgs>
+  card?: boolean | Prisma.ImportBatch$cardArgs<ExtArgs>
 }, ExtArgs["result"]["importBatch"]>
 
 export type ImportBatchSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1095,6 +1296,7 @@ export type ImportBatchSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   userId?: boolean
   bankAccountId?: boolean
   bankProfileId?: boolean
+  cardId?: boolean
   filename?: boolean
   rowCount?: boolean
   skippedCount?: boolean
@@ -1104,6 +1306,7 @@ export type ImportBatchSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   bankAccount?: boolean | Prisma.BankAccountDefaultArgs<ExtArgs>
   bankProfile?: boolean | Prisma.BankProfileDefaultArgs<ExtArgs>
+  card?: boolean | Prisma.ImportBatch$cardArgs<ExtArgs>
 }, ExtArgs["result"]["importBatch"]>
 
 export type ImportBatchSelectScalar = {
@@ -1111,6 +1314,7 @@ export type ImportBatchSelectScalar = {
   userId?: boolean
   bankAccountId?: boolean
   bankProfileId?: boolean
+  cardId?: boolean
   filename?: boolean
   rowCount?: boolean
   skippedCount?: boolean
@@ -1119,11 +1323,12 @@ export type ImportBatchSelectScalar = {
   importedAt?: boolean
 }
 
-export type ImportBatchOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "bankAccountId" | "bankProfileId" | "filename" | "rowCount" | "skippedCount" | "dateFrom" | "dateTo" | "importedAt", ExtArgs["result"]["importBatch"]>
+export type ImportBatchOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "bankAccountId" | "bankProfileId" | "cardId" | "filename" | "rowCount" | "skippedCount" | "dateFrom" | "dateTo" | "importedAt", ExtArgs["result"]["importBatch"]>
 export type ImportBatchInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   bankAccount?: boolean | Prisma.BankAccountDefaultArgs<ExtArgs>
   bankProfile?: boolean | Prisma.BankProfileDefaultArgs<ExtArgs>
+  card?: boolean | Prisma.ImportBatch$cardArgs<ExtArgs>
   transactions?: boolean | Prisma.ImportBatch$transactionsArgs<ExtArgs>
   _count?: boolean | Prisma.ImportBatchCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1131,11 +1336,13 @@ export type ImportBatchIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   bankAccount?: boolean | Prisma.BankAccountDefaultArgs<ExtArgs>
   bankProfile?: boolean | Prisma.BankProfileDefaultArgs<ExtArgs>
+  card?: boolean | Prisma.ImportBatch$cardArgs<ExtArgs>
 }
 export type ImportBatchIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   bankAccount?: boolean | Prisma.BankAccountDefaultArgs<ExtArgs>
   bankProfile?: boolean | Prisma.BankProfileDefaultArgs<ExtArgs>
+  card?: boolean | Prisma.ImportBatch$cardArgs<ExtArgs>
 }
 
 export type $ImportBatchPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1144,6 +1351,7 @@ export type $ImportBatchPayload<ExtArgs extends runtime.Types.Extensions.Interna
     user: Prisma.$UserPayload<ExtArgs>
     bankAccount: Prisma.$BankAccountPayload<ExtArgs>
     bankProfile: Prisma.$BankProfilePayload<ExtArgs>
+    card: Prisma.$CardPayload<ExtArgs> | null
     transactions: Prisma.$TransactionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1151,6 +1359,7 @@ export type $ImportBatchPayload<ExtArgs extends runtime.Types.Extensions.Interna
     userId: string
     bankAccountId: string
     bankProfileId: string
+    cardId: string | null
     filename: string
     rowCount: number
     skippedCount: number
@@ -1554,6 +1763,7 @@ export interface Prisma__ImportBatchClient<T, Null = never, ExtArgs extends runt
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   bankAccount<T extends Prisma.BankAccountDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BankAccountDefaultArgs<ExtArgs>>): Prisma.Prisma__BankAccountClient<runtime.Types.Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   bankProfile<T extends Prisma.BankProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BankProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__BankProfileClient<runtime.Types.Result.GetResult<Prisma.$BankProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  card<T extends Prisma.ImportBatch$cardArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ImportBatch$cardArgs<ExtArgs>>): Prisma.Prisma__CardClient<runtime.Types.Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   transactions<T extends Prisma.ImportBatch$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ImportBatch$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1588,6 +1798,7 @@ export interface ImportBatchFieldRefs {
   readonly userId: Prisma.FieldRef<"ImportBatch", 'String'>
   readonly bankAccountId: Prisma.FieldRef<"ImportBatch", 'String'>
   readonly bankProfileId: Prisma.FieldRef<"ImportBatch", 'String'>
+  readonly cardId: Prisma.FieldRef<"ImportBatch", 'String'>
   readonly filename: Prisma.FieldRef<"ImportBatch", 'String'>
   readonly rowCount: Prisma.FieldRef<"ImportBatch", 'Int'>
   readonly skippedCount: Prisma.FieldRef<"ImportBatch", 'Int'>
@@ -1992,6 +2203,25 @@ export type ImportBatchDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many ImportBatches to delete.
    */
   limit?: number
+}
+
+/**
+ * ImportBatch.card
+ */
+export type ImportBatch$cardArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Card
+   */
+  select?: Prisma.CardSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Card
+   */
+  omit?: Prisma.CardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CardInclude<ExtArgs> | null
+  where?: Prisma.CardWhereInput
 }
 
 /**

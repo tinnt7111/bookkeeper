@@ -391,6 +391,7 @@ export const ModelName = {
   Invite: 'Invite',
   BankAccount: 'BankAccount',
   BankProfile: 'BankProfile',
+  Card: 'Card',
   ImportBatch: 'ImportBatch',
   Transaction: 'Transaction',
   ClassificationRule: 'ClassificationRule',
@@ -410,7 +411,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "invite" | "bankAccount" | "bankProfile" | "importBatch" | "transaction" | "classificationRule" | "category"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "invite" | "bankAccount" | "bankProfile" | "card" | "importBatch" | "transaction" | "classificationRule" | "category"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -932,6 +933,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Card: {
+      payload: Prisma.$CardPayload<ExtArgs>
+      fields: Prisma.CardFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CardFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CardFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload>
+        }
+        findFirst: {
+          args: Prisma.CardFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CardFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload>
+        }
+        findMany: {
+          args: Prisma.CardFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload>[]
+        }
+        create: {
+          args: Prisma.CardCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload>
+        }
+        createMany: {
+          args: Prisma.CardCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CardCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload>[]
+        }
+        delete: {
+          args: Prisma.CardDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload>
+        }
+        update: {
+          args: Prisma.CardUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload>
+        }
+        deleteMany: {
+          args: Prisma.CardDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CardUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CardUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload>[]
+        }
+        upsert: {
+          args: Prisma.CardUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload>
+        }
+        aggregate: {
+          args: Prisma.CardAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCard>
+        }
+        groupBy: {
+          args: Prisma.CardGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CardGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CardCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CardCountAggregateOutputType> | number
+        }
+      }
+    }
     ImportBatch: {
       payload: Prisma.$ImportBatchPayload<ExtArgs>
       fields: Prisma.ImportBatchFieldRefs
@@ -1363,11 +1438,22 @@ export const BankProfileScalarFieldEnum = {
 export type BankProfileScalarFieldEnum = (typeof BankProfileScalarFieldEnum)[keyof typeof BankProfileScalarFieldEnum]
 
 
+export const CardScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  createdAt: 'createdAt'
+} as const
+
+export type CardScalarFieldEnum = (typeof CardScalarFieldEnum)[keyof typeof CardScalarFieldEnum]
+
+
 export const ImportBatchScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   bankAccountId: 'bankAccountId',
   bankProfileId: 'bankProfileId',
+  cardId: 'cardId',
   filename: 'filename',
   rowCount: 'rowCount',
   skippedCount: 'skippedCount',
@@ -1384,6 +1470,7 @@ export const TransactionScalarFieldEnum = {
   userId: 'userId',
   bankAccountId: 'bankAccountId',
   importBatchId: 'importBatchId',
+  cardId: 'cardId',
   date: 'date',
   amount: 'amount',
   direction: 'direction',
@@ -1628,6 +1715,7 @@ export type GlobalOmitConfig = {
   invite?: Prisma.InviteOmit
   bankAccount?: Prisma.BankAccountOmit
   bankProfile?: Prisma.BankProfileOmit
+  card?: Prisma.CardOmit
   importBatch?: Prisma.ImportBatchOmit
   transaction?: Prisma.TransactionOmit
   classificationRule?: Prisma.ClassificationRuleOmit

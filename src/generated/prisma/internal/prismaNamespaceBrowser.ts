@@ -58,6 +58,7 @@ export const ModelName = {
   Invite: 'Invite',
   BankAccount: 'BankAccount',
   BankProfile: 'BankProfile',
+  Card: 'Card',
   ImportBatch: 'ImportBatch',
   Transaction: 'Transaction',
   ClassificationRule: 'ClassificationRule',
@@ -176,11 +177,22 @@ export const BankProfileScalarFieldEnum = {
 export type BankProfileScalarFieldEnum = (typeof BankProfileScalarFieldEnum)[keyof typeof BankProfileScalarFieldEnum]
 
 
+export const CardScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  createdAt: 'createdAt'
+} as const
+
+export type CardScalarFieldEnum = (typeof CardScalarFieldEnum)[keyof typeof CardScalarFieldEnum]
+
+
 export const ImportBatchScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   bankAccountId: 'bankAccountId',
   bankProfileId: 'bankProfileId',
+  cardId: 'cardId',
   filename: 'filename',
   rowCount: 'rowCount',
   skippedCount: 'skippedCount',
@@ -197,6 +209,7 @@ export const TransactionScalarFieldEnum = {
   userId: 'userId',
   bankAccountId: 'bankAccountId',
   importBatchId: 'importBatchId',
+  cardId: 'cardId',
   date: 'date',
   amount: 'amount',
   direction: 'direction',

@@ -5,7 +5,7 @@ import {
   getPeriodSummary,
   getClassificationTotals,
 } from "@/lib/reports/aggregates";
-import { formatDate, formatMoney, formatMonth } from "@/lib/format";
+import { formatMoney, formatMonth } from "@/lib/format";
 import {
   getCurrentYear,
   getTransactionYears,
@@ -24,15 +24,10 @@ export default async function DashboardPage({
   const year = parseYearParam(yearParam, getCurrentYear());
   const { from, to } = yearBounds(year);
 
-  const [summary, monthly, split, recentImports, years] = await Promise.all([
+  const [summary, monthly, split, years] = await Promise.all([
     getPeriodSummary(user.id, from, to),
     getMonthlyBreakdown(user.id, from, to),
     getClassificationTotals(user.id, from, to),
-    db.importBatch.findMany({
-      where: { userId: user.id },
-      orderBy: { importedAt: "desc" },
-      take: 3,
-    }),
     getTransactionYears(user.id),
   ]);
 
@@ -135,29 +130,6 @@ export default async function DashboardPage({
           </dl>
         </Panel>
       </section>
-
-      <Panel title="Recent imports">
-        {recentImports.length === 0 ? (
-          <p className="text-sm text-muted">No imports yet.</p>
-        ) : (
-          <ul className="space-y-2 text-sm">
-            {recentImports.map((batch) => (
-              <li
-                key={batch.id}
-                className="flex flex-wrap items-center justify-between gap-2 border-b border-white/5 py-2"
-              >
-                <span className="font-medium text-primary">{batch.filename}</span>
-                <span className="text-muted">
-                  {batch.rowCount} rows
-                  {batch.dateFrom && batch.dateTo
-                    ? ` · ${formatDate(batch.dateFrom)} – ${formatDate(batch.dateTo)}`
-                    : ""}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </Panel>
     </div>
   );
 }

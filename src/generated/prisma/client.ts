@@ -77,6 +77,11 @@ export type BankAccount = Prisma.BankAccountModel
  */
 export type BankProfile = Prisma.BankProfileModel
 /**
+ * Model Card
+ * 
+ */
+export type Card = Prisma.CardModel
+/**
  * Model ImportBatch
  * 
  */
