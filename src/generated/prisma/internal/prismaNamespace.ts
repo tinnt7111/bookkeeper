@@ -1493,6 +1493,8 @@ export const ClassificationRuleScalarFieldEnum = {
   pattern: 'pattern',
   field: 'field',
   matchType: 'matchType',
+  amountOperator: 'amountOperator',
+  amountValue: 'amountValue',
   classification: 'classification',
   categoryId: 'categoryId',
   priority: 'priority',

@@ -15,12 +15,19 @@ import {
 import { classificationLabel, formatDate, formatMoney } from "@/lib/format";
 import type { AssignableClassification } from "@/lib/classifications";
 import { isAssignableClassification } from "@/lib/classifications";
+import {
+  formatAmountCondition,
+  isAmountOperator,
+  type AmountOperator,
+} from "@/lib/rules/amount-threshold";
 
 type Rule = {
   id: string;
   name: string;
   pattern: string;
   matchType: string;
+  amountOperator: string;
+  amountValue: string;
   classification: string;
 };
 
@@ -29,6 +36,8 @@ type EditingRule = {
   name: string;
   pattern: string;
   classification: AssignableClassification;
+  amountOperator: AmountOperator;
+  amountValue: string;
 };
 
 type PreviewMatch = {
@@ -47,9 +56,58 @@ type PreviewState = {
   matches: PreviewMatch[];
   applyMode: "single" | "all" | "draft" | null;
   ruleId?: string;
-  draftPattern?: string;
-  draftClassification?: AssignableClassification;
 };
+
+function AmountThresholdFields({
+  operator,
+  value,
+  onOperatorChange,
+  onValueChange,
+  namePrefix,
+}: {
+  operator: AmountOperator;
+  value: string;
+  onOperatorChange: (value: AmountOperator) => void;
+  onValueChange: (value: string) => void;
+  namePrefix?: boolean;
+}) {
+  return (
+    <div className="grid gap-3 sm:grid-cols-2">
+      <div>
+        <label className="mb-1 block text-xs text-muted">Amount</label>
+        <select
+          name={namePrefix ? "amountOperator" : undefined}
+          value={operator}
+          onChange={(event) =>
+            onOperatorChange(event.target.value as AmountOperator)
+          }
+          className="input"
+        >
+          <option value="gt">Greater than (&gt;)</option>
+          <option value="gte">At least (≥)</option>
+          <option value="lt">Less than (&lt;)</option>
+          <option value="lte">At most (≤)</option>
+          <option value="eq">Equal to (=)</option>
+          <option value="any">Any amount</option>
+        </select>
+      </div>
+      <div>
+        <label className="mb-1 block text-xs text-muted">Threshold ($)</label>
+        <input
+          name={namePrefix ? "amountValue" : undefined}
+          type="number"
+          min="0"
+          step="0.01"
+          value={value}
+          onChange={(event) => onValueChange(event.target.value)}
+          disabled={operator === "any"}
+          className="input"
+          placeholder="0"
+        />
+      </div>
+    </div>
+  );
+}
 
 export function ClassificationRulesForm({ rules }: { rules: Rule[] }) {
   const router = useRouter();
@@ -62,6 +120,8 @@ export function ClassificationRulesForm({ rules }: { rules: Rule[] }) {
   const [pattern, setPattern] = useState("");
   const [classification, setClassification] =
     useState<AssignableClassification>("business");
+  const [amountOperator, setAmountOperator] = useState<AmountOperator>("gt");
+  const [amountValue, setAmountValue] = useState("0");
   const [editingRule, setEditingRule] = useState<EditingRule | null>(null);
 
   function clearMessages() {
@@ -84,6 +144,8 @@ export function ClassificationRulesForm({ rules }: { rules: Rule[] }) {
       setName("");
       setPattern("");
       setClassification("business");
+      setAmountOperator("gt");
+      setAmountValue("0");
       setPreview(null);
       setMessage("Rule saved.");
       router.refresh();
@@ -93,7 +155,12 @@ export function ClassificationRulesForm({ rules }: { rules: Rule[] }) {
   function handlePreviewDraft() {
     clearMessages();
     startTransition(async () => {
-      const result = await previewRulePattern(pattern, classification);
+      const result = await previewRulePattern(
+        pattern,
+        classification,
+        amountOperator,
+        amountValue
+      );
       if (result.error) {
         setError(result.error);
         setPreview(null);
@@ -101,7 +168,7 @@ export function ClassificationRulesForm({ rules }: { rules: Rule[] }) {
       }
 
       setPreview({
-        title: `Preview: description contains "${pattern}" → ${classificationLabel(classification)}`,
+        title: `Preview: description contains "${pattern}" · ${formatAmountCondition(amountOperator, amountValue)} → ${classificationLabel(classification)}`,
         matches: result.matches ?? [],
         applyMode: null,
       });
@@ -238,6 +305,10 @@ export function ClassificationRulesForm({ rules }: { rules: Rule[] }) {
       classification: isAssignableClassification(rule.classification)
         ? rule.classification
         : "business",
+      amountOperator: isAmountOperator(rule.amountOperator)
+        ? rule.amountOperator
+        : "gt",
+      amountValue: rule.amountValue || "0",
     });
   }
 
@@ -256,6 +327,8 @@ export function ClassificationRulesForm({ rules }: { rules: Rule[] }) {
         name: editingRule.name,
         pattern: editingRule.pattern,
         classification: editingRule.classification,
+        amountOperator: editingRule.amountOperator,
+        amountValue: editingRule.amountValue,
       });
 
       if (result.error) {
@@ -277,7 +350,9 @@ export function ClassificationRulesForm({ rules }: { rules: Rule[] }) {
     startTransition(async () => {
       const result = await previewRulePattern(
         editingRule.pattern,
-        editingRule.classification
+        editingRule.classification,
+        editingRule.amountOperator,
+        editingRule.amountValue
       );
       if (result.error) {
         setError(result.error);
@@ -286,7 +361,7 @@ export function ClassificationRulesForm({ rules }: { rules: Rule[] }) {
       }
 
       setPreview({
-        title: `Preview: description contains "${editingRule.pattern}" → ${classificationLabel(editingRule.classification)}`,
+        title: `Preview: description contains "${editingRule.pattern}" · ${formatAmountCondition(editingRule.amountOperator, editingRule.amountValue)} → ${classificationLabel(editingRule.classification)}`,
         matches: result.matches ?? [],
         applyMode: null,
       });
@@ -316,7 +391,9 @@ export function ClassificationRulesForm({ rules }: { rules: Rule[] }) {
 
       <form onSubmit={handleCreate} className="space-y-3 border-b border-white/5 pb-4">
         <p className="text-sm text-secondary">
-          Match uncategorized transactions whose description contains your text.
+          Match uncategorized transactions by description and amount. Default
+          threshold is amount &gt; $0. Example: description contains “zelle” and
+          amount &lt; $100 → Personal.
         </p>
         <div className="grid gap-3 sm:grid-cols-3">
           <div>
@@ -325,7 +402,7 @@ export function ClassificationRulesForm({ rules }: { rules: Rule[] }) {
               name="name"
               value={name}
               onChange={(event) => setName(event.target.value)}
-              placeholder="e.g. Netflix"
+              placeholder="e.g. Small Zelle"
               required
               className="input"
             />
@@ -338,7 +415,7 @@ export function ClassificationRulesForm({ rules }: { rules: Rule[] }) {
               name="pattern"
               value={pattern}
               onChange={(event) => setPattern(event.target.value)}
-              placeholder="e.g. netflix"
+              placeholder="e.g. zelle"
               required
               className="input"
             />
@@ -359,6 +436,13 @@ export function ClassificationRulesForm({ rules }: { rules: Rule[] }) {
             </select>
           </div>
         </div>
+        <AmountThresholdFields
+          namePrefix
+          operator={amountOperator}
+          value={amountValue}
+          onOperatorChange={setAmountOperator}
+          onValueChange={setAmountValue}
+        />
         <div className="flex flex-wrap gap-2">
           <button
             type="button"
@@ -380,10 +464,7 @@ export function ClassificationRulesForm({ rules }: { rules: Rule[] }) {
         <ul className="space-y-2 text-sm">
           {rules.map((rule) =>
             editingRule?.id === rule.id ? (
-              <li
-                key={rule.id}
-                className="border-b border-white/5 py-3"
-              >
+              <li key={rule.id} className="border-b border-white/5 py-3">
                 <form onSubmit={handleSaveEdit} className="space-y-3">
                   <p className="font-medium text-primary">Edit rule</p>
                   <div className="grid gap-3 sm:grid-cols-3">
@@ -446,6 +527,20 @@ export function ClassificationRulesForm({ rules }: { rules: Rule[] }) {
                       </select>
                     </div>
                   </div>
+                  <AmountThresholdFields
+                    operator={editingRule.amountOperator}
+                    value={editingRule.amountValue}
+                    onOperatorChange={(next) =>
+                      setEditingRule((current) =>
+                        current ? { ...current, amountOperator: next } : current
+                      )
+                    }
+                    onValueChange={(next) =>
+                      setEditingRule((current) =>
+                        current ? { ...current, amountValue: next } : current
+                      )
+                    }
+                  />
                   <div className="flex flex-wrap gap-2">
                     <button
                       type="button"
@@ -478,8 +573,9 @@ export function ClassificationRulesForm({ rules }: { rules: Rule[] }) {
                   <span className="font-medium text-primary">{rule.name}</span>
                   <span className="text-muted">
                     {" "}
-                    · {rule.matchType} &quot;{rule.pattern}&quot; →{" "}
-                    {classificationLabel(rule.classification)}
+                    · {rule.matchType} &quot;{rule.pattern}&quot; ·{" "}
+                    {formatAmountCondition(rule.amountOperator, rule.amountValue)}{" "}
+                    → {classificationLabel(rule.classification)}
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -566,7 +662,13 @@ export function ClassificationRulesForm({ rules }: { rules: Rule[] }) {
                           {formatDate(row.date)}
                         </td>
                         <td>{row.description}</td>
-                        <td className={`whitespace-nowrap ${row.direction === "debit" ? "amount-debit" : "amount-credit"}`}>
+                        <td
+                          className={`whitespace-nowrap ${
+                            row.direction === "debit"
+                              ? "amount-debit"
+                              : "amount-credit"
+                          }`}
+                        >
                           {row.direction === "debit" ? "-" : "+"}
                           {formatMoney(row.amount)}
                         </td>

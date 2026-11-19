@@ -41,6 +41,8 @@ export type ClassificationRuleMinAggregateOutputType = {
   pattern: string | null
   field: string | null
   matchType: string | null
+  amountOperator: string | null
+  amountValue: string | null
   classification: string | null
   categoryId: string | null
   priority: number | null
@@ -54,6 +56,8 @@ export type ClassificationRuleMaxAggregateOutputType = {
   pattern: string | null
   field: string | null
   matchType: string | null
+  amountOperator: string | null
+  amountValue: string | null
   classification: string | null
   categoryId: string | null
   priority: number | null
@@ -67,6 +71,8 @@ export type ClassificationRuleCountAggregateOutputType = {
   pattern: number
   field: number
   matchType: number
+  amountOperator: number
+  amountValue: number
   classification: number
   categoryId: number
   priority: number
@@ -90,6 +96,8 @@ export type ClassificationRuleMinAggregateInputType = {
   pattern?: true
   field?: true
   matchType?: true
+  amountOperator?: true
+  amountValue?: true
   classification?: true
   categoryId?: true
   priority?: true
@@ -103,6 +111,8 @@ export type ClassificationRuleMaxAggregateInputType = {
   pattern?: true
   field?: true
   matchType?: true
+  amountOperator?: true
+  amountValue?: true
   classification?: true
   categoryId?: true
   priority?: true
@@ -116,6 +126,8 @@ export type ClassificationRuleCountAggregateInputType = {
   pattern?: true
   field?: true
   matchType?: true
+  amountOperator?: true
+  amountValue?: true
   classification?: true
   categoryId?: true
   priority?: true
@@ -216,6 +228,8 @@ export type ClassificationRuleGroupByOutputType = {
   pattern: string
   field: string
   matchType: string
+  amountOperator: string
+  amountValue: string
   classification: string
   categoryId: string | null
   priority: number
@@ -252,6 +266,8 @@ export type ClassificationRuleWhereInput = {
   pattern?: Prisma.StringFilter<"ClassificationRule"> | string
   field?: Prisma.StringFilter<"ClassificationRule"> | string
   matchType?: Prisma.StringFilter<"ClassificationRule"> | string
+  amountOperator?: Prisma.StringFilter<"ClassificationRule"> | string
+  amountValue?: Prisma.StringFilter<"ClassificationRule"> | string
   classification?: Prisma.StringFilter<"ClassificationRule"> | string
   categoryId?: Prisma.StringNullableFilter<"ClassificationRule"> | string | null
   priority?: Prisma.IntFilter<"ClassificationRule"> | number
@@ -267,6 +283,8 @@ export type ClassificationRuleOrderByWithRelationInput = {
   pattern?: Prisma.SortOrder
   field?: Prisma.SortOrder
   matchType?: Prisma.SortOrder
+  amountOperator?: Prisma.SortOrder
+  amountValue?: Prisma.SortOrder
   classification?: Prisma.SortOrder
   categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
   priority?: Prisma.SortOrder
@@ -285,6 +303,8 @@ export type ClassificationRuleWhereUniqueInput = Prisma.AtLeast<{
   pattern?: Prisma.StringFilter<"ClassificationRule"> | string
   field?: Prisma.StringFilter<"ClassificationRule"> | string
   matchType?: Prisma.StringFilter<"ClassificationRule"> | string
+  amountOperator?: Prisma.StringFilter<"ClassificationRule"> | string
+  amountValue?: Prisma.StringFilter<"ClassificationRule"> | string
   classification?: Prisma.StringFilter<"ClassificationRule"> | string
   categoryId?: Prisma.StringNullableFilter<"ClassificationRule"> | string | null
   priority?: Prisma.IntFilter<"ClassificationRule"> | number
@@ -300,6 +320,8 @@ export type ClassificationRuleOrderByWithAggregationInput = {
   pattern?: Prisma.SortOrder
   field?: Prisma.SortOrder
   matchType?: Prisma.SortOrder
+  amountOperator?: Prisma.SortOrder
+  amountValue?: Prisma.SortOrder
   classification?: Prisma.SortOrder
   categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
   priority?: Prisma.SortOrder
@@ -321,6 +343,8 @@ export type ClassificationRuleScalarWhereWithAggregatesInput = {
   pattern?: Prisma.StringWithAggregatesFilter<"ClassificationRule"> | string
   field?: Prisma.StringWithAggregatesFilter<"ClassificationRule"> | string
   matchType?: Prisma.StringWithAggregatesFilter<"ClassificationRule"> | string
+  amountOperator?: Prisma.StringWithAggregatesFilter<"ClassificationRule"> | string
+  amountValue?: Prisma.StringWithAggregatesFilter<"ClassificationRule"> | string
   classification?: Prisma.StringWithAggregatesFilter<"ClassificationRule"> | string
   categoryId?: Prisma.StringNullableWithAggregatesFilter<"ClassificationRule"> | string | null
   priority?: Prisma.IntWithAggregatesFilter<"ClassificationRule"> | number
@@ -333,6 +357,8 @@ export type ClassificationRuleCreateInput = {
   pattern: string
   field?: string
   matchType?: string
+  amountOperator?: string
+  amountValue?: string
   classification: string
   priority?: number
   createdAt?: Date | string
@@ -347,6 +373,8 @@ export type ClassificationRuleUncheckedCreateInput = {
   pattern: string
   field?: string
   matchType?: string
+  amountOperator?: string
+  amountValue?: string
   classification: string
   categoryId?: string | null
   priority?: number
@@ -359,6 +387,8 @@ export type ClassificationRuleUpdateInput = {
   pattern?: Prisma.StringFieldUpdateOperationsInput | string
   field?: Prisma.StringFieldUpdateOperationsInput | string
   matchType?: Prisma.StringFieldUpdateOperationsInput | string
+  amountOperator?: Prisma.StringFieldUpdateOperationsInput | string
+  amountValue?: Prisma.StringFieldUpdateOperationsInput | string
   classification?: Prisma.StringFieldUpdateOperationsInput | string
   priority?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -373,6 +403,8 @@ export type ClassificationRuleUncheckedUpdateInput = {
   pattern?: Prisma.StringFieldUpdateOperationsInput | string
   field?: Prisma.StringFieldUpdateOperationsInput | string
   matchType?: Prisma.StringFieldUpdateOperationsInput | string
+  amountOperator?: Prisma.StringFieldUpdateOperationsInput | string
+  amountValue?: Prisma.StringFieldUpdateOperationsInput | string
   classification?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.IntFieldUpdateOperationsInput | number
@@ -386,6 +418,8 @@ export type ClassificationRuleCreateManyInput = {
   pattern: string
   field?: string
   matchType?: string
+  amountOperator?: string
+  amountValue?: string
   classification: string
   categoryId?: string | null
   priority?: number
@@ -398,6 +432,8 @@ export type ClassificationRuleUpdateManyMutationInput = {
   pattern?: Prisma.StringFieldUpdateOperationsInput | string
   field?: Prisma.StringFieldUpdateOperationsInput | string
   matchType?: Prisma.StringFieldUpdateOperationsInput | string
+  amountOperator?: Prisma.StringFieldUpdateOperationsInput | string
+  amountValue?: Prisma.StringFieldUpdateOperationsInput | string
   classification?: Prisma.StringFieldUpdateOperationsInput | string
   priority?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -410,6 +446,8 @@ export type ClassificationRuleUncheckedUpdateManyInput = {
   pattern?: Prisma.StringFieldUpdateOperationsInput | string
   field?: Prisma.StringFieldUpdateOperationsInput | string
   matchType?: Prisma.StringFieldUpdateOperationsInput | string
+  amountOperator?: Prisma.StringFieldUpdateOperationsInput | string
+  amountValue?: Prisma.StringFieldUpdateOperationsInput | string
   classification?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.IntFieldUpdateOperationsInput | number
@@ -433,6 +471,8 @@ export type ClassificationRuleCountOrderByAggregateInput = {
   pattern?: Prisma.SortOrder
   field?: Prisma.SortOrder
   matchType?: Prisma.SortOrder
+  amountOperator?: Prisma.SortOrder
+  amountValue?: Prisma.SortOrder
   classification?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   priority?: Prisma.SortOrder
@@ -450,6 +490,8 @@ export type ClassificationRuleMaxOrderByAggregateInput = {
   pattern?: Prisma.SortOrder
   field?: Prisma.SortOrder
   matchType?: Prisma.SortOrder
+  amountOperator?: Prisma.SortOrder
+  amountValue?: Prisma.SortOrder
   classification?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   priority?: Prisma.SortOrder
@@ -463,6 +505,8 @@ export type ClassificationRuleMinOrderByAggregateInput = {
   pattern?: Prisma.SortOrder
   field?: Prisma.SortOrder
   matchType?: Prisma.SortOrder
+  amountOperator?: Prisma.SortOrder
+  amountValue?: Prisma.SortOrder
   classification?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   priority?: Prisma.SortOrder
@@ -563,6 +607,8 @@ export type ClassificationRuleCreateWithoutUserInput = {
   pattern: string
   field?: string
   matchType?: string
+  amountOperator?: string
+  amountValue?: string
   classification: string
   priority?: number
   createdAt?: Date | string
@@ -575,6 +621,8 @@ export type ClassificationRuleUncheckedCreateWithoutUserInput = {
   pattern: string
   field?: string
   matchType?: string
+  amountOperator?: string
+  amountValue?: string
   classification: string
   categoryId?: string | null
   priority?: number
@@ -617,6 +665,8 @@ export type ClassificationRuleScalarWhereInput = {
   pattern?: Prisma.StringFilter<"ClassificationRule"> | string
   field?: Prisma.StringFilter<"ClassificationRule"> | string
   matchType?: Prisma.StringFilter<"ClassificationRule"> | string
+  amountOperator?: Prisma.StringFilter<"ClassificationRule"> | string
+  amountValue?: Prisma.StringFilter<"ClassificationRule"> | string
   classification?: Prisma.StringFilter<"ClassificationRule"> | string
   categoryId?: Prisma.StringNullableFilter<"ClassificationRule"> | string | null
   priority?: Prisma.IntFilter<"ClassificationRule"> | number
@@ -629,6 +679,8 @@ export type ClassificationRuleCreateWithoutCategoryInput = {
   pattern: string
   field?: string
   matchType?: string
+  amountOperator?: string
+  amountValue?: string
   classification: string
   priority?: number
   createdAt?: Date | string
@@ -642,6 +694,8 @@ export type ClassificationRuleUncheckedCreateWithoutCategoryInput = {
   pattern: string
   field?: string
   matchType?: string
+  amountOperator?: string
+  amountValue?: string
   classification: string
   priority?: number
   createdAt?: Date | string
@@ -679,6 +733,8 @@ export type ClassificationRuleCreateManyUserInput = {
   pattern: string
   field?: string
   matchType?: string
+  amountOperator?: string
+  amountValue?: string
   classification: string
   categoryId?: string | null
   priority?: number
@@ -691,6 +747,8 @@ export type ClassificationRuleUpdateWithoutUserInput = {
   pattern?: Prisma.StringFieldUpdateOperationsInput | string
   field?: Prisma.StringFieldUpdateOperationsInput | string
   matchType?: Prisma.StringFieldUpdateOperationsInput | string
+  amountOperator?: Prisma.StringFieldUpdateOperationsInput | string
+  amountValue?: Prisma.StringFieldUpdateOperationsInput | string
   classification?: Prisma.StringFieldUpdateOperationsInput | string
   priority?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -703,6 +761,8 @@ export type ClassificationRuleUncheckedUpdateWithoutUserInput = {
   pattern?: Prisma.StringFieldUpdateOperationsInput | string
   field?: Prisma.StringFieldUpdateOperationsInput | string
   matchType?: Prisma.StringFieldUpdateOperationsInput | string
+  amountOperator?: Prisma.StringFieldUpdateOperationsInput | string
+  amountValue?: Prisma.StringFieldUpdateOperationsInput | string
   classification?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.IntFieldUpdateOperationsInput | number
@@ -715,6 +775,8 @@ export type ClassificationRuleUncheckedUpdateManyWithoutUserInput = {
   pattern?: Prisma.StringFieldUpdateOperationsInput | string
   field?: Prisma.StringFieldUpdateOperationsInput | string
   matchType?: Prisma.StringFieldUpdateOperationsInput | string
+  amountOperator?: Prisma.StringFieldUpdateOperationsInput | string
+  amountValue?: Prisma.StringFieldUpdateOperationsInput | string
   classification?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.IntFieldUpdateOperationsInput | number
@@ -728,6 +790,8 @@ export type ClassificationRuleCreateManyCategoryInput = {
   pattern: string
   field?: string
   matchType?: string
+  amountOperator?: string
+  amountValue?: string
   classification: string
   priority?: number
   createdAt?: Date | string
@@ -739,6 +803,8 @@ export type ClassificationRuleUpdateWithoutCategoryInput = {
   pattern?: Prisma.StringFieldUpdateOperationsInput | string
   field?: Prisma.StringFieldUpdateOperationsInput | string
   matchType?: Prisma.StringFieldUpdateOperationsInput | string
+  amountOperator?: Prisma.StringFieldUpdateOperationsInput | string
+  amountValue?: Prisma.StringFieldUpdateOperationsInput | string
   classification?: Prisma.StringFieldUpdateOperationsInput | string
   priority?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -752,6 +818,8 @@ export type ClassificationRuleUncheckedUpdateWithoutCategoryInput = {
   pattern?: Prisma.StringFieldUpdateOperationsInput | string
   field?: Prisma.StringFieldUpdateOperationsInput | string
   matchType?: Prisma.StringFieldUpdateOperationsInput | string
+  amountOperator?: Prisma.StringFieldUpdateOperationsInput | string
+  amountValue?: Prisma.StringFieldUpdateOperationsInput | string
   classification?: Prisma.StringFieldUpdateOperationsInput | string
   priority?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -764,6 +832,8 @@ export type ClassificationRuleUncheckedUpdateManyWithoutCategoryInput = {
   pattern?: Prisma.StringFieldUpdateOperationsInput | string
   field?: Prisma.StringFieldUpdateOperationsInput | string
   matchType?: Prisma.StringFieldUpdateOperationsInput | string
+  amountOperator?: Prisma.StringFieldUpdateOperationsInput | string
+  amountValue?: Prisma.StringFieldUpdateOperationsInput | string
   classification?: Prisma.StringFieldUpdateOperationsInput | string
   priority?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -778,6 +848,8 @@ export type ClassificationRuleSelect<ExtArgs extends runtime.Types.Extensions.In
   pattern?: boolean
   field?: boolean
   matchType?: boolean
+  amountOperator?: boolean
+  amountValue?: boolean
   classification?: boolean
   categoryId?: boolean
   priority?: boolean
@@ -793,6 +865,8 @@ export type ClassificationRuleSelectCreateManyAndReturn<ExtArgs extends runtime.
   pattern?: boolean
   field?: boolean
   matchType?: boolean
+  amountOperator?: boolean
+  amountValue?: boolean
   classification?: boolean
   categoryId?: boolean
   priority?: boolean
@@ -808,6 +882,8 @@ export type ClassificationRuleSelectUpdateManyAndReturn<ExtArgs extends runtime.
   pattern?: boolean
   field?: boolean
   matchType?: boolean
+  amountOperator?: boolean
+  amountValue?: boolean
   classification?: boolean
   categoryId?: boolean
   priority?: boolean
@@ -823,13 +899,15 @@ export type ClassificationRuleSelectScalar = {
   pattern?: boolean
   field?: boolean
   matchType?: boolean
+  amountOperator?: boolean
+  amountValue?: boolean
   classification?: boolean
   categoryId?: boolean
   priority?: boolean
   createdAt?: boolean
 }
 
-export type ClassificationRuleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "pattern" | "field" | "matchType" | "classification" | "categoryId" | "priority" | "createdAt", ExtArgs["result"]["classificationRule"]>
+export type ClassificationRuleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "pattern" | "field" | "matchType" | "amountOperator" | "amountValue" | "classification" | "categoryId" | "priority" | "createdAt", ExtArgs["result"]["classificationRule"]>
 export type ClassificationRuleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   category?: boolean | Prisma.ClassificationRule$categoryArgs<ExtArgs>
@@ -856,6 +934,8 @@ export type $ClassificationRulePayload<ExtArgs extends runtime.Types.Extensions.
     pattern: string
     field: string
     matchType: string
+    amountOperator: string
+    amountValue: string
     classification: string
     categoryId: string | null
     priority: number
@@ -1291,6 +1371,8 @@ export interface ClassificationRuleFieldRefs {
   readonly pattern: Prisma.FieldRef<"ClassificationRule", 'String'>
   readonly field: Prisma.FieldRef<"ClassificationRule", 'String'>
   readonly matchType: Prisma.FieldRef<"ClassificationRule", 'String'>
+  readonly amountOperator: Prisma.FieldRef<"ClassificationRule", 'String'>
+  readonly amountValue: Prisma.FieldRef<"ClassificationRule", 'String'>
   readonly classification: Prisma.FieldRef<"ClassificationRule", 'String'>
   readonly categoryId: Prisma.FieldRef<"ClassificationRule", 'String'>
   readonly priority: Prisma.FieldRef<"ClassificationRule", 'Int'>

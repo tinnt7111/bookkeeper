@@ -387,7 +387,7 @@ export function TransactionsTable({
                         );
                       }}
                     >
-                      <td className="whitespace-nowrap text-secondary">
+                      <td className="col-date whitespace-nowrap text-secondary">
                         {formatDate(txn.date)}
                       </td>
                       <td
@@ -396,12 +396,19 @@ export function TransactionsTable({
                       >
                         {txn.bankProfileName}
                       </td>
-                      <td className="col-description">{txn.description}</td>
+                      <td className="col-description" title={txn.description}>
+                        {txn.description}
+                      </td>
                       {showCardColumn ? (
-                        <td className="text-muted">{txn.cardLabel ?? "—"}</td>
+                        <td
+                          className="col-card text-muted"
+                          title={txn.cardLabel ?? undefined}
+                        >
+                          {txn.cardLabel ?? "—"}
+                        </td>
                       ) : null}
                       <td
-                        className={`whitespace-nowrap font-medium ${
+                        className={`col-amount font-medium ${
                           txn.direction === "debit"
                             ? "amount-debit"
                             : "amount-credit"
@@ -410,8 +417,13 @@ export function TransactionsTable({
                         {txn.direction === "debit" ? "−" : "+"}
                         {formatMoney(txn.amount)}
                       </td>
-                      <td className="capitalize text-muted">{txn.direction}</td>
-                      <td onClick={(event) => event.stopPropagation()}>
+                      <td className="col-type capitalize text-muted">
+                        {txn.direction}
+                      </td>
+                      <td
+                        className="col-class"
+                        onClick={(event) => event.stopPropagation()}
+                      >
                         <ClassificationSelect
                           transactionId={txn.id}
                           value={txn.classification}

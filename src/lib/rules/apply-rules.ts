@@ -1,9 +1,13 @@
+import { matchesAmountThreshold } from "@/lib/rules/amount-threshold";
+
 export interface ClassificationRuleInput {
   id: string;
   name?: string;
   pattern: string;
   field: string;
   matchType: string;
+  amountOperator?: string | null;
+  amountValue?: string | null;
   classification: string;
   categoryId: string | null;
   priority: number;
@@ -47,14 +51,25 @@ export function findMatchingRule(
 
 export function transactionMatchesRule(
   transaction: RuleMatchInput,
-  rule: Pick<ClassificationRuleInput, "pattern" | "field" | "matchType">
+  rule: Pick<
+    ClassificationRuleInput,
+    "pattern" | "field" | "matchType" | "amountOperator" | "amountValue"
+  >
 ): boolean {
   const value =
     rule.field === "description"
       ? transaction.description
       : transaction.amount;
 
-  return matchRule(value, rule.pattern, rule.matchType);
+  if (!matchRule(value, rule.pattern, rule.matchType)) {
+    return false;
+  }
+
+  return matchesAmountThreshold(
+    transaction.amount,
+    rule.amountOperator,
+    rule.amountValue
+  );
 }
 
 function matchRule(value: string, pattern: string, matchType: string): boolean {

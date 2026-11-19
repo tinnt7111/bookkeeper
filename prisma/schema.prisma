@@ -178,6 +178,8 @@ model ClassificationRule {
   pattern        String
   field          String    @default("description")
   matchType      String    @default("contains")
+  amountOperator String    @default("gt")
+  amountValue    String    @default("0")
   classification String
   categoryId     String?
   priority       Int       @default(0)

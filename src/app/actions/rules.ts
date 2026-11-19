@@ -8,6 +8,7 @@ import {
   findMatchingRule,
   transactionMatchesRule,
 } from "@/lib/rules/apply-rules";
+import { normalizeAmountRuleInput } from "@/lib/rules/amount-threshold";
 import {
   isAssignableClassification,
   type AssignableClassification,
@@ -66,6 +67,10 @@ export async function createRule(formData: FormData) {
   const name = (formData.get("name") as string | null)?.trim();
   const pattern = (formData.get("pattern") as string | null)?.trim();
   const classification = formData.get("classification") as string;
+  const amount = normalizeAmountRuleInput({
+    amountOperator: formData.get("amountOperator") as string | null,
+    amountValue: formData.get("amountValue") as string | null,
+  });
 
   if (!name || !pattern) {
     return { error: "Name and pattern are required." };
@@ -75,6 +80,10 @@ export async function createRule(formData: FormData) {
     return { error: "Classification must be business, personal, or payment." };
   }
 
+  if ("error" in amount) {
+    return { error: amount.error };
+  }
+
   await db.classificationRule.create({
     data: {
       userId: user.id,
@@ -82,6 +91,8 @@ export async function createRule(formData: FormData) {
       pattern,
       field: "description",
       matchType: "contains",
+      amountOperator: amount.amountOperator,
+      amountValue: amount.amountValue,
       classification,
       priority: 0,
     },
@@ -96,10 +107,16 @@ export async function updateRule(input: {
   name: string;
   pattern: string;
   classification: AssignableClassification;
+  amountOperator?: string | null;
+  amountValue?: string | null;
 }) {
   const user = await requireUser();
   const name = input.name.trim();
   const pattern = input.pattern.trim();
+  const amount = normalizeAmountRuleInput({
+    amountOperator: input.amountOperator,
+    amountValue: input.amountValue,
+  });
 
   if (!name || !pattern) {
     return { error: "Name and pattern are required." };
@@ -109,12 +126,18 @@ export async function updateRule(input: {
     return { error: "Classification must be business, personal, or payment." };
   }
 
+  if ("error" in amount) {
+    return { error: amount.error };
+  }
+
   const result = await db.classificationRule.updateMany({
     where: { id: input.ruleId, userId: user.id },
     data: {
       name,
       pattern,
       classification: input.classification,
+      amountOperator: amount.amountOperator,
+      amountValue: amount.amountValue,
     },
   });
 
@@ -130,6 +153,8 @@ export async function createRuleFromSearch(input: {
   name: string;
   pattern: string;
   classification: AssignableClassification;
+  amountOperator?: string | null;
+  amountValue?: string | null;
   applyToFiltered?: boolean;
   year?: string;
   month?: string;
@@ -139,9 +164,17 @@ export async function createRuleFromSearch(input: {
   const user = await requireUser();
   const name = input.name.trim();
   const pattern = input.pattern.trim();
+  const amount = normalizeAmountRuleInput({
+    amountOperator: input.amountOperator ?? "gt",
+    amountValue: input.amountValue ?? "0",
+  });
 
   if (!name || !pattern) {
     return { error: "Name and pattern are required." };
+  }
+
+  if ("error" in amount) {
+    return { error: amount.error };
   }
 
   await db.classificationRule.create({
@@ -151,6 +184,8 @@ export async function createRuleFromSearch(input: {
       pattern,
       field: "description",
       matchType: "contains",
+      amountOperator: amount.amountOperator,
+      amountValue: amount.amountValue,
       classification: input.classification,
       priority: 0,
     },
@@ -190,13 +225,23 @@ export async function deleteRule(ruleId: string) {
 
 export async function previewRulePattern(
   pattern: string,
-  classification: AssignableClassification
+  classification: AssignableClassification,
+  amountOperator?: string | null,
+  amountValue?: string | null
 ) {
   const user = await requireUser();
   const trimmed = pattern.trim();
+  const amount = normalizeAmountRuleInput({
+    amountOperator: amountOperator ?? "gt",
+    amountValue: amountValue ?? "0",
+  });
 
   if (!trimmed) {
     return { error: "Enter a text string to match in descriptions." };
+  }
+
+  if ("error" in amount) {
+    return { error: amount.error };
   }
 
   const transactions = await getUncategorizedTransactions(user.id);
@@ -204,6 +249,8 @@ export async function previewRulePattern(
     pattern: trimmed,
     field: "description",
     matchType: "contains",
+    amountOperator: amount.amountOperator,
+    amountValue: amount.amountValue,
   };
 
   const matches = transactions

@@ -470,20 +470,29 @@ select:focus {
 }
 
 .txn-table .col-amount {
-  width: 7rem;
+  width: 7.5rem;
+  min-width: 7.5rem;
   text-align: right;
+  white-space: nowrap;
 }
 
 .txn-table .col-type {
-  width: 4.5rem;
+  width: 4.75rem;
+  min-width: 4.75rem;
 }
 
 .txn-table .col-class {
-  width: 9rem;
+  width: 9.5rem;
+  min-width: 9.5rem;
 }
 
 .txn-table .col-card {
-  width: 4rem;
+  width: 9rem;
+  min-width: 9rem;
+  max-width: 9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .txn-table .col-description {

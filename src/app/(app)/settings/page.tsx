@@ -98,7 +98,17 @@ export default async function SettingsPage() {
 
       <section className="panel panel-padded">
         <h2 className="section-title">Classification rules</h2>
-        <ClassificationRulesForm rules={rules} />
+        <ClassificationRulesForm
+          rules={rules.map((rule) => ({
+            id: rule.id,
+            name: rule.name,
+            pattern: rule.pattern,
+            matchType: rule.matchType,
+            amountOperator: rule.amountOperator,
+            amountValue: rule.amountValue,
+            classification: rule.classification,
+          }))}
+        />
       </section>
 
       <section className="panel panel-padded">
