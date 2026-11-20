@@ -13,6 +13,7 @@ export type TransactionFilterParams = {
   filter?: string;
   q?: string;
   source?: string;
+  card?: string;
 };
 
 export function buildTransactionWhere(
@@ -26,6 +27,7 @@ export function buildTransactionWhere(
   const filter = params.filter ?? "all";
   const search = params.q?.trim() ?? "";
   const source = params.source?.trim() ?? "";
+  const card = params.card?.trim() ?? "";
 
   const conditions: Prisma.TransactionWhereInput[] = [{ userId }];
 
@@ -57,11 +59,16 @@ export function buildTransactionWhere(
     });
   }
 
+  if (card) {
+    conditions.push({ cardId: card });
+  }
+
   return {
     where: { AND: conditions },
     year,
     filter,
     search,
     source,
+    card,
   };
 }

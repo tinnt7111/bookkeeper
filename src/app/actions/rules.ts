@@ -160,6 +160,8 @@ export async function createRuleFromSearch(input: {
   month?: string;
   filter?: string;
   q?: string;
+  source?: string;
+  card?: string;
 }) {
   const user = await requireUser();
   const name = input.name.trim();

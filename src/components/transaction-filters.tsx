@@ -11,13 +11,21 @@ export type SourceOption = {
   name: string;
 };
 
+export type CardOption = {
+  id: string;
+  name: string;
+};
+
 type TransactionFiltersProps = {
   selectedYear: number;
   years: number[];
   months: string[];
   sources: SourceOption[];
+  cards: CardOption[];
   selectedMonth?: string;
   selectedSource?: string;
+  selectedCard?: string;
+  pageSize?: number;
   filter: string;
   search: string;
 };
@@ -27,15 +35,27 @@ function buildHref({
   filter,
   month,
   source,
+  card,
   search,
+  limit,
 }: {
   year: number;
   filter: string;
   month?: string;
   source?: string;
+  card?: string;
   search?: string;
+  limit?: number;
 }) {
-  return buildTransactionListHref({ year, filter, month, source, search });
+  return buildTransactionListHref({
+    year,
+    filter,
+    month,
+    source,
+    card,
+    search,
+    limit,
+  });
 }
 
 export function TransactionFilters({
@@ -43,8 +63,11 @@ export function TransactionFilters({
   years,
   months,
   sources,
+  cards,
   selectedMonth,
   selectedSource,
+  selectedCard,
+  pageSize,
   filter,
   search,
 }: TransactionFiltersProps) {
@@ -59,7 +82,9 @@ export function TransactionFilters({
         filter,
         month: selectedMonth,
         source: selectedSource,
+        card: selectedCard,
         search: query,
+        limit: pageSize,
       })
     );
   }
@@ -78,7 +103,9 @@ export function TransactionFilters({
                   year: Number(event.target.value),
                   filter,
                   source: selectedSource,
+                  card: selectedCard,
                   search: query,
+                  limit: pageSize,
                 })
               );
             }}
@@ -103,7 +130,9 @@ export function TransactionFilters({
                   filter,
                   month: event.target.value || undefined,
                   source: selectedSource,
+                  card: selectedCard,
                   search: query,
+                  limit: pageSize,
                 })
               );
             }}
@@ -129,7 +158,9 @@ export function TransactionFilters({
                   filter,
                   month: selectedMonth,
                   source: event.target.value || undefined,
+                  card: selectedCard,
                   search: query,
+                  limit: pageSize,
                 })
               );
             }}
@@ -138,6 +169,34 @@ export function TransactionFilters({
             {sources.map((source) => (
               <option key={source.id} value={source.id}>
                 {source.name}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="filter-field">
+          <span className="filter-label">Card</span>
+          <select
+            className="input input-inline min-w-[10rem]"
+            value={selectedCard ?? ""}
+            onChange={(event) => {
+              router.push(
+                buildHref({
+                  year: selectedYear,
+                  filter,
+                  month: selectedMonth,
+                  source: selectedSource,
+                  card: event.target.value || undefined,
+                  search: query,
+                  limit: pageSize,
+                })
+              );
+            }}
+          >
+            <option value="">All cards</option>
+            {cards.map((card) => (
+              <option key={card.id} value={card.id}>
+                {card.name}
               </option>
             ))}
           </select>
@@ -168,6 +227,8 @@ export function TransactionFilters({
                       filter,
                       month: selectedMonth,
                       source: selectedSource,
+                      card: selectedCard,
+                      limit: pageSize,
                     })
                   );
                 }}
@@ -194,7 +255,9 @@ export function TransactionFilters({
               filter: value,
               month: selectedMonth,
               source: selectedSource,
+              card: selectedCard,
               search,
+              limit: pageSize,
             })}
             className={`chip ${classificationFilterChipClass(value)} ${
               filter === value ? "chip-active" : ""

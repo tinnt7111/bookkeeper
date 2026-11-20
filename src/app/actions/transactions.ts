@@ -53,6 +53,8 @@ export async function bulkClassifyFiltered(input: {
   month?: string;
   filter?: string;
   q?: string;
+  source?: string;
+  card?: string;
   classification: AssignableClassification;
 }) {
   const user = await requireUser();
@@ -75,6 +77,8 @@ export async function countMatchingTransactions(input: {
   month?: string;
   filter?: string;
   q?: string;
+  source?: string;
+  card?: string;
 }) {
   const user = await requireUser();
   const { where } = buildTransactionWhere(user.id, input);

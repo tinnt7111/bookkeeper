@@ -11,7 +11,7 @@ import {
   buildTransactionListHref,
   getTransactionPageBounds,
   parsePageParam,
-  TRANSACTIONS_PAGE_SIZE,
+  parsePageSizeParam,
 } from "@/lib/transactions/pagination";
 import {
   getTransactionMonthsForYear,
@@ -27,7 +27,9 @@ export default async function TransactionsPage({
     year?: string;
     q?: string;
     page?: string;
+    limit?: string;
     source?: string;
+    card?: string;
   }>;
 }) {
   const user = await requireUser();
@@ -37,11 +39,15 @@ export default async function TransactionsPage({
     year: yearParam,
     q,
     page: pageParam,
+    limit: limitParam,
     source: sourceParam,
+    card: cardParam,
   } = await searchParams;
   const search = q?.trim() ?? "";
   const source = sourceParam?.trim() ?? "";
+  const card = cardParam?.trim() ?? "";
   const requestedPage = parsePageParam(pageParam);
+  const pageSize = parsePageSizeParam(limitParam);
 
   const { where, year } = buildTransactionWhere(user.id, {
     year: yearParam,
@@ -49,6 +55,7 @@ export default async function TransactionsPage({
     filter,
     q: search,
     source,
+    card,
   });
   const { where: uncategorizedWhere } = buildTransactionWhere(user.id, {
     year: yearParam,
@@ -56,15 +63,21 @@ export default async function TransactionsPage({
     filter: "uncategorized",
     q: search,
     source,
+    card,
   });
   const selectedYear = month ? Number(month.split("-")[0]) : year;
 
-  const [totalCount, years, months, sources, uncategorizedRows] =
+  const [totalCount, years, months, sources, cards, uncategorizedRows] =
     await Promise.all([
       db.transaction.count({ where }),
       getTransactionYears(user.id),
       getTransactionMonthsForYear(user.id, selectedYear),
       db.bankProfile.findMany({
+        where: { userId: user.id },
+        orderBy: { name: "asc" },
+        select: { id: true, name: true },
+      }),
+      db.card.findMany({
         where: { userId: user.id },
         orderBy: { name: "asc" },
         select: { id: true, name: true },
@@ -98,7 +111,7 @@ export default async function TransactionsPage({
 
   const { page, totalPages, from, to } = getTransactionPageBounds(
     requestedPage,
-    TRANSACTIONS_PAGE_SIZE,
+    pageSize,
     totalCount
   );
 
@@ -110,6 +123,8 @@ export default async function TransactionsPage({
         month,
         search,
         source,
+        card,
+        limit: pageSize,
         page,
       })
     );
@@ -118,8 +133,8 @@ export default async function TransactionsPage({
   const transactions = await db.transaction.findMany({
     where,
     orderBy: { date: "desc" },
-    skip: (page - 1) * TRANSACTIONS_PAGE_SIZE,
-    take: TRANSACTIONS_PAGE_SIZE,
+    skip: (page - 1) * pageSize,
+    take: pageSize,
     include: {
       bankAccount: { select: { name: true } },
       importBatch: {
@@ -138,10 +153,15 @@ export default async function TransactionsPage({
     month,
     search,
     source: source || undefined,
+    card: card || undefined,
+    limit: pageSize,
   };
 
   const selectedSourceName = source
     ? sources.find((profile) => profile.id === source)?.name
+    : undefined;
+  const selectedCardName = card
+    ? cards.find((item) => item.id === card)?.name
     : undefined;
 
   return (
@@ -158,6 +178,7 @@ export default async function TransactionsPage({
                 : ` · ${from.toLocaleString()}–${to.toLocaleString()} of ${totalCount.toLocaleString()}`}
             {search ? ` · matching “${search}”` : ""}
             {selectedSourceName ? ` · ${selectedSourceName}` : ""}
+            {selectedCardName ? ` · ${selectedCardName}` : ""}
           </p>
         </div>
       </div>
@@ -167,8 +188,11 @@ export default async function TransactionsPage({
         years={years}
         months={months}
         sources={sources}
+        cards={cards}
         selectedMonth={month}
         selectedSource={source || undefined}
+        selectedCard={card || undefined}
+        pageSize={pageSize}
         filter={filter}
         search={search}
       />
@@ -210,12 +234,14 @@ export default async function TransactionsPage({
         filter={filter}
         month={month}
         source={source || undefined}
+        card={card || undefined}
         totalCount={totalCount}
       />
 
       <TransactionPagination
         {...listParams}
         page={page}
+        pageSize={pageSize}
         totalPages={totalPages}
         from={from}
         to={to}

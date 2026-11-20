@@ -1,4 +1,6 @@
-export const TRANSACTIONS_PAGE_SIZE = 50;
+export const TRANSACTIONS_PAGE_SIZE = 100;
+
+export const TRANSACTIONS_PAGE_SIZE_OPTIONS = [50, 100, 200, 500] as const;
 
 export type TransactionListParams = {
   year: number;
@@ -6,13 +8,27 @@ export type TransactionListParams = {
   month?: string;
   search?: string;
   source?: string;
+  card?: string;
   page?: number;
+  limit?: number;
 };
 
 export function parsePageParam(value: string | undefined) {
   const page = Number(value);
   if (!Number.isFinite(page) || page < 1) return 1;
   return Math.floor(page);
+}
+
+export function parsePageSizeParam(value: string | undefined) {
+  const size = Number(value);
+  if (
+    TRANSACTIONS_PAGE_SIZE_OPTIONS.includes(
+      size as (typeof TRANSACTIONS_PAGE_SIZE_OPTIONS)[number]
+    )
+  ) {
+    return size;
+  }
+  return TRANSACTIONS_PAGE_SIZE;
 }
 
 export function buildTransactionListHref(params: TransactionListParams) {
@@ -22,6 +38,10 @@ export function buildTransactionListHref(params: TransactionListParams) {
   if (params.month) urlParams.set("month", params.month);
   if (params.search?.trim()) urlParams.set("q", params.search.trim());
   if (params.source?.trim()) urlParams.set("source", params.source.trim());
+  if (params.card?.trim()) urlParams.set("card", params.card.trim());
+  if (params.limit && params.limit !== TRANSACTIONS_PAGE_SIZE) {
+    urlParams.set("limit", String(params.limit));
+  }
   if (params.page && params.page > 1) {
     urlParams.set("page", String(params.page));
   }
