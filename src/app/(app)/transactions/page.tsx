@@ -1,9 +1,11 @@
+import Decimal from "decimal.js";
 import { redirect } from "next/navigation";
 import { TransactionFilters } from "@/components/transaction-filters";
 import { TransactionPagination } from "@/components/transaction-pagination";
 import { TransactionsTable } from "@/components/transactions-table";
 import { db } from "@/lib/db";
 import { requireUser } from "@/lib/auth/require-user";
+import { formatMoney } from "@/lib/format";
 import { buildTransactionWhere } from "@/lib/transactions/filter-query";
 import {
   buildTransactionListHref,
@@ -48,18 +50,51 @@ export default async function TransactionsPage({
     q: search,
     source,
   });
+  const { where: uncategorizedWhere } = buildTransactionWhere(user.id, {
+    year: yearParam,
+    month,
+    filter: "uncategorized",
+    q: search,
+    source,
+  });
   const selectedYear = month ? Number(month.split("-")[0]) : year;
 
-  const [totalCount, years, months, sources] = await Promise.all([
-    db.transaction.count({ where }),
-    getTransactionYears(user.id),
-    getTransactionMonthsForYear(user.id, selectedYear),
-    db.bankProfile.findMany({
-      where: { userId: user.id },
-      orderBy: { name: "asc" },
-      select: { id: true, name: true },
-    }),
-  ]);
+  const [totalCount, years, months, sources, uncategorizedRows] =
+    await Promise.all([
+      db.transaction.count({ where }),
+      getTransactionYears(user.id),
+      getTransactionMonthsForYear(user.id, selectedYear),
+      db.bankProfile.findMany({
+        where: { userId: user.id },
+        orderBy: { name: "asc" },
+        select: { id: true, name: true },
+      }),
+      db.transaction.findMany({
+        where: uncategorizedWhere,
+        select: { amount: true, direction: true },
+      }),
+    ]);
+
+  const uncategorizedTotals = uncategorizedRows.reduce(
+    (acc, row) => {
+      if (row.direction === "debit") {
+        acc.debits = acc.debits.plus(row.amount);
+        acc.debitCount += 1;
+      } else {
+        acc.credits = acc.credits.plus(row.amount);
+        acc.creditCount += 1;
+      }
+      return acc;
+    },
+    {
+      debits: new Decimal(0),
+      credits: new Decimal(0),
+      debitCount: 0,
+      creditCount: 0,
+    }
+  );
+  const uncategorizedCount =
+    uncategorizedTotals.debitCount + uncategorizedTotals.creditCount;
 
   const { page, totalPages, from, to } = getTransactionPageBounds(
     requestedPage,
@@ -137,6 +172,25 @@ export default async function TransactionsPage({
         filter={filter}
         search={search}
       />
+
+      {uncategorizedCount > 0 ? (
+        <p className="message-warning text-sm">
+          Uncategorized in this view:{" "}
+          <span className="amount-debit font-medium">
+            −{formatMoney(uncategorizedTotals.debits.toFixed(2))}
+          </span>{" "}
+          debit ({uncategorizedTotals.debitCount.toLocaleString()}) ·{" "}
+          <span className="amount-credit font-medium">
+            +{formatMoney(uncategorizedTotals.credits.toFixed(2))}
+          </span>{" "}
+          credit ({uncategorizedTotals.creditCount.toLocaleString()}) ·{" "}
+          {uncategorizedCount.toLocaleString()} total
+        </p>
+      ) : (
+        <p className="text-sm text-muted">
+          No uncategorized transactions in this view.
+        </p>
+      )}
 
       <TransactionsTable
         transactions={transactions.map((txn) => ({
